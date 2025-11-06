@@ -13,7 +13,7 @@ const ByCollection = ({data, header}: {data: Props[], header: string}) => {
   return (
     <section>
         <h3 className={`${cormorant.className} text-4xl uppercase text-center mb-5`}>{header}</h3>
-        <div className='flex gap-5 px-10'>
+        <div className='flex items-center justify-center flex-wrap xl:flex-nowrap gap-5 px-10'>
             {data.map((item, i) => (
                 <div key={i}>
                     <div className='overflow-hidden'>
