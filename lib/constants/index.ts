@@ -29,3 +29,11 @@ export const trustData = [
     desc: "From fit to fabric, your voice shapes everything we create.",
   },
 ];
+
+export const byCollection = [
+    {image: "/collectiondemo.jpg", title: "Georgette"},
+    {image: "/collectiondemo.jpg", title: "Lawn"},
+    {image: "/collectiondemo.jpg", title: "Silk"},
+    {image: "/collectiondemo.jpg", title: "Jersey"},
+    {image: "/collectiondemo.jpg", title: "Chiffon"},
+]
