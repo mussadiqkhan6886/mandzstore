@@ -13,7 +13,10 @@ const Hero = () => {
         <h1 className={`${cormorant.className} uppercase text-3xl md:text-4xl`}>for women like you</h1>
         <p className='text-gray-800 text-sm text-center px-4 md:px-0 '>M&Z Store is more than modest fashion — it’s a community built on shared values. We create for women who choose elegance over excess, intention over impulse.</p>
       </div>
-      <Image src={"/second_hero_image_large.jpg"} alt='second banner hero image large screen' width={1000} height={1000} className='w-full h-full' />
+      <picture>
+        <source media="(min-width: 767px)" srcSet="/second_hero_image_small.jpg" />
+        <Image src={"/second_hero_image_large.jpg"} alt='second banner hero image large screen' width={1000} height={1000} className='w-full h-full' />
+      </picture>
     </section>
   )
 }
