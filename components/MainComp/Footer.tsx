@@ -17,9 +17,9 @@ const helpData = [
 const Footer = () => {
   return (
     <footer className='flex gap-3 flex-col bg-black p-10 text-white'>
-      <div className='flex gap-[200px]'>
-        <div className='flex gap-10 w-[50%]'>
-        <div className='pr-20'>
+      <div className='flex flex-col md:flex-row gap-[200px]'>
+        <div className='flex gap-10 md:w-[50%]'>
+        <div className='pr-10 md:pr-20'>
             <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>Mission Statement</p>
             <p className='text-[12px]'>At M&Z, we craft timeless, high-quality scarves designed with a deep respect for style, comfort, and sustainability. Our mission is to celebrate self-expression through ethical craftsmanship and intentional design.</p>
             <p className='text-[12px] italic mt-4'>
