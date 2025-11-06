@@ -1,3 +1,4 @@
+import ByCollection from '@/components/MainComp/ByCollection'
 import Hero from '@/components/MainComp/Hero'
 import Trust from '@/components/MainComp/Trust'
 import React from 'react'
@@ -7,6 +8,7 @@ const Home = () => {
     <main>
       <Hero />
       <Trust />
+      <ByCollection />
     </main>
   )
 }
