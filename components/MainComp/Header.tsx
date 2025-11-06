@@ -1,11 +1,14 @@
+'use client';
+
 import React from 'react'
+import {Swiper} from "swiper/react"
 
 const Header = () => {
   return (
     <header>
-      <div>
+      <Swiper>
 
-      </div>
+      </Swiper>
       <div>
         <div>
 
@@ -14,7 +17,7 @@ const Header = () => {
 
         </div>
         <div>
-            
+
         </div>
       </div>
     </header>
