@@ -24,13 +24,13 @@ const Header = () => {
         ))}
       </Swiper>
 
-      <div className="flex justify-between items-center py-6 px-12">
+      <div className="flex justify-between items-center py-6 px-8 md:px-12">
         <button className="text-2xl">
           <FiMenu />
         </button>
 
         <div >
-          <h1 className='font-bold text-4xl'>MZ STORE</h1>
+          <h1 className='font-bold text-3xl md:text-4xl'>MZ STORE</h1>
         </div>
 
         <div className="flex items-center space-x-4">
