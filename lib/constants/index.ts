@@ -31,9 +31,16 @@ export const trustData = [
 ];
 
 export const byCollection = [
-    {image: "/collectiondemo.jpg", title: "Georgette"},
-    {image: "/collectiondemo.jpg", title: "Lawn"},
-    {image: "/collectiondemo.jpg", title: "Silk"},
-    {image: "/collectiondemo.jpg", title: "Jersey"},
-    {image: "/collectiondemo.jpg", title: "Chiffon"},
+    {image: "/collectiondemo.jpg", link: "#" , title: "Georgette"},
+    {image: "/collectiondemo.jpg", link: "#" , title: "Lawn"},
+    {image: "/collectiondemo.jpg", link: "#" , title: "Silk"},
+    {image: "/collectiondemo.jpg", link: "#" , title: "Jersey"},
+    {image: "/collectiondemo.jpg", link: "#" , title: "Chiffon"},
+]
+
+export const essentials = [
+    {image: "/essentials.jpg", link: "#", title: "Magnets and Pins"},
+    {image: "/essentials.jpg", link: "#", title: "Underscarves"},
+    {image: "/essentials.jpg", link: "#", title: "Scrunchies"},
+    {image: "/essentials.jpg", link: "#", title: "Niqab"},
 ]
