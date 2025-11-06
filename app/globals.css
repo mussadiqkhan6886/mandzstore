@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+/* Navigation buttons */
+.custom-swiper .swiper-button-prev,
+.custom-swiper .swiper-button-next {
+    color: black !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.75);
+}
