@@ -17,7 +17,7 @@ const helpData = [
 const Footer = () => {
   return (
     <footer className='flex gap-3 flex-col bg-black p-10 text-white'>
-      <div className='flex flex-col md:flex-row gap-[200px]'>
+      <div className='flex flex-col md:flex-row gap-15 lg:gap-[200px]'>
         <div className='flex gap-10 md:w-[50%]'>
         <div className='pr-10 md:pr-20'>
             <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>Mission Statement</p>
