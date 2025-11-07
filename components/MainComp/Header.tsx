@@ -10,7 +10,7 @@ import 'swiper/css';
 
 const Header = () => {
   return (
-    <header >
+    <header className='sticky top-0 w-full bg-white z-50' >
       <Swiper
         modules={[Autoplay]}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
