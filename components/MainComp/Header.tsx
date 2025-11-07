@@ -1,14 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { upperHeaderData } from '@/lib/constants';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import {FiMenu, FiSearch, FiShoppingCart} from "react-icons/fi"
 
 import 'swiper/css';
+import SideBar from './SideBar';
 
 const Header = () => {
+
+  const [showSideBar, setShowSideBar] = useState(false)
+
   return (
     <header className='sticky top-0 w-full bg-white z-50' >
       <Swiper
@@ -24,10 +28,12 @@ const Header = () => {
         ))}
       </Swiper>
 
+        {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} />}
       <div className="flex justify-between items-center py-6 px-8 md:px-12">
-        <button className="text-2xl">
+        <button onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
           <FiMenu />
         </button>
+
 
         <div >
           <h1 className='font-bold text-3xl md:text-4xl'>MZ STORE</h1>
