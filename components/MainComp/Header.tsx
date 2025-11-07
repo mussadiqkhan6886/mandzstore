@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { upperHeaderData } from '@/lib/constants';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
-import {FiMenu, FiSearch, FiShoppingCart} from "react-icons/fi"
+import {FiMenu, FiSearch, FiShoppingCart, FiX} from "react-icons/fi"
 
 import 'swiper/css';
 import SideBar from './SideBar';
@@ -12,6 +12,7 @@ import SideBar from './SideBar';
 const Header = () => {
 
   const [showSideBar, setShowSideBar] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
 
   return (
     <header className='sticky top-0 w-full bg-white z-50' >
@@ -40,10 +41,21 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button><FiSearch className='text-2xl' /></button>
+          <button onClick={() => setShowSearch(true)}><FiSearch className='text-2xl cursor-pointer' /></button>
           <button><FiShoppingCart className='text-2xl' /></button>
         </div>
       </div>
+      {showSearch && (
+        <div className='bg-white/30 absolute h-screen w-full top-7'>
+          <div className='bg-gray-100 py-8 flex items-center justify-center gap-6'>
+            <div className='border border-black/30 py-1.5 px-2 flex items-center w-[70%] pr-4'>
+              <input type='text' placeholder='Search' className='outline-none w-full px-3' />
+              <FiSearch className='text-xl' />
+            </div>
+            <FiX onClick={() => setShowSearch(false)} className='text-xl cursor-pointer' />
+          </div>
+        </div>
+      )}
     </header>
   );
 };
