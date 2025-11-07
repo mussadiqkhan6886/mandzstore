@@ -1,10 +1,11 @@
+import HeaderProduct from '@/components/MainComp/HeaderProduct'
 import React from 'react'
 
 const SingleCollection = () => {
   return (
-    <div>
-      
-    </div>
+    <main className='max-w-7xl mx-auto'>
+        <HeaderProduct title='' desc='' />
+    </main>
   )
 }
 

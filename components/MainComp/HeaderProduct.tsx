@@ -1,10 +1,11 @@
+import { cormorant } from '@/lib/fonts'
 import React from 'react'
 
 const HeaderProduct = ({title, desc}: {title: string, desc: string}) => {
   return (
     <section>
-      <h2>{title}</h2>
-      <p>{desc}</p>
+      <h2 className={`${cormorant.className} text-4xl text-center uppercase mb-14`}>{title}</h2>
+      <p className='text-gray-200 px-10'>{desc}</p>
     </section>
   )
 }
