@@ -58,7 +58,8 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
             <div className="p-6 pt-20">
               <ul>
               {sidebarData.map((item, i) => (
-                <li key={i}>
+                <motion.li initial={{ opacity: 0, y:200 }}
+          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut', delay: item.delay }} key={i}>
                   <div
                     className="flex w-full tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center"
                   >
@@ -84,13 +85,14 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                       {item.children && openIndex === i && (
                         <ul className="ml-2 mb-3 space-y-2 text-sm text-gray-700">
                           {item.children.map((child, j) => (
-                            <li key={j}>
+                            <motion.li initial={{ opacity: 0, y:200 }}
+          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut'}}  key={j}>
                               <Link href={child.link}>{child.title}</Link>
-                            </li>
+                            </motion.li>
                           ))}
                         </ul>
                       )}
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </div>

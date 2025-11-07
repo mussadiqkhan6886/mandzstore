@@ -1,3 +1,4 @@
+import { delay } from "framer-motion";
 import { FiCreditCard, FiHeart, FiStar, FiTruck } from "react-icons/fi";
 
 export const upperHeaderData = [
@@ -103,11 +104,12 @@ export const reviews = [
 ];
 
 export const sidebarData = [
-  { title: "Home", link: "/" },
+  { title: "Home", link: "/", delay: 0.1 },
 
   {
     title: "Dupatta",
     link: "/dupatta",
+    delay: 0.2,
     children: [
       { title: "Chiffon Dupatta", link: "/dupatta/chiffon" },
       { title: "Lawn Cutwork Dupatta", link: "/dupatta/lawn-cutwork" },
@@ -122,6 +124,7 @@ export const sidebarData = [
   {
     title: "Hijab",
     link: "/hijab",
+    delay: 0.3,
     children: [
       { title: "Silk Hijab", link: "/hijab/silk" },
       { title: "Lawn Hijab", link: "/hijab/lawn" },
@@ -129,7 +132,7 @@ export const sidebarData = [
     ],
   },
 
-  { title: "Chaddar", link: "/chaddar" },
+  { title: "Chaddar", link: "/chaddar", delay: 0.4 },
 
-  { title: "Blog", link: "/blog" },
+  { title: "Blog", link: "/blog", delay: 0.5 },
 ];
