@@ -101,3 +101,35 @@ export const reviews = [
     review: "Amazing service, quality and support. I’ll definitely recommend to friends.",
   },
 ];
+
+export const sidebarData = [
+  { title: "Home", link: "/" },
+
+  {
+    title: "Dupatta",
+    link: "/dupatta",
+    children: [
+      { title: "Chiffon Dupatta", link: "/dupatta/chiffon" },
+      { title: "Lawn Cutwork Dupatta", link: "/dupatta/lawn-cutwork" },
+      { title: "Jackard Dupatta", link: "/dupatta/jackard" },
+      { title: "Organza Dupatta", link: "/dupatta/organza" },
+      { title: "Silk Dupatta", link: "/dupatta/silk" },
+      { title: "Four Sided Border Dupatta", link: "/dupatta/four-sided-border" },
+      { title: "Fancy Dupatta", link: "/dupatta/fancy" },
+    ],
+  },
+
+  {
+    title: "Hijab",
+    link: "/hijab",
+    children: [
+      { title: "Silk Hijab", link: "/hijab/silk" },
+      { title: "Lawn Hijab", link: "/hijab/lawn" },
+      { title: "Georgette Hijab", link: "/hijab/georgette" },
+    ],
+  },
+
+  { title: "Chaddar", link: "/chaddar" },
+
+  { title: "Blog", link: "/blog" },
+];
