@@ -136,3 +136,18 @@ export const sidebarData = [
 
   { title: "Blog", link: "/blog", delay: 0.5 },
 ];
+
+
+export const collectionsPage = [
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.3},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.4},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.5},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.3},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.3},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.4},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.3},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.4},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.5},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.3},
+  {title: "Abaya", link: "/collections/", image: "/collectiondemo.jpg", delay: 0.4},
+]
