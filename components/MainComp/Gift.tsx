@@ -4,7 +4,7 @@ import React from 'react'
 
 const Gift = () => {
   return (
-    <section className='flex flex-col lg:flex-row my-8'>
+    <section className='flex flex-col mb-16 lg:flex-row my-8'>
       <div>
         <Image src={"/giftImage.jpg"} alt='gift image' width={1000} height={1000} className='w-full h-full' />
       </div>

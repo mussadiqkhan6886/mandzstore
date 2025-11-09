@@ -1,4 +1,3 @@
-import { delay } from "framer-motion";
 import { FiCreditCard, FiHeart, FiStar, FiTruck } from "react-icons/fi";
 
 export const upperHeaderData = [
@@ -32,19 +31,17 @@ export const trustData = [
 ];
 
 export const byCollection = [
-    {image: "/collectiondemo.jpg", link: "#" , title: "Georgette"},
-    {image: "/collectiondemo.jpg", link: "#" , title: "Lawn"},
-    {image: "/collectiondemo.jpg", link: "#" , title: "Silk"},
-    {image: "/collectiondemo.jpg", link: "#" , title: "Jersey"},
-    {image: "/collectiondemo.jpg", link: "#" , title: "Chiffon"},
+    {image: "/collectiondemo.jpg", link: "/collections/hijab-georgette" , title: "Georgette"},
+    {image: "/collectiondemo.jpg", link: "/collections/hijab-lawn" , title: "Lawn"},
+    {image: "/collectiondemo.jpg", link: "/collections/hijab-silk" , title: "Silk"},
 ]
 
-export const essentials = [
-    {image: "/essentials.jpg", link: "#", title: "Magnets and Pins"},
-    {image: "/essentials.jpg", link: "#", title: "Underscarves"},
-    {image: "/essentials.jpg", link: "#", title: "Scrunchies"},
-    {image: "/essentials.jpg", link: "#", title: "Niqab"},
-]
+// export const essentials = [
+//     {image: "/essentials.jpg", link: "#", title: "Magnets and Pins"},
+//     {image: "/essentials.jpg", link: "#", title: "Underscarves"},
+//     {image: "/essentials.jpg", link: "#", title: "Scrunchies"},
+//     {image: "/essentials.jpg", link: "#", title: "Niqab"},
+// ]
 
 export const reviews = [
   {

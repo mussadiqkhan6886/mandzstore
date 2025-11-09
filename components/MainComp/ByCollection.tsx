@@ -22,7 +22,7 @@ const ByCollection = ({ data, header }: { data: Props[]; header: string }) => {
         {header}
       </h3>
 
-      <div className="px-10">
+      <div>
         <Swiper
           spaceBetween={20}
           slidesPerView={3}
@@ -31,7 +31,7 @@ const ByCollection = ({ data, header }: { data: Props[]; header: string }) => {
             320: { slidesPerView: 2 },
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 5 },
+            1280: { slidesPerView: 4 },
           }}
           className="pb-5"
         >

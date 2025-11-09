@@ -4,7 +4,7 @@ import Hero from '@/components/MainComp/Hero'
 import Reviews from '@/components/MainComp/Reviews'
 import Trust from '@/components/MainComp/Trust'
 import Vision from '@/components/MainComp/Vision'
-import { byCollection, essentials } from '@/lib/constants'
+import { byCollection } from '@/lib/constants'
 import React from 'react'
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
       <Trust />
       <ByCollection data={byCollection} header='shop by collection' />
       <Gift />
-      <ByCollection data={essentials} header='hijab essentials' />
+      {/* <ByCollection data={essentials} header='hijab essentials' /> */}
       <Vision />
       <Reviews />
     </main>
