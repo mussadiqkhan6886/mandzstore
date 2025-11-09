@@ -9,6 +9,8 @@ type Product = {
   name: string;
   price: number;
   images: string[];
+  newPrice: number
+  onSale: boolean
 };
 
 type SortWrapperProps = {
