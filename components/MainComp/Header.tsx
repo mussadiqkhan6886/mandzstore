@@ -40,7 +40,7 @@ const Header = () => {
           <h1 className='font-bold text-3xl md:text-4xl'>MZ STORE</h1>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 md:space-x-6">
           <button onClick={() => setShowSearch(true)}><FiSearch className='text-xl md:text-2xl cursor-pointer' /></button>
           <button><FiShoppingCart className='text-xl md:text-2xl' /></button>
         </div>
