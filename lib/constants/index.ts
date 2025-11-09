@@ -166,7 +166,7 @@ export const collectionsData = [
         id: 1,
         name: "Sheer Elegance Chiffon Dupatta",
         price: 1799,
-        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        images: ["/collectiondemo.jpg", "/essentials.jpg"],
       },
       {
         id: 2,

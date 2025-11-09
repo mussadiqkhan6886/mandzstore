@@ -1,4 +1,5 @@
 import HeaderProduct from '@/components/MainComp/HeaderProduct'
+import ProductCard from '@/components/MainComp/ProductCard'
 import { collectionsData } from '@/lib/constants'
 import React from 'react'
 
@@ -13,7 +14,12 @@ const SingleCollection = async ({params}: {params: Promise<{slug:string}>}) => {
       {data.map(item => (
         <section key={item.title}>
         <HeaderProduct title={item.title} desc={item.desc} />
-       <p> Disclaimer: Colour may slightly differ from the actual picture, due to lighting and the device being used to view it. (Read: COLOUR DISCLAIMER)</p>
+        <p> Disclaimer: Colour may slightly differ from the actual picture, due to lighting and the device being used to view it. (Read: COLOUR DISCLAIMER)</p>
+        <section className='grid grid-cols-3 gap-10'>
+          {item.products.map(product => (
+            <ProductCard key={product.id} {...product} slug={slug} />
+          ))}
+        </section>
         </section>
       ))}
     </main>
