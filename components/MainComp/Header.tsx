@@ -30,7 +30,7 @@ const Header = () => {
       </Swiper>
 
         {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} />}
-      <div className="flex justify-between items-center py-6 px-8 md:px-12">
+      <div className="flex justify-between items-center py-6 px-6 md:px-12">
         <button onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
           <FiMenu />
         </button>
@@ -41,8 +41,8 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button onClick={() => setShowSearch(true)}><FiSearch className='text-2xl cursor-pointer' /></button>
-          <button><FiShoppingCart className='text-2xl' /></button>
+          <button onClick={() => setShowSearch(true)}><FiSearch className='text-xl md:text-2xl cursor-pointer' /></button>
+          <button><FiShoppingCart className='text-xl md:text-2xl' /></button>
         </div>
       </div>
       {showSearch && (

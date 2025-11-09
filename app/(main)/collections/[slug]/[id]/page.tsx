@@ -25,7 +25,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
 
         {/* RIGHT: PRODUCT DETAILS */}
         <div className="flex-1 flex flex-col gap-6">
-          <h1 className={`${cormorant.className} text-4xl tracking-widest uppercase`} >{product.name}</h1>
+          <h1 className={`${cormorant.className} text-3xl text-center md:text-4xl tracking-widest uppercase`} >{product.name}</h1>
           <div>
             <h2 className="text-xl text-gray-800">Rs. {product.price}</h2>
             <p className="text-sm text-gray-500">Shipping calculated at checkout.</p>
