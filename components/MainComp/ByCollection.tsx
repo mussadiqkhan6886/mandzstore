@@ -1,32 +1,60 @@
-import { cormorant } from '@/lib/fonts'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+'use client';
+
+import { cormorant } from '@/lib/fonts';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 type Props = {
-    image: string,
-    link: string
-    title: string
-}
+  image: string;
+  link: string;
+  title: string;
+};
 
-const ByCollection = ({data, header}: {data: Props[], header: string}) => {
+const ByCollection = ({ data, header }: { data: Props[]; header: string }) => {
   return (
-    <section>
-        <h3 className={`${cormorant.className} text-4xl uppercase text-center mb-5`}>{header}</h3>
-        <div className='flex items-center justify-center flex-wrap xl:flex-nowrap gap-5 px-10'>
-            {data.map((item, i) => (
-                <div key={i}>
-                    <div className='overflow-hidden'>
-                        <Link href={item.link}>
-                            <Image className='rounded-xl hover:scale-105 duration-500 ease-in-out cursor-pointer' src={item.image} alt={item.title} width={300} height={300} />
-                        </Link>
-                    </div>
-                    <p className='text-center text-2xl mt-5'>{item.title}</p>
-                </div>
-            ))}
-        </div>
-    </section>
-  )
-}
+    <section className="py-10">
+      <h3
+        className={`${cormorant.className} text-4xl uppercase text-center mb-8`}
+      >
+        {header}
+      </h3>
 
-export default ByCollection
+      <div className="px-10">
+        <Swiper
+          spaceBetween={20}
+          slidesPerView={3}
+          grabCursor={true}
+          breakpoints={{
+            320: { slidesPerView: 2 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 5 },
+          }}
+          className="pb-5"
+        >
+          {data.map((item, i) => (
+            <SwiperSlide key={i}>
+              <div className="overflow-hidden flex flex-col items-center">
+                <Link href={item.link}>
+                  <Image
+                    className="rounded-xl hover:scale-105 duration-500 ease-in-out cursor-pointer"
+                    src={item.image}
+                    alt={item.title}
+                    width={300}
+                    height={300}
+                  />
+                </Link>
+                <p className="text-center text-2xl mt-5">{item.title}</p>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </section>
+  );
+};
+
+export default ByCollection;
