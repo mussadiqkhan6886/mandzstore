@@ -110,13 +110,13 @@ export const sidebarData = [
     title: "Dupatta",
     delay: 0.2,
     children: [
-      { title: "Chiffon Dupatta", link: "/dupatta/chiffon" },
-      { title: "Lawn Cutwork Dupatta", link: "/dupatta/lawn-cutwork" },
-      { title: "Jackard Dupatta", link: "/dupatta/jackard" },
-      { title: "Organza Dupatta", link: "/dupatta/organza" },
-      { title: "Silk Dupatta", link: "/dupatta/silk" },
-      { title: "Four Sided Border Dupatta", link: "/dupatta/four-sided-border" },
-      { title: "Fancy Dupatta", link: "/dupatta/fancy" },
+      { title: "Chiffon Dupatta", link: "/collections/dupatta-chiffon" },
+      { title: "Lawn Cutwork Dupatta", link: "/collections/dupatta-lawn-cutwork" },
+      { title: "Jackard Dupatta", link: "/collections/dupatta-jackard" },
+      { title: "Organza Dupatta", link: "/collections/dupatta-organza" },
+      { title: "Silk Dupatta", link: "/collections/dupatta-silk" },
+      { title: "Four Sided Border Dupatta", link: "/collections/dupatta-four-sided-border" },
+      { title: "Fancy Dupatta", link: "/collections/dupatta-fancy" },
     ],
   },
 
@@ -124,13 +124,13 @@ export const sidebarData = [
     title: "Hijab",
     delay: 0.3,
     children: [
-      { title: "Silk Hijab", link: "/hijab/silk" },
-      { title: "Lawn Hijab", link: "/hijab/lawn" },
-      { title: "Georgette Hijab", link: "/hijab/georgette" },
+      { title: "Silk Hijab", link: "/collections/hijab-silk" },
+      { title: "Lawn Hijab", link: "/collections/hijab-lawn" },
+      { title: "Georgette Hijab", link: "/collections/hijab-georgette" },
     ],
   },
 
-  { title: "Chaddar", link: "/chaddar", delay: 0.4 },
+  { title: "Chaddar", link: "/collections/chaddar", delay: 0.4 },
 
   { title: "Blog", link: "/blog", delay: 0.5 },
 ];
@@ -138,18 +138,18 @@ export const sidebarData = [
 
 export const collectionsPage = [
   // Dupatta Collections
-  { title: "Chiffon Dupatta", link: "/collections/dupatta/chiffon", image: "/collectiondemo.jpg", delay: 0.1 },
-  { title: "Lawn Cutwork Dupatta", link: "/collections/dupatta/lawn-cutwork", image: "/collectiondemo.jpg", delay: 0.2 },
-  { title: "Jackard Dupatta", link: "/collections/dupatta/jackard", image: "/collectiondemo.jpg", delay: 0.3 },
-  { title: "Organza Dupatta", link: "/collections/dupatta/organza", image: "/collectiondemo.jpg", delay: 0.4 },
-  { title: "Silk Dupatta", link: "/collections/dupatta/silk", image: "/collectiondemo.jpg", delay: 0.5 },
-  { title: "Four Sided Border Dupatta", link: "/collections/dupatta/four-sided-border", image: "/collectiondemo.jpg", delay: 0.6 },
-  { title: "Fancy Dupatta", link: "/collections/dupatta/fancy", image: "/collectiondemo.jpg", delay: 0.7 },
+  { title: "Chiffon Dupatta", link: "/collections/dupatta-chiffon", image: "/collectiondemo.jpg", delay: 0.1 },
+  { title: "Lawn Cutwork Dupatta", link: "/collections/dupatta-lawn-cutwork", image: "/collectiondemo.jpg", delay: 0.2 },
+  { title: "Jackard Dupatta", link: "/collections/dupatta-jackard", image: "/collectiondemo.jpg", delay: 0.3 },
+  { title: "Organza Dupatta", link: "/collections/dupatta-organza", image: "/collectiondemo.jpg", delay: 0.4 },
+  { title: "Silk Dupatta", link: "/collections/dupatta-silk", image: "/collectiondemo.jpg", delay: 0.5 },
+  { title: "Four Sided Border Dupatta", link: "/collections/dupatta-four-sided-border", image: "/collectiondemo.jpg", delay: 0.6 },
+  { title: "Fancy Dupatta", link: "/collections/dupatta-fancy", image: "/collectiondemo.jpg", delay: 0.7 },
 
   // Hijab Collections
-  { title: "Silk Hijab", link: "/collections/hijab/silk", image: "/collectiondemo.jpg", delay: 0.8 },
-  { title: "Lawn Hijab", link: "/collections/hijab/lawn", image: "/collectiondemo.jpg", delay: 0.9 },
-  { title: "Georgette Hijab", link: "/collections/hijab/georgette", image: "/collectiondemo.jpg", delay: 1.0 },
+  { title: "Silk Hijab", link: "/collections/hijab-silk", image: "/collectiondemo.jpg", delay: 0.8 },
+  { title: "Lawn Hijab", link: "/collections/hijab-lawn", image: "/collectiondemo.jpg", delay: 0.9 },
+  { title: "Georgette Hijab", link: "/collections/hijab-georgette", image: "/collectiondemo.jpg", delay: 1.0 },
 
   // Chaddar Collection
   { title: "Chaddar", link: "/collections/chaddar", image: "/collectiondemo.jpg", delay: 1.1 },
@@ -158,352 +158,280 @@ export const collectionsPage = [
 
 export const collectionsData = [
   {
-    title: "Dupatta",
-    children: [
+    title: "Chiffon Dupatta",
+    slug: "dupatta-chiffon",
+    desc: "Lightweight, elegant, and perfect for both casual and festive wear — our chiffon dupattas add effortless grace to any outfit.",
+    products: [
       {
-        title: "Chiffon Dupatta",
-        link: "/dupatta/chiffon",
-        products: [
-          {
-            id: 1,
-            name: "Sheer Elegance Chiffon Dupatta",
-            price: 1799,
-            images: [
-              "/images/dupatta/chiffon1-1.jpg",
-              "/images/dupatta/chiffon1-2.jpg",
-            ],
-          },
-          {
-            id: 2,
-            name: "Classic Plain Chiffon Dupatta",
-            price: 1699,
-            images: [
-              "/images/dupatta/chiffon2-1.jpg",
-              "/images/dupatta/chiffon2-2.jpg",
-            ],
-          },
-          {
-            id: 3,
-            name: "Luxury Embroidered Chiffon Dupatta",
-            price: 1999,
-            images: [
-              "/images/dupatta/chiffon3-1.jpg",
-              "/images/dupatta/chiffon3-2.jpg",
-            ],
-          },
-        ],
+        id: 1,
+        name: "Sheer Elegance Chiffon Dupatta",
+        price: 1799,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
       },
       {
-        title: "Lawn Cutwork Dupatta",
-        link: "/dupatta/lawn-cutwork",
-        products: [
-          {
-            id: 4,
-            name: "Pastel Cutwork Lawn Dupatta",
-            price: 1599,
-            images: [
-              "/images/dupatta/lawn1-1.jpg",
-              "/images/dupatta/lawn1-2.jpg",
-            ],
-          },
-          {
-            id: 5,
-            name: "Embroidered Edge Lawn Dupatta",
-            price: 1499,
-            images: [
-              "/images/dupatta/lawn2-1.jpg",
-              "/images/dupatta/lawn2-2.jpg",
-            ],
-          },
-          {
-            id: 6,
-            name: "Soft Breeze Lawn Dupatta",
-            price: 1399,
-            images: [
-              "/images/dupatta/lawn3-1.jpg",
-              "/images/dupatta/lawn3-2.jpg",
-            ],
-          },
-        ],
+        id: 2,
+        name: "Classic Plain Chiffon Dupatta",
+        price: 1699,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
       },
       {
-        title: "Jackard Dupatta",
-        link: "/dupatta/jackard",
-        products: [
-          {
-            id: 7,
-            name: "Classic Jackard Dupatta",
-            price: 1899,
-            images: [
-              "/images/dupatta/jackard1-1.jpg",
-              "/images/dupatta/jackard1-2.jpg",
-            ],
-          },
-          {
-            id: 8,
-            name: "Golden Weave Jackard Dupatta",
-            price: 1999,
-            images: [
-              "/images/dupatta/jackard2-1.jpg",
-              "/images/dupatta/jackard2-2.jpg",
-            ],
-          },
-          {
-            id: 9,
-            name: "Textured Jackard Dupatta",
-            price: 1799,
-            images: [
-              "/images/dupatta/jackard3-1.jpg",
-              "/images/dupatta/jackard3-2.jpg",
-            ],
-          },
-        ],
-      },
-      {
-        title: "Organza Dupatta",
-        link: "/dupatta/organza",
-        products: [
-          {
-            id: 10,
-            name: "Elegant Sheer Organza Dupatta",
-            price: 2099,
-            images: [
-              "/images/dupatta/organza1-1.jpg",
-              "/images/dupatta/organza1-2.jpg",
-            ],
-          },
-          {
-            id: 11,
-            name: "Crystal Touch Organza Dupatta",
-            price: 2299,
-            images: [
-              "/images/dupatta/organza2-1.jpg",
-              "/images/dupatta/organza2-2.jpg",
-            ],
-          },
-          {
-            id: 12,
-            name: "Luxe Embroidered Organza Dupatta",
-            price: 2499,
-            images: [
-              "/images/dupatta/organza3-1.jpg",
-              "/images/dupatta/organza3-2.jpg",
-            ],
-          },
-        ],
-      },
-      {
-        title: "Silk Dupatta",
-        link: "/dupatta/silk",
-        products: [
-          {
-            id: 13,
-            name: "Pure Soft Silk Dupatta",
-            price: 1999,
-            images: [
-              "/images/dupatta/silk1-1.jpg",
-              "/images/dupatta/silk1-2.jpg",
-            ],
-          },
-          {
-            id: 14,
-            name: "Luxury Printed Silk Dupatta",
-            price: 2199,
-            images: [
-              "/images/dupatta/silk2-1.jpg",
-              "/images/dupatta/silk2-2.jpg",
-            ],
-          },
-          {
-            id: 15,
-            name: "Everyday Smooth Silk Dupatta",
-            price: 1799,
-            images: [
-              "/images/dupatta/silk3-1.jpg",
-              "/images/dupatta/silk3-2.jpg",
-            ],
-          },
-        ],
-      },
-      {
-        title: "Four Sided Border Dupatta",
-        link: "/dupatta/four-sided-border",
-        products: [
-          {
-            id: 16,
-            name: "Classic Border Dupatta",
-            price: 1599,
-            images: [
-              "/images/dupatta/border1-1.jpg",
-              "/images/dupatta/border1-2.jpg",
-            ],
-          },
-          {
-            id: 17,
-            name: "Elegant Four-Side Border Dupatta",
-            price: 1799,
-            images: [
-              "/images/dupatta/border2-1.jpg",
-              "/images/dupatta/border2-2.jpg",
-            ],
-          },
-          {
-            id: 18,
-            name: "Premium Lace Border Dupatta",
-            price: 1899,
-            images: [
-              "/images/dupatta/border3-1.jpg",
-              "/images/dupatta/border3-2.jpg",
-            ],
-          },
-        ],
-      },
-      {
-        title: "Fancy Dupatta",
-        link: "/dupatta/fancy",
-        products: [
-          {
-            id: 19,
-            name: "Festive Fancy Dupatta",
-            price: 2499,
-            images: [
-              "/images/dupatta/fancy1-1.jpg",
-              "/images/dupatta/fancy1-2.jpg",
-            ],
-          },
-          {
-            id: 20,
-            name: "Shimmery Net Fancy Dupatta",
-            price: 2299,
-            images: [
-              "/images/dupatta/fancy2-1.jpg",
-              "/images/dupatta/fancy2-2.jpg",
-            ],
-          },
-          {
-            id: 21,
-            name: "Party Wear Fancy Dupatta",
-            price: 2599,
-            images: [
-              "/images/dupatta/fancy3-1.jpg",
-              "/images/dupatta/fancy3-2.jpg",
-            ],
-          },
-        ],
+        id: 3,
+        name: "Luxury Embroidered Chiffon Dupatta",
+        price: 1999,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
       },
     ],
   },
-
   {
-    title: "Hijab",
-    delay: 0.3,
-    children: [
+    title: "Lawn Cutwork Dupatta",
+    slug: "dupatta-lawn-cutwork",
+    desc: "Soft lawn dupattas with delicate cutwork details, designed for comfort and breathable elegance.",
+    products: [
       {
-        title: "Silk Hijab",
-        link: "/hijab/silk",
-        products: [
-          {
-            id: 22,
-            name: "Pure Soft Silk Hijab",
-            price: 1999,
-            images: [
-              "/images/hijab/silk1-1.jpg",
-              "/images/hijab/silk1-2.jpg",
-            ],
-          },
-          {
-            id: 23,
-            name: "Luxury Printed Silk Hijab",
-            price: 2199,
-            images: [
-              "/images/hijab/silk2-1.jpg",
-              "/images/hijab/silk2-2.jpg",
-            ],
-          },
-          {
-            id: 24,
-            name: "Everyday Smooth Silk Hijab",
-            price: 1799,
-            images: [
-              "/images/hijab/silk3-1.jpg",
-              "/images/hijab/silk3-2.jpg",
-            ],
-          },
-        ],
+        id: 4,
+        name: "Pastel Cutwork Lawn Dupatta",
+        price: 1599,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
       },
       {
-        title: "Lawn Hijab",
-        link: "/hijab/lawn",
-        products: [
-          {
-            id: 25,
-            name: "Floral Breeze Lawn Hijab",
-            price: 1499,
-            images: [
-              "/images/hijab/lawn1-1.jpg",
-              "/images/hijab/lawn1-2.jpg",
-            ],
-          },
-          {
-            id: 26,
-            name: "Summer Lawn Hijab",
-            price: 1399,
-            images: [
-              "/images/hijab/lawn2-1.jpg",
-              "/images/hijab/lawn2-2.jpg",
-            ],
-          },
-          {
-            id: 27,
-            name: "Cutwork Design Lawn Hijab",
-            price: 1599,
-            images: [
-              "/images/hijab/lawn3-1.jpg",
-              "/images/hijab/lawn3-2.jpg",
-            ],
-          },
-        ],
+        id: 5,
+        name: "Embroidered Edge Lawn Dupatta",
+        price: 1499,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
       },
       {
-        title: "Georgette Hijab",
-        link: "/hijab/georgette",
-        products: [
-          {
-            id: 28,
-            name: "Lightweight Georgette Hijab",
-            price: 1599,
-            images: [
-              "/images/hijab/georgette1-1.jpg",
-              "/images/hijab/georgette1-2.jpg",
-            ],
-          },
-          {
-            id: 29,
-            name: "Textured Plain Georgette Hijab",
-            price: 1499,
-            images: [
-              "/images/hijab/georgette2-1.jpg",
-              "/images/hijab/georgette2-2.jpg",
-            ],
-          },
-          {
-            id: 30,
-            name: "Elegant Fall Georgette Hijab",
-            price: 1699,
-            images: [
-              "/images/hijab/georgette3-1.jpg",
-              "/images/hijab/georgette3-2.jpg",
-            ],
-          },
-        ],
+        id: 6,
+        name: "Soft Breeze Lawn Dupatta",
+        price: 1399,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
       },
     ],
   },
-
+  {
+    title: "Jackard Dupatta",
+    slug: "dupatta-jackard",
+    desc: "Richly woven jacquard dupattas with subtle patterns — a timeless symbol of luxury and tradition.",
+    products: [
+      {
+        id: 7,
+        name: "Classic Jackard Dupatta",
+        price: 1899,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 8,
+        name: "Golden Weave Jackard Dupatta",
+        price: 1999,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 9,
+        name: "Textured Jackard Dupatta",
+        price: 1799,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Organza Dupatta",
+    slug: "dupatta-organza",
+    desc: "Sheer, glossy organza dupattas that bring a touch of glamour to festive and formal looks.",
+    products: [
+      {
+        id: 10,
+        name: "Elegant Sheer Organza Dupatta",
+        price: 2099,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 11,
+        name: "Crystal Touch Organza Dupatta",
+        price: 2299,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 12,
+        name: "Luxe Embroidered Organza Dupatta",
+        price: 2499,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Silk Dupatta",
+    slug: "dupatta-silk",
+    desc: "Smooth and lustrous silk dupattas — perfect for festive, wedding, or statement occasions.",
+    products: [
+      {
+        id: 13,
+        name: "Pure Soft Silk Dupatta",
+        price: 1999,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 14,
+        name: "Luxury Printed Silk Dupatta",
+        price: 2199,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 15,
+        name: "Everyday Smooth Silk Dupatta",
+        price: 1799,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Four Sided Border Dupatta",
+    slug: "dupatta-four-sided-border",
+    desc: "Beautifully bordered dupattas with detailed lace or embroidery along all four sides.",
+    products: [
+      {
+        id: 16,
+        name: "Classic Border Dupatta",
+        price: 1599,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 17,
+        name: "Elegant Four-Side Border Dupatta",
+        price: 1799,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 18,
+        name: "Premium Lace Border Dupatta",
+        price: 1899,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Fancy Dupatta",
+    slug: "dupatta-fancy",
+    desc: "Shimmery and festive dupattas crafted for parties, events, and celebrations.",
+    products: [
+      {
+        id: 19,
+        name: "Festive Fancy Dupatta",
+        price: 2499,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 20,
+        name: "Shimmery Net Fancy Dupatta",
+        price: 2299,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 21,
+        name: "Party Wear Fancy Dupatta",
+        price: 2599,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Silk Hijab",
+    slug: "hijab-silk",
+    desc: "Luxurious silk hijabs offering shine, softness, and sophistication for every occasion.",
+    products: [
+      {
+        id: 22,
+        name: "Pure Soft Silk Hijab",
+        price: 1999,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 23,
+        name: "Luxury Printed Silk Hijab",
+        price: 2199,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 24,
+        name: "Everyday Smooth Silk Hijab",
+        price: 1799,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Lawn Hijab",
+    slug: "hijab-lawn",
+    desc: "Soft, breathable lawn hijabs that are ideal for everyday wear in all seasons.",
+    products: [
+      {
+        id: 25,
+        name: "Floral Breeze Lawn Hijab",
+        price: 1499,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 26,
+        name: "Summer Lawn Hijab",
+        price: 1399,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 27,
+        name: "Cutwork Design Lawn Hijab",
+        price: 1599,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
+  {
+    title: "Georgette Hijab",
+    slug: "hijab-georgette",
+    desc: "Lightweight and easy to style, georgette hijabs offer a graceful drape and elegant texture.",
+    products: [
+      {
+        id: 28,
+        name: "Lightweight Georgette Hijab",
+        price: 1599,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 29,
+        name: "Textured Plain Georgette Hijab",
+        price: 1499,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 30,
+        name: "Elegant Fall Georgette Hijab",
+        price: 1699,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
+  },
   {
     title: "Chaddar",
-    link: "/chaddar",
-    delay: 0.4,
+    slug: "chaddar",
+    desc: "Warm, soft, and elegant chaddars crafted for comfort and modest sophistication.",
+    products: [
+      {
+        id: 31,
+        name: "Warm Woolen Chaddar",
+        price: 2499,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 32,
+        name: "Classic Handwoven Chaddar",
+        price: 2699,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+      {
+        id: 33,
+        name: "Soft Cashmere Chaddar",
+        price: 2999,
+        images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+      },
+    ],
   },
 ];
-;
+
+

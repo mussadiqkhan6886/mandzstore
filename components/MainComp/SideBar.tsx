@@ -66,7 +66,7 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                     {item.children ? (
                       <p onClick={() => toggleMenu(i)}>{item.title}</p>
                     ) : (
-                      <Link className="w-full" href={item.link}>
+                      <Link onClick={() => setIsOpen(false)} className="w-full" href={item.link}>
                         {item.title}
                       </Link>
                     )}
@@ -87,7 +87,7 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                           {item.children.map((child, j) => (
                             <motion.li initial={{ opacity: 0, y:200 }}
           animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut'}}  key={j}>
-                              <Link href={child.link}>{child.title}</Link>
+                              <Link onClick={() => setIsOpen(false)} href={child.link}>{child.title}</Link>
                             </motion.li>
                           ))}
                         </ul>
