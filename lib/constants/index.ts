@@ -166,8 +166,8 @@ export const collectionsData = [
         price: 2199,
         newPrice: 1799,
         onSale: true,
-        images: ["/collectiondemo.jpg", "/essentials.jpg"],
-        colors: ["Red", "Peach", "Sky Blue", "Off White", "Black"],
+        images: ["/collectiondemo.jpg", "/essentials.jpg",],
+        // colors: ["Red", "Peach", "Sky Blue", "Off White", "Black"],
       },
       {
         id: 2,
