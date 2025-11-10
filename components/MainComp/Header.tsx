@@ -8,11 +8,13 @@ import {FiMenu, FiSearch, FiShoppingCart, FiX} from "react-icons/fi"
 
 import 'swiper/css';
 import SideBar from './SideBar';
+import CartSection from './CartSection';
 
 const Header = () => {
 
   const [showSideBar, setShowSideBar] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
+  const [showCart, setShowCart] = useState(false)
 
   return (
     <header className='sticky top-0 w-full bg-white z-50' >
@@ -42,7 +44,7 @@ const Header = () => {
 
         <div className="flex items-center space-x-4 md:space-x-6">
           <button onClick={() => setShowSearch(true)}><FiSearch className='text-xl md:text-2xl cursor-pointer' /></button>
-          <button><FiShoppingCart className='text-xl md:text-2xl' /></button>
+          <button onClick={() => setShowCart(true)}><FiShoppingCart className='text-xl md:text-2xl cursor-pointer' /></button>
         </div>
       </div>
       {showSearch && (
@@ -56,6 +58,7 @@ const Header = () => {
           </div>
         </div>
       )}
+      {showCart && <CartSection showCart={showCart} setShowCart={setShowCart} />}
     </header>
   );
 };

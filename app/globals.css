@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html, body{
+    overflow-x: hidden;
+}
+
 /* Navigation buttons */
 .custom-swiper .swiper-button-prev,
 .custom-swiper .swiper-button-next {
