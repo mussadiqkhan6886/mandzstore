@@ -167,6 +167,7 @@ export const collectionsData = [
         newPrice: 1799,
         onSale: true,
         images: ["/collectiondemo.jpg", "/essentials.jpg"],
+        colors: ["Red", "Peach", "Sky Blue", "Off White", "Black"],
       },
       {
         id: 2,
@@ -176,6 +177,7 @@ export const collectionsData = [
         newPrice: 1699,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["White", "Maroon", "Beige", "Grey", "Baby Pink"],
       },
       {
         id: 3,
@@ -185,6 +187,7 @@ export const collectionsData = [
         newPrice: 1999,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Champagne", "Lavender", "Mint", "Ivory", "Rose"],
       },
     ],
   },
@@ -201,6 +204,7 @@ export const collectionsData = [
         newPrice: 1599,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Mint", "Peach", "Sky Blue", "Lemon", "White"],
       },
       {
         id: 5,
@@ -210,6 +214,7 @@ export const collectionsData = [
         newPrice: 1499,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Olive", "Dusty Pink", "Off White", "Sea Green", "Lavender"],
       },
       {
         id: 6,
@@ -219,6 +224,7 @@ export const collectionsData = [
         newPrice: 1399,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Blue", "Grey", "Pink", "White", "Mustard"],
       },
     ],
   },
@@ -235,6 +241,7 @@ export const collectionsData = [
         newPrice: 1899,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Gold", "Maroon", "Navy", "Olive", "Black"],
       },
       {
         id: 8,
@@ -244,6 +251,7 @@ export const collectionsData = [
         newPrice: 1999,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Champagne", "Silver", "Ivory", "Emerald", "Wine"],
       },
       {
         id: 9,
@@ -253,6 +261,7 @@ export const collectionsData = [
         newPrice: 1799,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Beige", "Rust", "Navy", "Black", "White"],
       },
     ],
   },
@@ -269,6 +278,7 @@ export const collectionsData = [
         newPrice: 2099,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["White", "Blush", "Mint", "Sky Blue", "Lilac"],
       },
       {
         id: 11,
@@ -278,6 +288,7 @@ export const collectionsData = [
         newPrice: 2299,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Champagne", "Gold", "Peach", "Pink", "Silver"],
       },
       {
         id: 12,
@@ -287,6 +298,7 @@ export const collectionsData = [
         newPrice: 2499,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Maroon", "Teal", "Emerald", "Ivory", "Black"],
       },
     ],
   },
@@ -303,6 +315,7 @@ export const collectionsData = [
         newPrice: 1999,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Red", "Maroon", "Black", "Champagne", "Navy"],
       },
       {
         id: 14,
@@ -312,6 +325,7 @@ export const collectionsData = [
         newPrice: 2199,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Gold", "Blue", "White", "Pink", "Green"],
       },
       {
         id: 15,
@@ -321,6 +335,7 @@ export const collectionsData = [
         newPrice: 1799,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Peach", "Beige", "Grey", "Black", "Off White"],
       },
     ],
   },
@@ -337,6 +352,7 @@ export const collectionsData = [
         newPrice: 1599,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["White", "Beige", "Sky Blue", "Mint", "Peach"],
       },
       {
         id: 17,
@@ -346,6 +362,7 @@ export const collectionsData = [
         newPrice: 1799,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Lavender", "Pink", "Off White", "Maroon", "Teal"],
       },
       {
         id: 18,
@@ -355,6 +372,7 @@ export const collectionsData = [
         newPrice: 1899,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Grey", "Ivory", "Blue", "Gold", "Beige"],
       },
     ],
   },
@@ -371,6 +389,7 @@ export const collectionsData = [
         newPrice: 2499,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Gold", "Silver", "Champagne", "Rose Gold", "Black"],
       },
       {
         id: 20,
@@ -380,6 +399,7 @@ export const collectionsData = [
         newPrice: 2299,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Pink", "Peach", "White", "Lilac", "Blue"],
       },
       {
         id: 21,
@@ -389,6 +409,7 @@ export const collectionsData = [
         newPrice: 2599,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Red", "Maroon", "Silver", "Champagne", "Green"],
       },
     ],
   },
@@ -405,6 +426,7 @@ export const collectionsData = [
         newPrice: 1999,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Black", "White", "Maroon", "Beige", "Navy"],
       },
       {
         id: 23,
@@ -414,6 +436,7 @@ export const collectionsData = [
         newPrice: 2199,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Olive", "Grey", "Gold", "Pink", "Teal"],
       },
       {
         id: 24,
@@ -423,6 +446,7 @@ export const collectionsData = [
         newPrice: 1799,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Off White", "Peach", "Lavender", "Dusty Pink", "Blue"],
       },
     ],
   },
@@ -439,6 +463,7 @@ export const collectionsData = [
         newPrice: 1499,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Pink", "White", "Sky Blue", "Yellow", "Green"],
       },
       {
         id: 26,
@@ -448,6 +473,7 @@ export const collectionsData = [
         newPrice: 1399,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Mint", "Lavender", "Peach", "Off White", "Grey"],
       },
       {
         id: 27,
@@ -457,6 +483,7 @@ export const collectionsData = [
         newPrice: 1599,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Beige", "Blue", "Pink", "Green", "White"],
       },
     ],
   },
@@ -473,6 +500,7 @@ export const collectionsData = [
         newPrice: 1599,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Beige", "Maroon", "Black", "White", "Grey"],
       },
       {
         id: 29,
@@ -482,6 +510,7 @@ export const collectionsData = [
         newPrice: 1499,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Blue", "Peach", "Olive", "White", "Pink"],
       },
       {
         id: 30,
@@ -491,6 +520,7 @@ export const collectionsData = [
         newPrice: 1699,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Dusty Pink", "Ivory", "Navy", "Grey", "Black"],
       },
     ],
   },
@@ -507,6 +537,7 @@ export const collectionsData = [
         newPrice: 2499,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Grey", "Maroon", "Brown", "Beige", "Black"],
       },
       {
         id: 32,
@@ -516,6 +547,7 @@ export const collectionsData = [
         newPrice: 2699,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Cream", "Grey", "Rust", "Olive", "White"],
       },
       {
         id: 33,
@@ -525,8 +557,10 @@ export const collectionsData = [
         newPrice: 2999,
         onSale: true,
         images: ["/collectiondemo.jpg", "/collectiondemo.jpg"],
+        colors: ["Beige", "Camel", "Brown", "Grey", "Ivory"],
       },
     ],
   },
 ];
+
 

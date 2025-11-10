@@ -1,6 +1,8 @@
 import { collectionsData } from '@/lib/constants';
 import ImageProduct from '@/components/MainComp/ImageProduct';
 import { cormorant } from '@/lib/fonts';
+import ProductCard from '@/components/MainComp/ProductCard';
+import Colors from '@/components/MainComp/Colors';
 
 const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -36,12 +38,14 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
             Add to Cart
           </button>
 
+          {product.colors && <Colors colors={product.colors} />}
           <div className='mt-6'>
             <h3 className='font-medium text-gray-800 tracking-widest uppercase'>Description:</h3>
             <p>{product.desc}</p>
           </div>
           {/* COLLAPSIBLE DETAILS
           <CollapseDetails /> */}
+          
         </div>
       </section>
     </main>
