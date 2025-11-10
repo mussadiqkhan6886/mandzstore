@@ -17,14 +17,14 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
 
   return (
     <aside
-      className="w-full h-screen top-0 bg-black/30 absolute flex justify-end z-50"
+      className="w-full h-screen top-0 bg-black/30 fixed flex justify-end z-50"
       onClick={() => setShowCart(false)}
     >
       <motion.div
         animate={{ x: 0 }}
         initial={{ x: 400 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className="bg-white w-[460px] pt-6 px-6 flex flex-col justify-between"
+        className="bg-white w-[460px] pt-6 px-4 sm:px-6 flex flex-col justify-between"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 🛒 Header */}
@@ -40,14 +40,14 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
           ) : (
             <div className="flex flex-col gap-3">
               {cart.map((item, i) => (
-                <div className="flex gap-4 border-b border-gray-200 pb-3" key={i}>
+                <div className="flex gap-0 sm:gap-4 border-b border-gray-200 pb-3" key={i}>
                   <div className="shrink-0">
                     <Image
                       src={item.images[0]}
                       alt={`${item.name} - ${item.selectedColor}`}
                       width={90}
                       height={90}
-                      className="rounded-md"
+                      className="w-[90%] sm:w-full"
                     />
                   </div>
 
@@ -71,9 +71,9 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
 
                     <div>
                       {item.onSale ? (
-                        <h4 className="text-gray-700 text-sm">
+                        <h4 className="text-gray-700 text-[12px] sm:text-sm">
                           <span className="line-through opacity-70">Rs. {item.price}</span>{" "}
-                          <span className="font-semibold text-[16px]">Rs. {item.newPrice}</span>{" "}
+                          <span className="font-semibold text-[14px] sm:text-[16px]">Rs. {item.newPrice}</span>{" "}
                           <span className="text-red-500 text-xs">
                             Save Rs. {item.price - item.newPrice!}
                           </span>
