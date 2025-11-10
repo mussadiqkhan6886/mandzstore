@@ -27,9 +27,15 @@ const AddToCartButton = ({
 }: Props) => {
   const { addToCart } = useCart();
   const [selectedColor, setSelectedColor] = useState('');
+    const [added, setAdded] = useState(false)
 
   const handleAddToCart = () => {
     // {colors && if (!selectedColor) return; // safety check}
+
+    setAdded(true)
+    setTimeout(() => {
+        setAdded(false)
+    }, 1000)
 
     addToCart({
       id,
@@ -65,12 +71,12 @@ const AddToCartButton = ({
               : 'bg-black text-white hover:bg-gray-800'
           }`}
       >
-        {selectedColor ? 'Add to Cart' : 'Select Color to Add'}
+        {selectedColor ? added ? "Added" : "Add to Cart" : 'Select Color to Add'}
       </button> : <button
         onClick={handleAddToCart}
         className={`w-full px-6 py-3 rounded-md transition bg-black text-white hover:bg-gray-800`}
       >
-        Add to Cart
+        {added ? "Added" : "Add to Cart"}
       </button>}
     </div>
   );
