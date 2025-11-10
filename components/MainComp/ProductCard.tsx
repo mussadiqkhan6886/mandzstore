@@ -1,5 +1,6 @@
 'use client';
 
+import { useCart } from '@/hooks/useCart';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -16,17 +17,17 @@ type Props = {
 
 const ProductCard = ({id, name, images, price, slug, newPrice, onSale }: Props) => {
   const [currentImage, setCurrentImage] = useState(images[0]);
-  const [hover, setHover] = useState(false);
+  // const [hover, setHover] = useState(false);
 
   return (
     <div  
       onMouseEnter={() => {
         setCurrentImage(images[1]);
-        setHover(true);
+        // setHover(true);
       }}
       onMouseLeave={() => {
         setCurrentImage(images[0]);
-        setHover(false);
+        // setHover(false);
       }}
       className="relative group cursor-pointer overflow-hidden  transition-all duration-300"
     >
@@ -47,9 +48,8 @@ const ProductCard = ({id, name, images, price, slug, newPrice, onSale }: Props) 
         <h4 className="text-gray-700">{onSale ? <span><span className='line-through text-sm opacity-85'>Rs. {price}</span> <span className='font-medium text-[17px]'>Rs. {newPrice}</span>  <span className='text-red-500 inline-block ml-4'>Save Rs. {price - newPrice}</span></span> : price }</h4>
       </div>
       </Link>
-      {/* Add to Cart Button */}
+      {/* Add to Cart Button
       <button
-      onClick={() => console.log("clicked")}
         className={`absolute bottom-20 left-1/2 -translate-x-1/2 px-5 py-2 bg-black text-white font-semibold shadow-md transition-all duration-300 w-[90%] cursor-pointer ${
           hover
             ? 'opacity-100 translate-y-0'
@@ -57,7 +57,7 @@ const ProductCard = ({id, name, images, price, slug, newPrice, onSale }: Props) 
         }`}
       >
         Add to Cart
-      </button>
+      </button> */}
     </div>
   );
 };

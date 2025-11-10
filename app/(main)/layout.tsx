@@ -3,6 +3,7 @@ import "../globals.css";
 import Header from "@/components/MainComp/Header";
 import { montserrat } from "@/lib/fonts";
 import Footer from "@/components/MainComp/Footer";
+import { CartContextProvider } from "@/context/CartContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,9 +21,11 @@ export default function RootLayout({
       <body
         className={`antialiased ${montserrat.className}`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <CartContextProvider>
+          <Header />
+          {children}
+          <Footer />
+        </CartContextProvider>
       </body>
     </html>
   );

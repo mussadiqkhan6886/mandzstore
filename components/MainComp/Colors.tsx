@@ -1,9 +1,14 @@
 'use client';
 
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 
-const Colors = ({colors}: {colors: string[]}) => {
-    const [selectedColor, setSelectedColor] = useState("")
+type Props = {
+  colors: string[]
+  selectedColor: string
+  setSelectedColor: Dispatch<SetStateAction<string>>
+}
+
+const Colors = ({colors, selectedColor, setSelectedColor}: Props) => {
   return (
     <div className='flex flex-wrap gap-4 mt-2 flex-col items-start'>
         {!selectedColor && <p className='uppercase text-red-500'>Select Color</p>}

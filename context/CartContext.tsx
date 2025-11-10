@@ -1,13 +1,16 @@
 "use client";
-import { createContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from "react";
 
 // 🧱 Define item type
 export interface CartItem {
-  id: string;
+  id: number;
   name: string;
   price: number;
+  onSale: boolean;
+  newPrice: number | null
   quantity: number;
-  image: string;
+  images: string[];
+  selectedColor: string
 }
 
 // 🧠 Define context type
@@ -16,9 +19,9 @@ export interface CartContextType {
   totalAmount: number;
   totalItems: number;
   addToCart: (item: CartItem) => void;
-  removeFromCart: (id: string) => void;
+  removeFromCart: (id: number) => void;
   clearCart: () => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
 }
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -31,34 +34,38 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
 
   // 🧮 Recalculate totals
   useEffect(() => {
-    const amount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const amount = cart.reduce((sum, item) => item.onSale ? sum + item.newPrice! * item.quantity : sum + item.price * item.quantity, 0);
     const items = cart.reduce((sum, item) => sum + item.quantity, 0);
     setTotalAmount(amount);
     setTotalItems(items);
   }, [cart]);
 
   // ➕ Add item
-  const addToCart = (newItem: CartItem) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === newItem.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === newItem.id
-            ? { ...item, quantity: item.quantity + newItem.quantity }
-            : item
-        );
-      }
-      return [...prev, newItem];
-    });
-  };
+ const addToCart = (newItem: CartItem) => {
+  setCart((prev) => {
+    const existing = prev.find(
+      (item) => item.id === newItem.id && item.selectedColor === newItem.selectedColor
+    );
+
+    if (existing) {
+      return prev.map((item) =>
+        item.id === newItem.id && item.selectedColor === newItem.selectedColor
+          ? { ...item, quantity: item.quantity + newItem.quantity }
+          : item
+      );
+    }
+
+    return [...prev, newItem];
+  });
+};
 
   // ❌ Remove item
-  const removeFromCart = (id: string) => {
+  const removeFromCart = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   // 🔄 Update quantity
-  const updateQuantity = (id: string, quantity: number) => {
+  const updateQuantity = (id: number, quantity: number) => {
     setCart((prev) =>
       prev.map((item) =>
         item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item

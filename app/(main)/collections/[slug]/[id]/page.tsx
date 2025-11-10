@@ -4,6 +4,7 @@ import { cormorant } from '@/lib/fonts';
 import ProductCard from '@/components/MainComp/ProductCard';
 import Colors from '@/components/MainComp/Colors';
 import CollapseDetails from '@/components/MainComp/CollapseDetails';
+import AddToCartButton from '@/components/MainComp/AddToCartButton';
 
 const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -35,11 +36,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
 
           <hr className='opacity-10' />
           {/* Add to Cart */}
-          <button className="bg-black text-white px-6 py-3  hover:bg-gray-800 transition w-full">
-            Add to Cart
-          </button>
-
-          {product.colors && <Colors colors={product.colors} />}
+         <AddToCartButton id={product.id} images={product.images} price={product.price} onSale={product.onSale} name={product.name} newPrice={product.newPrice} quantity={1} colors={product.colors}  />
           {/* <div className='mt-6'>
             <h3 className='font-medium text-gray-800 tracking-widest uppercase'>Description:</h3>
             <p>{product.desc}</p>
