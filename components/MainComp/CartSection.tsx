@@ -5,6 +5,7 @@ import { FiTrash, FiX } from 'react-icons/fi'
 import { motion } from 'framer-motion';
 import { useCart } from '@/hooks/useCart';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type Props = {
   showCart: boolean;
@@ -56,16 +57,17 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
                         {item.name} <span className="text-gray-500">({item.selectedColor})</span>
                       </p>
                     </div>
-
-                    <div className="flex items-center gap-3">
-                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                    <div className='flex justify-between'>
+                    <div className="flex items-center gap-6 border border-black/30 px-3 py-1">
+                      <button className='text-xl' onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                       <p>{item.quantity}</p>
-                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                      <button className='text-xl' onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                     </div>
                       <FiTrash
                         onClick={() => removeFromCart(item.id)}
                         className="cursor-pointer text-gray-500 hover:text-red-500"
                       />
+                      </div>
 
                     <div>
                       {item.onSale ? (
@@ -88,18 +90,18 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
         </div>
 
         {/* ✅ Footer actions */}
-        <div className="mt-4 space-y-3">
+        <div className="space-y-3 my-4">
           {cart.length <= 0 ? (
             ''
           ): <>
-            <button className="w-full py-2 bg-black text-white rounded-md">
+            <Link href={"/checkout"} className="w-full block text-center py-2 bg-black text-white ">
             Checkout - Rs.{totalAmount} PKR
-          </button>
-          <button className="w-full py-2 border border-black/20 rounded-md">
+          </Link>
+          <Link href={"/cart"} className="w-full py-2 block text-center border border-black/20 ">
             View Cart
-          </button></>}
+          </Link></>}
           <p
-            className="text-center py-2 border border-black/20 rounded-md cursor-pointer"
+            className="text-center py-2 border border-black/20  cursor-pointer"
             onClick={() => setShowCart(false)}
           >
             Continue Shopping
