@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
 
-const CollapseDetails = () => {
+const CollapseDetails = ({desc}: {desc: string}) => {
      const [open, setOpen] = useState<string | null>(null);
 
   const toggleSection = (section: string) => {
@@ -14,8 +14,7 @@ const CollapseDetails = () => {
   return (
     <div className="mt-6">
             {[
-              { title: 'DESCRIPTION', content: 'This product is carefully crafted with premium materials ensuring both comfort and style. Perfect for all occasions.' },
-              { title: 'SHIPPING & RETURNS', content: 'Orders are shipped within 2–4 business days. Returns accepted within 7 days of delivery in original condition.' },
+              { title: 'DESCRIPTION', content: desc },
               { title: 'CARE INSTRUCTIONS', content: 'Hand wash with mild detergent. Avoid bleach. Dry in shade to maintain fabric quality.' },
             ].map(({ title, content }) => (
               <div

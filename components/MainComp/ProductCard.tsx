@@ -43,8 +43,8 @@ const ProductCard = ({id, name, images, price, slug, newPrice, onSale }: Props) 
 
       {/* Info */}
       <div className="text-center mt-3">
-        <h3 className="tracking-widest font-medium">{name}</h3>
-        <h4 className="text-gray-700">Rs. {onSale ? <span><span className='line-through text-sm opacity-85'>{price}</span> <span className='font-medium text-[17px]'>{newPrice}</span>  <span className='text-red-500 inline-block ml-4'>save RS {price - newPrice}</span></span> : price }</h4>
+        <h3 className="tracking-widest uppercase text-sm mb-1">{name}</h3>
+        <h4 className="text-gray-700">{onSale ? <span><span className='line-through text-sm opacity-85'>Rs. {price}</span> <span className='font-medium text-[17px]'>Rs. {newPrice}</span>  <span className='text-red-500 inline-block ml-4'>Save Rs. {price - newPrice}</span></span> : price }</h4>
       </div>
       </Link>
       {/* Add to Cart Button */}

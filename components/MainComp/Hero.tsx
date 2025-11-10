@@ -16,7 +16,7 @@ const Hero = () => {
       <picture>
         <source media="(max-width: 767px)" srcSet="/small.jpg" />
          <Image src={"/large.jpg"} alt='second main banner hero image large screen' width={1000} height={1000} className='w-full h-full' />
-    </picture>
+      </picture>
     </section>
   )
 }
