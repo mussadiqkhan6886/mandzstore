@@ -94,10 +94,10 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
           {cart.length <= 0 ? (
             ''
           ): <>
-            <Link href={"/checkout"} className="w-full block text-center py-2 bg-black text-white ">
+            <Link onClick={() => setShowCart(false)} href={"/checkout"} className="w-full block text-center py-2 bg-black text-white ">
             Checkout - Rs.{totalAmount} PKR
           </Link>
-          <Link href={"/cart"} className="w-full py-2 block text-center border border-black/20 ">
+          <Link onClick={() => setShowCart(false)} href={"/cart"} className="w-full py-2 block text-center border border-black/20 ">
             View Cart
           </Link></>}
           <p

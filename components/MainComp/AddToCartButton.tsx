@@ -29,7 +29,8 @@ const AddToCartButton = ({
   const [selectedColor, setSelectedColor] = useState('');
 
   const handleAddToCart = () => {
-    if (!selectedColor) return; // safety check
+    // {colors && if (!selectedColor) return; // safety check}
+
     addToCart({
       id,
       images,
@@ -54,7 +55,7 @@ const AddToCartButton = ({
       )}
 
       {/* 🛒 Add to Cart Button */}
-      <button
+      {colors ? <button
         onClick={handleAddToCart}
         disabled={!selectedColor}
         className={`w-full px-6 py-3 rounded-md transition
@@ -65,7 +66,12 @@ const AddToCartButton = ({
           }`}
       >
         {selectedColor ? 'Add to Cart' : 'Select Color to Add'}
-      </button>
+      </button> : <button
+        onClick={handleAddToCart}
+        className={`w-full px-6 py-3 rounded-md transition bg-black text-white hover:bg-gray-800`}
+      >
+        Add to Cart
+      </button>}
     </div>
   );
 };
