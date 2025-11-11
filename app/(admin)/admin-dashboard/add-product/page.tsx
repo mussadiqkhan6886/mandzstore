@@ -154,8 +154,7 @@ const AddProduct = () => {
             className="w-full border rounded-lg p-2"
             rows={3}
             placeholder="Enter description for the category..."
-            required
-          />
+          />  
         </div>
 
 

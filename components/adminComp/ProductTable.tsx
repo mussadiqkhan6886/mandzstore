@@ -8,29 +8,20 @@ import IconButton from '@mui/material/IconButton';
 import axios from 'axios';
 import Link from 'next/link';
 
-interface Product {
-  _id: string;
-  name: string;
-  slug: string;
-  description: string;
-  price: number;
-  discountPrice?: number;
-  category: string;
-  isSale: boolean;
-  inStock: boolean;
-  size: string;
-  isNewArrival: boolean;
-  mainImage: string;
-  ingredients: string[];
-  benefits: string[];
-  createdAt: string;
-}
-
 interface ProductTableProps {
-  products: Product[];
+  products: Category[]; // categories with products
 }
 
 export default function ProductTable({ products }: ProductTableProps) {
+
+  // Flatten all products across categories
+  const flattenedProducts = products.flatMap(category =>
+    category.products.map(prod => ({
+      ...prod,
+      categoryTitle: category.title,
+      categorySlug: category.slug
+    }))
+  );
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
@@ -46,35 +37,50 @@ export default function ProductTable({ products }: ProductTableProps) {
     }
   };
 
+  const columns: GridColDef<any>[] = [
 
-  const columns: GridColDef<Product>[] = [
-    { field: 'name', headerName: 'Name', flex: 1, minWidth: 150 },
-    { field: 'slug', headerName: 'Slug', flex: 1, minWidth: 150 },
-    { field: 'category', headerName: 'Category', flex: 1, minWidth: 130 },
+    {
+    field: 'image',
+    headerName: 'Image',
+    width: 100,
+    sortable: false,
+    renderCell: (params) => (
+      params.row.images && params.row.images.length > 0 ? (
+        <img
+          src={params.row.images[0]}
+          alt={params.row.name}
+          style={{ width: 60, height: 60, objectFit: 'cover'}}
+        />
+      ) : (
+        <span>No Image</span>
+      )
+    ),
+  },
+    { field: 'name', headerName: 'Product Name', flex: 1, minWidth: 100 },
     { field: 'price', headerName: 'Price', type: 'number', width: 100 },
     {
-      field: 'discountPrice',
+      field: 'newPrice',
       headerName: 'Discount Price',
       type: 'number',
       width: 130,
-      renderCell: (params) => params.row.discountPrice || '-',
+      renderCell: (params) => params.row.newPrice || '-',
     },
     {
-      field: 'isSale',
+      field: 'onSale',
       headerName: 'Sale',
       width: 80,
       type: 'boolean',
     },
     {
-      field: 'inStock',
-      headerName: 'Stock',
-      width: 100,
-      type: 'boolean'
+      field: 'colors',
+      headerName: 'Colors',
+      width: 280,
+      renderCell: (params) => params.row.colors.join(", "),
     },
     {
-      field: 'size',
-      headerName: 'Size',
-      width: 100,
+      field: 'categoryTitle',
+      headerName: 'Category',
+      width: 150,
     },
     {
       field: 'actions',
@@ -95,9 +101,9 @@ export default function ProductTable({ products }: ProductTableProps) {
   ];
 
   return (
-    <Box sx={{ height: 600, width: '100%', bgcolor: 'background.paper', p: 2, borderRadius: 2 }}>
+    <Box sx={{ height: 600, width: '100%', p: 2, borderRadius: 2 }}>
       <DataGrid
-        rows={products.map((p) => ({ id: p._id, ...p }))}
+        rows={flattenedProducts}
         columns={columns}
         getRowId={(row) => row._id}
         initialState={{
