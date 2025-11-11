@@ -16,12 +16,14 @@ export default function ProductTable({ products }: ProductTableProps) {
 
   // Flatten all products across categories
   const flattenedProducts = products.flatMap(category =>
-    category.products.map(prod => ({
-      ...prod,
-      categoryTitle: category.title,
-      categorySlug: category.slug
-    }))
-  );
+  category.products.map(prod => ({
+    ...prod.toObject?.() || prod, // ensure Mongoose subdoc becomes plain object
+    categoryTitle: category.title,
+    categorySlug: category.slug,
+    categoryId: category._id,
+    rowId: prod._id // unique row ID for DataGrid
+  }))
+);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
@@ -57,7 +59,7 @@ export default function ProductTable({ products }: ProductTableProps) {
     ),
   },
     { field: 'name', headerName: 'Product Name', flex: 1, minWidth: 100 },
-    { field: 'price', headerName: 'Price', type: 'number', width: 100 },
+    { field: 'price', headerName: 'Price', type: 'number', width: 100, },
     {
       field: 'newPrice',
       headerName: 'Discount Price',
@@ -105,7 +107,7 @@ export default function ProductTable({ products }: ProductTableProps) {
       <DataGrid
         rows={flattenedProducts}
         columns={columns}
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.rowId} // <-- use the product _id, not category _id
         initialState={{
           pagination: { paginationModel: { pageSize: 5 } },
         }}

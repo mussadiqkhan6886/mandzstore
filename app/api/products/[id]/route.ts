@@ -1,19 +1,23 @@
-import { NextRequest, NextResponse } from "next/server"
+  import { NextRequest, NextResponse } from "next/server"
 import cloudinary from "@/lib/config/cloudinary"
 import { Category } from "@/lib/models/ProductSchema"
 import { connectDB } from "@/lib/config/database/db"
+import { convertSegmentPathToStaticExportFilename } from "next/dist/shared/lib/segment-cache/segment-value-encoding"
 
 export const GET = async (_req: NextRequest, {params}: {params: Promise<{id: string}>}) => {
     await connectDB()
     const {id} = await params
+    const category = await Category.findOne({ "products._id": id });
+    if (!category) {
+      return NextResponse.json({ message: "Product not found" }, { status: 404 });
+    }
+    const product = category.products.id(id); // Mongoose helper to find subdocument by _id
 
-    const data = await Product.findById(id)
-
-    if(!data){
+    if(!product){
         return NextResponse.json({message: "Product not found"}, {status: 400})
     }
 
-    return NextResponse.json({message: "Product Found", data}, {status: 200})
+    return NextResponse.json({message: "Product Found", product}, {status: 200})
 }
 
 export const PATCH = async (
@@ -26,89 +30,69 @@ export const PATCH = async (
   try {
     const contentType = req.headers.get("content-type");
 
-    // 🧹 Handle image delete separately
+    // 1️⃣ Handle image deletion
     if (contentType?.includes("application/json")) {
       const body = await req.json();
       if (body.action === "deleteImage") {
-        await Product.findByIdAndUpdate(id, { $pull: { images: body.imageUrl } });
-        return NextResponse.json({ success: true });
+        const { imageUrl } = body;
+        if (!imageUrl) throw new Error("No imageUrl provided");
+
+        // Find category containing product
+        const category = await Category.findOne({ "products._id": id });
+        if (!category) throw new Error("Product not found");
+
+        const product = category.products.id(id);
+        if (!product) throw new Error("Product not found in category");
+
+        product.images = product.images.filter(img => img !== imageUrl);
+        await category.save();
+
+        return NextResponse.json({ success: true, message: "Image deleted successfully" });
       }
     }
 
-    // 🖋️ Handle form update
+    // 2️⃣ Handle form data update
     const formData = await req.formData();
-
     const name = formData.get("name") as string;
-    const slug = formData.get("slug") as string;
     const description = formData.get("description") as string;
     const price = Number(formData.get("price"));
-    const discountPrice = formData.get("discountPrice")
-      ? Number(formData.get("discountPrice"))
-      : null;
-    const category = formData.get("category") as string;
-    const size = formData.get("size") as string;
-    const ingredients = formData.getAll("ingredients") as string[];
-    const benefits = formData.getAll("benefits") as string[];
-    const isSale = formData.get("isSale") === "true";
-    const inStock = formData.get("inStock") === "true";
-    const isNewArrival = formData.get("isNewArrival") === "true";
+    const newPrice = formData.get("newPrice") ? Number(formData.get("newPrice")) : null;
+    const onSale = formData.get("onSale") === "true";
+    const colors = formData.getAll("colors") as string[];
 
-    // 🖼️ Handle image uploads
     const files = formData.getAll("images") as File[];
     const uploadedImages: string[] = [];
 
     for (const file of files) {
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-
+      const buffer = Buffer.from(await file.arrayBuffer());
       const uploadRes = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({ folder: "hairoil" }, (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          })
-          .end(buffer);
+        cloudinary.uploader.upload_stream({ folder: "mzstore" }, (err, res) => {
+          if (err) reject(err);
+          else resolve(res);
+        }).end(buffer);
       });
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       uploadedImages.push((uploadRes as any).secure_url);
     }
 
-    // 🔹 Fetch existing product to merge images
-    const existingProduct = await Product.findById(id);
-    if (!existingProduct) {
-      return NextResponse.json({ success: false, message: "Product not found" }, { status: 404 });
-    }
+    // Find category containing the product
+    const category = await Category.findOne({ "products._id": id });
+    if (!category) return NextResponse.json({ success: false, message: "Product not found" }, { status: 404 });
 
-    // Merge existing images with newly uploaded images
-    const updatedImages = [...existingProduct.images, ...uploadedImages];
+    const product = category.products.id(id);
+    if (!product) return NextResponse.json({ success: false, message: "Product not found in category" }, { status: 404 });
 
-    // Build update object
-    const updateQuery = {
-      name,
-      slug,
-      description,
-      price,
-      discountPrice,
-      category,
-      size,
-      ingredients,
-      benefits,
-      isSale,
-      inStock,
-      isNewArrival,
-      images: updatedImages, // just overwrite with merged array
-    };
+    // Update product fields
+    product.name = name;
+    product.description = description;
+    product.price = price;
+    product.newPrice = newPrice;
+    product.onSale = onSale;
+    product.colors = colors;
+    product.images = [...product.images, ...uploadedImages]; // merge new images
 
-    // Update in DB
-    const updatedProduct = await Product.findByIdAndUpdate(id, updateQuery, { new: true });
+    await category.save();
 
-    return NextResponse.json({
-      success: true,
-      message: "Product updated successfully",
-      product: updatedProduct,
-    });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return NextResponse.json({ success: true, message: "Product updated successfully", product });
   } catch (err: any) {
     console.error("PATCH error:", err);
     return NextResponse.json(
@@ -117,6 +101,8 @@ export const PATCH = async (
     );
   }
 };
+
+
 
 
 

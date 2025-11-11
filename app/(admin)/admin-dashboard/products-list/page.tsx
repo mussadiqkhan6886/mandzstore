@@ -12,9 +12,8 @@ export default async function AdminProductsPage() {
     }
 
     const data = await res.json();
-    console.log(data)
     const products = data.data; // your GET route returns { message, data }
-
+    
     return (
       <div className="p-5">
         <h1 className="text-2xl text-center font-semibold mb-4">Product List</h1>
