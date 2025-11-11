@@ -1,24 +1,22 @@
-import { collectionsData } from '@/lib/constants';
 import ImageProduct from '@/components/MainComp/ImageProduct';
 import { cormorant } from '@/lib/fonts';
 import ProductCard from '@/components/MainComp/ProductCard';
 import Colors from '@/components/MainComp/Colors';
 import CollapseDetails from '@/components/MainComp/CollapseDetails';
 import AddToCartButton from '@/components/MainComp/AddToCartButton';
+import { Product } from '@/lib/models/ProductSchema';
 
-const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
+const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  const productId = parseInt(id);
 
-  const collection = collectionsData.find(col =>
-    col.products.find(prod => prod.id === productId)
-  );
+  const res = await Product.findOne({slug: id}).lean()
 
-  const product = collection?.products.find(prod => prod.id === productId);
+  const product = JSON.parse(JSON.stringify(res))
 
   if (!product) {
     return <div className="text-center py-20">Product not found</div>;
   }
+  console.log(product)
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-16 pt-44">
@@ -42,7 +40,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
             <p>{product.desc}</p>
           </div> */}
          
-          <CollapseDetails desc={product.desc} />
+          <CollapseDetails desc={product.description} />
           
         </div>
       </section>
@@ -50,4 +48,4 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default Product;
+export default ProductPage;

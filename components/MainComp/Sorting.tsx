@@ -4,15 +4,6 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
 import { FiChevronsDown } from 'react-icons/fi';
 
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  images: string[];
-  newPrice: number
-  onSale: boolean
-};
-
 type SortWrapperProps = {
   products: Product[];
   slug: string
@@ -22,7 +13,6 @@ const SortWrapper: React.FC<SortWrapperProps> = ({ products, slug }) => {
   const [sortOption, setSortOption] = useState('default');
   const [sortedProducts, setSortedProducts] = useState(products);
   const [open, setOpen] = useState(false);
-
   useEffect(() => {
     let sorted = [...products];
 
@@ -95,7 +85,7 @@ const SortWrapper: React.FC<SortWrapperProps> = ({ products, slug }) => {
       {/* Sorted Product Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {sortedProducts.map((product) => (
-          <ProductCard key={product.id} {...product} slug={slug} />
+          <ProductCard key={product._id} {...product} oldSlug={slug} />
         ))}
       </div>
     </section>

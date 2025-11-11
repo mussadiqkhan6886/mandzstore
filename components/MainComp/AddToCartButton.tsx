@@ -12,7 +12,7 @@ interface Props {
   newPrice: number | null;
   name: string;
   quantity: number;
-  colors: string[] | undefined;
+  colors?: string[];
 }
 
 const AddToCartButton = ({
@@ -27,15 +27,13 @@ const AddToCartButton = ({
 }: Props) => {
   const { addToCart } = useCart();
   const [selectedColor, setSelectedColor] = useState('');
-    const [added, setAdded] = useState(false)
+  const [added, setAdded] = useState(false);
 
   const handleAddToCart = () => {
-    // {colors && if (!selectedColor) return; // safety check}
-
-    setAdded(true)
-    setTimeout(() => {
-        setAdded(false)
-    }, 1000)
+    if (colors && colors.length > 0 && !selectedColor) {
+      // Safety check: if colors exist, ensure one is selected
+      return;
+    }
 
     addToCart({
       id,
@@ -47,12 +45,17 @@ const AddToCartButton = ({
       quantity,
       selectedColor,
     });
+
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1000);
   };
+
+  const hasColors = colors && colors.length > 0;
 
   return (
     <div className="space-y-4">
-      {/* 🖌️ Color Selector */}
-      {colors && (
+      {/* Color Selector */}
+      {hasColors && (
         <Colors
           colors={colors}
           selectedColor={selectedColor}
@@ -60,24 +63,19 @@ const AddToCartButton = ({
         />
       )}
 
-      {/* 🛒 Add to Cart Button */}
-      {colors ? <button
+      {/* Add to Cart Button */}
+      <button
         onClick={handleAddToCart}
-        disabled={!selectedColor}
+        disabled={hasColors && !selectedColor}
         className={`w-full px-6 py-3 rounded-md transition
           ${
-            !selectedColor
+            hasColors && !selectedColor
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
               : 'bg-black text-white hover:bg-gray-800'
           }`}
       >
-        {selectedColor ? added ? "Added" : "Add to Cart" : 'Select Color to Add'}
-      </button> : <button
-        onClick={handleAddToCart}
-        className={`w-full px-6 py-3 rounded-md transition bg-black text-white hover:bg-gray-800`}
-      >
-        {added ? "Added" : "Add to Cart"}
-      </button>}
+        {added ? 'Added' : hasColors && !selectedColor ? 'Select Color to Add' : 'Add to Cart'}
+      </button>
     </div>
   );
 };
