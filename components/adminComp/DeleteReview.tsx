@@ -8,15 +8,11 @@ import { FaTrash } from 'react-icons/fa';
 const DeleteReview = ({id}: {id: string}) => {
 
     const [result, setResult] = useState("")
-    const router = useRouter()
 
     const deleteTest = async () => {
         const res = await axios.delete(`/api/testimonials/${id}`)
         if(res.data.success){
             setResult("Review Deleted Successfully")
-            setTimeout(() => {
-                router.push("/admin-dashboard/testimonials")
-            }, 1000)
         }else{
             setResult("Review Failed to Delete")
         }
