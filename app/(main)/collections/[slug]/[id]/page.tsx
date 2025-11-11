@@ -21,7 +21,7 @@ const Product = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-16">
+    <main className="max-w-7xl mx-auto px-4 py-16 pt-44">
       <section className="flex flex-col lg:flex-row gap-18">
         {/* LEFT: IMAGES */}
         <ImageProduct images={product.images} name={product.name} />

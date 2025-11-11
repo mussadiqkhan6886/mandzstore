@@ -17,7 +17,7 @@ const Header = () => {
   const [showCart, setShowCart] = useState(false)
 
   return (
-    <header className='sticky top-0 w-full bg-white z-50' >
+    <header className='fixed top-0 w-full bg-white z-50' >
       <Swiper
         modules={[Autoplay]}
         autoplay={{ delay: 2500, disableOnInteraction: false }}

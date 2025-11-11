@@ -10,7 +10,7 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
   if (!data) return <div>Collection not found</div>;
 
   return (
-    <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0">
+    <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0 pt-24">
       <HeaderProduct title={data.title} desc={data.desc} />
       <p className="text-sm text-gray-500 mb-6 text-center md:text-left">
         Disclaimer: Colour may slightly differ from the actual picture due to lighting

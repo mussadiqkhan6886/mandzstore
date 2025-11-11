@@ -13,7 +13,7 @@ const Page = () => {
 
   if (cart.length <= 0) {
     return (
-      <main className="h-screen flex items-center justify-center">
+      <main className="h-screen flex items-center pt-24 justify-center">
         <p className="text-4xl sm:text-5xl tracking-wide text-gray-700">
           Your Cart is Empty 🛒
         </p>
@@ -22,7 +22,7 @@ const Page = () => {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 my-16">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 my-16 pt-30">
       {/* 🛍️ Header */}
       <h1
         className={`${cormorant.className} text-3xl sm:text-5xl font-semibold mb-10 text-center tracking-wide`}
