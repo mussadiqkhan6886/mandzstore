@@ -114,6 +114,7 @@ export const sidebarData = [
       { title: "Silk Dupatta", link: "/collections/silk-dupatta" },
       { title: "Four Sided Border Dupatta", link: "/collections/four-sided-border-dupatta" },
       { title: "Fancy Dupatta", link: "/collections/fancy-dupatta" },
+      { title: "View All", link: "/collections/dupatta" },
     ],
   },
 
@@ -124,6 +125,7 @@ export const sidebarData = [
       { title: "Silk Hijab", link: "/collections/silk-hijab" },
       { title: "Lawn Hijab", link: "/collections/lawn-hijab" },
       { title: "Georgette Hijab", link: "/collections/georgette-hijab" },
+      { title: "View All", link: "/collections/hijab" },
     ],
   },
 

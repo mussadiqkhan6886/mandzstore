@@ -31,9 +31,9 @@ const ByCollection = ({ data, header }: { data: Props[]; header: string }) => {
             320: { slidesPerView: 2 },
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
-            1280: { slidesPerView: 4 },
+            // 1280: { slidesPerView: 4 },
           }}
-          className="pb-5"
+          className="pb-5 px-40"
         >
           {data.map((item, i) => (
             <SwiperSlide key={i}>
