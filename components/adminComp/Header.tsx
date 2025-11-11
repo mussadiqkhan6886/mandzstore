@@ -1,6 +1,5 @@
 'use client';
 
-import { instrumental } from '@/fonts/font'
 import axios from 'axios';
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation';
@@ -29,7 +28,7 @@ const Header = () => {
   return (
     <>
         <header className="flex items-center justify-between bg-white px-6 py-4 shadow-sm border-b">
-        <h1 className={`${instrumental.className} text-3xl font-semibold text-main`}>Admin Panel</h1>
+        <h1 className={` text-3xl font-semibold text-main`}>Admin Panel</h1>
         <div className="flex gap-4">
         <Link
           href="/"

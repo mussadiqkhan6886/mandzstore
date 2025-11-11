@@ -1,6 +1,5 @@
 'use client';
 
-import HeaderProduct from '@/components/MainComp/HeaderProduct';
 import { useCart } from '@/hooks/useCart';
 import { cormorant } from '@/lib/fonts';
 import Image from 'next/image';

@@ -1,9 +1,10 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { useRouter } from "next/navigation";
+import { collectionsData } from "@/lib/constants"; // adjust path
 
 const AddProduct = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -12,52 +13,59 @@ const AddProduct = () => {
   const [result, setResult] = useState("");
 
   const [data, setData] = useState({
-    name: "",
+    title: "",           // Collection title
+    mainDescription: "", // Only needed if creating a new category
     slug: "",
-    description: "",
+    name: "",
+    description: "",     // Product description
     price: "",
-    category: "",
+    newPrice: "",        // optional
+    onSale: false,
+    colors: [] as string[],
     images: [] as string[],
-    size: "",
-    ingredients: [] as string[],
-    benefits: [] as string[],
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
-  // Handle normal text fields
+  // Update slug automatically when title changes
+  useEffect(() => {
+    if (data.title) {
+      const slug = data.title.toLowerCase().replace(/\s+/g, "-");
+      setData((prev) => ({ ...prev, slug }));
+    } else {
+      setData((prev) => ({ ...prev, slug: "" }));
+    }
+  }, [data.title]);
+
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setData({ ...data, [name]: checked });
+    } else {
+      setData({ ...data, [name]: value });
+    }
   };
 
-  // Handle ingredients and benefits
-  const handleArrayChange = (index: number, field: "ingredients" | "benefits", value: string) => {
-    const updated = [...data[field]];
+  const handleColorChange = (index: number, value: string) => {
+    const updated = [...data.colors];
     updated[index] = value;
-    setData({ ...data, [field]: updated });
+    setData({ ...data, colors: updated });
   };
 
-  const addArrayItem = (field: "ingredients" | "benefits") => {
-    setData({ ...data, [field]: [...data[field], ""] });
-  };
+  const addColor = () => setData({ ...data, colors: [...data.colors, ""] });
+  const removeColor = (index: number) =>
+    setData({ ...data, colors: data.colors.filter((_, i) => i !== index) });
 
-  const removeArrayItem = (field: "ingredients" | "benefits", index: number) => {
-    const updated = data[field].filter((_, i) => i !== index);
-    setData({ ...data, [field]: updated });
-  };
-
-  // Handle image selection
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const selectedFiles = Array.from(e.target.files);
     setFiles((prev) => [...prev, ...selectedFiles]);
-    const previews = selectedFiles.map((file) => URL.createObjectURL(file));
-    setPreviews((prev) => [...prev, ...previews]);
+    const newPreviews = selectedFiles.map((file) => URL.createObjectURL(file));
+    setPreviews((prev) => [...prev, ...newPreviews]);
   };
 
-  // Submit form
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -65,16 +73,16 @@ const AddProduct = () => {
     try {
       const formData = new FormData();
 
-      // Add text fields
+      // Append all fields
       Object.entries(data).forEach(([key, value]) => {
         if (Array.isArray(value)) {
           value.forEach((item) => formData.append(key, item));
-        } else if (value) {
-          formData.append(key, value as string);
+        } else if (value !== undefined && value !== null) {
+          formData.append(key, value.toString());
         }
       });
 
-      // ✅ Compress and append images
+      // Compress images before upload
       for (const file of files) {
         const compressedFile = await imageCompression(file, {
           maxSizeMB: 1,
@@ -84,30 +92,28 @@ const AddProduct = () => {
         formData.append("images", compressedFile);
       }
 
-
       const res = await axios.post("/api/products", formData);
 
       if (res.status === 201) {
-        setResult("Product added successfully!");
+        setResult("✅ Product added successfully!");
         setData({
-          name: "",
+          title: "",
+          mainDescription: "",
           slug: "",
+          name: "",
           description: "",
           price: "",
-          category: "",
+          newPrice: "",
+          onSale: false,
+          colors: [],
           images: [],
-          size: "",
-          ingredients: [],
-          benefits: [],
         });
         setFiles([]);
         setPreviews([]);
-        setTimeout(() => {
-          router.push("/admin-dashboard/products-list")
-        }, 1500)
+        setTimeout(() => router.push("/admin-dashboard/products-list"), 1500);
       }
     } catch (err) {
-      console.error(" Upload failed:", err);
+      console.error(err);
       setResult("❌ Failed to add product. Try again.");
     } finally {
       setLoading(false);
@@ -115,23 +121,43 @@ const AddProduct = () => {
   };
 
   return (
-    <main className="p-6 flex flex-col justify-center items-center lg:px-20 md:px-17 px-5">
+    <main className="p-6 flex flex-col items-center lg:px-20 md:px-17 px-5">
       <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
 
       <form className="grid gap-4 w-full md:w-[50%]" onSubmit={handleSubmit}>
-        {/* Product name */}
+        {/* Collection Select */}
         <div>
-          <label className="block font-semibold mb-1">Product Name</label>
-          <input
-            name="name"
-            value={data.name}
-            onChange={handleChange}
-            type="text"
-            placeholder="e.g. Herbal oil"
+          <label className="block font-semibold mb-1">Collection Title</label>
+          <select
+            name="title"
+            value={data.title}
+            onChange={(e) => setData({ ...data, title: e.target.value })}
             className="w-full border rounded-lg p-2"
+            required
+          >
+            <option value="">Select Collection</option>
+            {collectionsData.map((col) => (
+              <option key={col.slug} value={col.title}>
+                {col.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Category Description */}
+        <div>
+          <label className="block font-semibold mb-1">Category Description</label>
+          <textarea
+            name="mainDescription"
+            value={data.mainDescription}
+            onChange={handleChange}
+            className="w-full border rounded-lg p-2"
+            rows={3}
+            placeholder="Enter description for the category..."
             required
           />
         </div>
+
 
         {/* Slug */}
         <div>
@@ -139,9 +165,19 @@ const AddProduct = () => {
           <input
             name="slug"
             value={data.slug}
+            readOnly
+            className="w-full border rounded-lg p-2 bg-gray-100"
+          />
+        </div>
+
+        {/* Product Name */}
+        <div>
+          <label className="block font-semibold mb-1">Product Name</label>
+          <input
+            name="name"
+            value={data.name}
             onChange={handleChange}
             type="text"
-            placeholder="e.g. herbal-oil"
             className="w-full border rounded-lg p-2"
             required
           />
@@ -154,26 +190,10 @@ const AddProduct = () => {
             name="description"
             value={data.description}
             onChange={handleChange}
-            placeholder="Write product details..."
             className="w-full border rounded-lg p-2"
             rows={4}
             required
           />
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="block font-semibold mb-1">Category</label>
-          <select
-            name="category"
-            onChange={handleChange}
-            value={data.category}
-            className="w-full border rounded-lg p-2"
-          >
-            <option value="">Select category</option>
-            <option value="hair treatment">Hair Treatment</option>
-            <option value="hair oil">Hair Oil</option>
-          </select>
         </div>
 
         {/* Price */}
@@ -181,89 +201,58 @@ const AddProduct = () => {
           <label className="block font-semibold mb-1">Price</label>
           <input
             name="price"
+            type="number"
             value={data.price}
             onChange={handleChange}
-            type="number"
-            placeholder="e.g. 1200"
             className="w-full border rounded-lg p-2"
             required
           />
         </div>
 
-        {/* Size */}
-        <div>
-          <label className="block font-semibold mb-1">Size</label>
+        {/* On Sale */}
+        <div className="flex items-center gap-2">
           <input
-            name="size"
-            value={data.size}
+            type="checkbox"
+            name="onSale"
+            checked={data.onSale}
             onChange={handleChange}
-            type="text"
-            placeholder="e.g. 200ml"
-            className="w-full border rounded-lg p-2"
           />
+          <label className="font-semibold">On Sale</label>
         </div>
 
-        {/* Ingredients */}
+        {data.onSale && (
+          <div>
+            <label className="block font-semibold mb-1">New Price</label>
+            <input
+              name="newPrice"
+              type="number"
+              value={data.newPrice}
+              onChange={handleChange}
+              className="w-full border rounded-lg p-2"
+              required
+            />
+          </div>
+        )}
+
+        {/* Colors */}
         <div>
-          <label className="block font-semibold mb-2">Ingredients</label>
-          {data.ingredients.map((ingredient, i) => (
+          <label className="block font-semibold mb-2">Colors</label>
+          {data.colors.map((clr, i) => (
             <div key={i} className="flex items-center gap-2 mb-2">
               <input
                 type="text"
-                value={ingredient}
-                onChange={(e) =>
-                  handleArrayChange(i, "ingredients", e.target.value)
-                }
+                value={clr}
+                onChange={(e) => handleColorChange(i, e.target.value)}
                 className="w-full border rounded-lg p-2"
-                placeholder={`Ingredient ${i + 1}`}
+                placeholder={`Color ${i + 1}`}
               />
-              <button
-                type="button"
-                onClick={() => removeArrayItem("ingredients", i)}
-                className="text-red-500"
-              >
+              <button type="button" onClick={() => removeColor(i)} className="text-red-500">
                 ✕
               </button>
             </div>
           ))}
-          <button
-            type="button"
-            onClick={() => addArrayItem("ingredients")}
-            className="text-sm text-blue-600 mt-1"
-          >
-            + Add Ingredient
-          </button>
-        </div>
-
-        {/* Benefits */}
-        <div>
-          <label className="block font-semibold mb-2">Benefits</label>
-          {data.benefits.map((benefit, i) => (
-            <div key={i} className="flex items-center gap-2 mb-2">
-              <input
-                type="text"
-                value={benefit}
-                onChange={(e) =>
-                  handleArrayChange(i, "benefits", e.target.value)
-                }
-                className="w-full border rounded-lg p-2"
-                placeholder={`Benefit ${i + 1}`}
-              />
-              <button
-                type="button"
-                onClick={() => removeArrayItem("benefits", i)}
-                className="text-red-500"
-              >
-                ✕
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={() => addArrayItem("benefits")}
-            className="text-sm text-blue-600 mt-1"
-          >
-            + Add Benefit
+          <button type="button" onClick={addColor} className="text-sm text-blue-600">
+            + Add Color
           </button>
         </div>
 
