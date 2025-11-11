@@ -1,7 +1,7 @@
-import { connectDB } from "@/lib/config/database"
-import Product from "@/lib/model/ProductSchema"
 import { NextRequest, NextResponse } from "next/server"
 import cloudinary from "@/lib/config/cloudinary"
+import { Category } from "@/lib/models/ProductSchema"
+import { connectDB } from "@/lib/config/database/db"
 
 export const GET = async (_req: NextRequest, {params}: {params: Promise<{id: string}>}) => {
     await connectDB()
@@ -122,20 +122,27 @@ export const PATCH = async (
 
 
 
-export const DELETE = async (_req: NextRequest, {params}: {params: Promise<{id: string}>}) => {
-    await connectDB();
-    const  id  = (await params).id;
-   try {
+export const DELETE = async (_req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
+  await connectDB();
+  const id = (await params).id;
 
-    const product = await Product.findByIdAndDelete(id);
+  try {
+    // Find the category containing the product
+    const category = await Category.findOne({ "products._id": id });
 
-    if (!product) {
+    if (!category) {
       return NextResponse.json({ message: "Product not found" }, { status: 404 });
     }
+
+    // Remove the product from the products array
+    category.products = category.products.filter((prod) => prod._id.toString() !== id);
+
+    // Save the updated category
+    await category.save();
 
     return NextResponse.json({ message: "Product deleted successfully" }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Failed to delete product" }, { status: 500 });
   }
-}
+};
