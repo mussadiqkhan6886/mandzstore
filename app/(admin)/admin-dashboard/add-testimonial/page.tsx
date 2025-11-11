@@ -83,7 +83,7 @@ const AddTestimonialPage = () => {
 
         <button
           type="submit"
-          className="w-full bg-main text-white py-2 rounded-lg hover:bg-main/90 transition"
+          className="w-full bg-black text-white py-2 rounded-lg hover:bg-main/90 transition"
         >
           Submit Testimonial
         </button>

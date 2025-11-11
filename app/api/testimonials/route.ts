@@ -1,6 +1,6 @@
-import { connectDB } from "@/lib/config/database";
 import { NextResponse } from "next/server";
-import Testimonial from "@/lib/model/Testimonials";
+import { connectDB } from "@/lib/config/database/db";
+import Testimonial from "@/lib/models/Testimonials";
 
 export const POST = async (req: Request) => {
   try {

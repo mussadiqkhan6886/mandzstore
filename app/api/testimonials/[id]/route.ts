@@ -1,5 +1,5 @@
-import { connectDB } from "@/lib/config/database";
-import Testimonial from "@/lib/model/Testimonials";
+import { connectDB } from "@/lib/config/database/db";
+import Testimonial from "@/lib/models/Testimonials";
 import { NextRequest, NextResponse } from "next/server";
 
 export const DELETE = async (_req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {

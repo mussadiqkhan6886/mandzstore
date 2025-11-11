@@ -1,4 +1,4 @@
-// import TestimonialsList from "@/components/adminComp/Testimonials";
+import TestimonialsList from "@/components/adminComp/Testimonials";
 import React from "react";
 
 export default async function TestimonialsPage() {
@@ -13,7 +13,7 @@ export default async function TestimonialsPage() {
     const data = await res.json();
     const testimonials = data.testimonials;
 
-    // return <TestimonialsList testimonials={testimonials} />
+    return <TestimonialsList testimonials={testimonials} />
   } catch (error) {
     console.error("Error fetching testimonials:", error);
     return (

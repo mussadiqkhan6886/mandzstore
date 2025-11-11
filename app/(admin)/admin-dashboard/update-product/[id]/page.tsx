@@ -282,7 +282,7 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
                   <button
                     type="button"
                     onClick={() => handleDeleteExistingImage(url)}
-                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full px-2 py-[2px] text-xs"
+                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full px-2 py-0.5 text-xs"
                   >
                     ✕
                   </button>
