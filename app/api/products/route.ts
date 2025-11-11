@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import cloudinary from "@/lib/config/cloudinary";
 import { connectDB } from "@/lib/config/database/db";
-import { Category } from "@/lib/models/ProductSchema";
+import { Product } from "@/lib/models/ProductSchema";
 
 export const runtime = "nodejs"; // Required for Cloudinary uploads
 
 export const GET = async () => {
   await connectDB();
   try {
-    const res = await Category.find({});
+    const res = await Product.find({});
     return NextResponse.json({ message: "Fetched Data", data: res }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Failed to fetch data", error }, { status: 400 });
@@ -21,21 +21,31 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
 
-    const title = formData.get("title") as string;
-    const mainDescription = formData.get("mainDescription") as string;
-    const name = formData.get("name") as string;
-    const slug = formData.get("slug") as string;
-    const description = formData.get("description") as string;
+    const collection = formData.get("collection")?.toString() || "";
+    const name = formData.get("name")?.toString() || "";
+    const slug = formData.get("slug")?.toString() || "";
+    const description = formData.get("description")?.toString() || "";
     const price = Number(formData.get("price"));
     const newPrice = Number(formData.get("newPrice")) || null;
-    const onSale = formData.get("onSale") === "true"; // formData returns string
-    const colors = formData.getAll("colors") as string[];
+    const onSale = formData.get("onSale") === "true";
+    const colors = formData.getAll("colors").map((c) => c.toString());
+    const files = formData.getAll("images");
 
-    const files = formData.getAll("images") as File[];
+    if (!collection || !name || !description || !price) {
+      throw new Error("Missing required fields");
+    }
+
+    if (!files || files.length === 0) {
+      throw new Error("No images uploaded");
+    }
 
     const uploadedImages: string[] = [];
 
     for (const file of files) {
+      if (!(file instanceof File)) {
+        throw new Error("Invalid file format");
+      }
+
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
@@ -57,18 +67,9 @@ export async function POST(req: NextRequest) {
       uploadedImages.push(uploadResult.secure_url);
     }
 
-    // Check if category exists
-    let category = await Category.findOne({ title });
-
-    // Generate product ID
-    let newId = 1;
-    if (category && category.products.length > 0) {
-      const maxId = Math.max(...category.products.map((p) => p.id));
-      newId = maxId + 1;
-    }
-
-    const newProduct = {
-      id: newId,
+    const newProduct = new Product({
+      collection,
+      slug,
       name,
       description,
       price,
@@ -76,32 +77,20 @@ export async function POST(req: NextRequest) {
       onSale,
       colors,
       images: uploadedImages,
-    };
+    });
 
-    if (category) {
-      // Add product to existing category
-      category.products.push(newProduct);
-      await category.save();
-    } else {
-      // Create new category
-      category = new Category({
-        title,
-        slug,
-        mainDescription,
-        products: [newProduct],
-      });
-      await category.save();
-    }
+    await newProduct.save();
 
     return NextResponse.json(
-      { success: true, message: "Product added successfully!", data: category },
+      { success: true, message: "Product added successfully!", data: newProduct },
       { status: 201 }
     );
   } catch (error: any) {
-    console.error("Upload error:", error);
+    console.error("❌ Upload error:", error);
     return NextResponse.json(
       { success: false, message: error.message || "Upload failed" },
       { status: 500 }
     );
   }
 }
+

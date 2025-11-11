@@ -22,6 +22,7 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
     onSale: false,
     colors: [] as string[],
     images: [] as string[],
+    slug: ""
   });
 
   const router = useRouter();
@@ -42,6 +43,7 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
           onSale: product.onSale || false,
           colors: product.colors || [],
           images: product.images || [],
+          slug: product.slug || ""
         });
 
         setExistingImages(product.images || []);
@@ -52,13 +54,13 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
     fetchProduct();
   }, []);
 
-  // // 🔹 Update slug automatically when title changes
-  // useEffect(() => {
-  //   if (data.title) {
-  //     const slug = data.title.toLowerCase().replace(/\s+/g, "-");
-  //     setData((prev) => ({ ...prev, slug }));
-  //   }
-  // }, [data.title]);
+  // 🔹 Update slug automatically when title changes
+  useEffect(() => {
+    if (data.name) {
+      const slug = data.name.toLowerCase().replace(/\s+/g, "-");
+      setData((prev) => ({ ...prev, slug }));
+    }
+  }, [data.name]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -173,18 +175,6 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
             rows={3}
           />
         </div> */}
-
-        {/* Slug */}
-        {/* <div>
-          <label className="block font-semibold mb-1">Slug</label>
-          <input
-            name="slug"
-            value={data.slug}
-            readOnly
-            className="w-full border rounded-lg p-2 bg-gray-100"
-          />
-        </div> */}
-
         {/* Product Name */}
         <div>
           <label className="block font-semibold mb-1">Product Name</label>
@@ -195,6 +185,16 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
             type="text"
             className="w-full border rounded-lg p-2"
             required
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Slug</label>
+          <input
+            name="slug"
+            value={data.slug}
+            readOnly
+            className="w-full border rounded-lg p-2 bg-gray-100"
           />
         </div>
 

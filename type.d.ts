@@ -1,5 +1,5 @@
 interface Product {
-  id: number;
+  collection: string,
   name: string;
   description: string;
   price: number;
@@ -7,14 +7,7 @@ interface Product {
   onSale: boolean;
   images: string[];
   colors: string[];
+  slug: string;
   _id?: string; // MongoDB document ID
 }
 
-interface Category {
-  _id?: string; // MongoDB document ID
-  title: string;
-  slug: string;
-  mainDescription: string;
-  products: Product[];
-  __v?: number; // version key added by Mongoose
-}

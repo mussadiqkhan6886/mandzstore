@@ -9,21 +9,10 @@ import axios from 'axios';
 import Link from 'next/link';
 
 interface ProductTableProps {
-  products: Category[]; // categories with products
+  products: Product[]; // categories with products
 }
 
 export default function ProductTable({ products }: ProductTableProps) {
-
-  // Flatten all products across categories
-  const flattenedProducts = products.flatMap(category =>
-  category.products.map(prod => ({
-    ...prod.toObject?.() || prod, // ensure Mongoose subdoc becomes plain object
-    categoryTitle: category.title,
-    categorySlug: category.slug,
-    categoryId: category._id,
-    rowId: prod._id // unique row ID for DataGrid
-  }))
-);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
@@ -76,13 +65,13 @@ export default function ProductTable({ products }: ProductTableProps) {
     {
       field: 'colors',
       headerName: 'Colors',
-      width: 280,
+      width: 320,
       renderCell: (params) => params.row.colors.join(", "),
     },
     {
-      field: 'categoryTitle',
+      field: 'collection',
       headerName: 'Category',
-      width: 150,
+      width: 220,
     },
     {
       field: 'actions',
@@ -105,13 +94,13 @@ export default function ProductTable({ products }: ProductTableProps) {
   return (
     <Box sx={{ height: 600, width: '100%', p: 2, borderRadius: 2 }}>
       <DataGrid
-        rows={flattenedProducts}
+        rows={products}
         columns={columns}
-        getRowId={(row) => row.rowId} // <-- use the product _id, not category _id
+        getRowId={(row) => row._id} 
         initialState={{
-          pagination: { paginationModel: { pageSize: 5 } },
+          pagination: { paginationModel: { pageSize: 10 } },
         }}
-        pageSizeOptions={[5, 10, 20]}
+        pageSizeOptions={[10, 10, 20]}
         showToolbar
         disableRowSelectionOnClick
       />

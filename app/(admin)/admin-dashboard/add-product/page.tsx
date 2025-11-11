@@ -1,4 +1,5 @@
 "use client";
+
 import React, { ChangeEvent, useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
@@ -13,8 +14,7 @@ const AddProduct = () => {
   const [result, setResult] = useState("");
 
   const [data, setData] = useState({
-    title: "",           // Collection title
-    mainDescription: "", // Only needed if creating a new category
+    collection: "",
     slug: "",
     name: "",
     description: "",     // Product description
@@ -27,15 +27,14 @@ const AddProduct = () => {
 
   const router = useRouter();
 
-  // Update slug automatically when title changes
   useEffect(() => {
-    if (data.title) {
-      const slug = data.title.toLowerCase().replace(/\s+/g, "-");
+    if (data.name) {
+      const slug = data.name.toLowerCase().replace(/\s+/g, "-");
       setData((prev) => ({ ...prev, slug }));
     } else {
       setData((prev) => ({ ...prev, slug: "" }));
     }
-  }, [data.title]);
+  }, [data.name]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -97,8 +96,7 @@ const AddProduct = () => {
       if (res.status === 201) {
         setResult("✅ Product added successfully!");
         setData({
-          title: "",
-          mainDescription: "",
+          collection: "",
           slug: "",
           name: "",
           description: "",
@@ -110,7 +108,7 @@ const AddProduct = () => {
         });
         setFiles([]);
         setPreviews([]);
-        setTimeout(() => router.push("/admin-dashboard/products-list"), 1500);
+        // setTimeout(() => router.push("/admin-dashboard/products-list"), 1500);
       }
     } catch (err) {
       console.error(err);
@@ -129,9 +127,9 @@ const AddProduct = () => {
         <div>
           <label className="block font-semibold mb-1">Collection Title</label>
           <select
-            name="title"
-            value={data.title}
-            onChange={(e) => setData({ ...data, title: e.target.value })}
+            name="collection"
+            value={data.collection}
+            onChange={(e) => setData({ ...data, collection: e.target.value })}
             className="w-full border rounded-lg p-2"
             required
           >
@@ -144,30 +142,6 @@ const AddProduct = () => {
           </select>
         </div>
 
-        {/* Category Description */}
-        <div>
-          <label className="block font-semibold mb-1">Category Description</label>
-          <textarea
-            name="mainDescription"
-            value={data.mainDescription}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-            rows={3}
-            placeholder="Enter description for the category..."
-          />  
-        </div>
-
-
-        {/* Slug */}
-        <div>
-          <label className="block font-semibold mb-1">Slug</label>
-          <input
-            name="slug"
-            value={data.slug}
-            readOnly
-            className="w-full border rounded-lg p-2 bg-gray-100"
-          />
-        </div>
 
         {/* Product Name */}
         <div>
@@ -179,6 +153,16 @@ const AddProduct = () => {
             type="text"
             className="w-full border rounded-lg p-2"
             required
+          />
+        </div>
+        {/* Slug */}
+        <div>
+          <label className="block font-semibold mb-1">Slug</label>
+          <input
+            name="slug"
+            value={data.slug}
+            readOnly
+            className="w-full border rounded-lg p-2 bg-gray-100"
           />
         </div>
 
