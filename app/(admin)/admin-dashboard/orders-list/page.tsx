@@ -12,6 +12,7 @@ export default async function OrdersPage() {
     }
 
     const data = await res.json();
+    console.log(data)
     const orders = data.orders;
 
     return <OrderTable orders={orders} />;

@@ -1,6 +1,6 @@
+import { connectDB } from "@/lib/config/database/db";
 import cloudinary from "@/lib/config/cloudinary";
-import { connectDB } from "@/lib/config/database";
-import order from "@/lib/model/OrderSchema";
+import order from "@/lib/models/OrderSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
