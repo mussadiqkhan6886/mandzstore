@@ -17,7 +17,7 @@ const Footer = () => {
   return (
     <footer className='flex gap-3 flex-col bg-black p-7 lg:p-10 text-white'>
       <div className='flex flex-col md:flex-row gap-15 lg:gap-[200px]'>
-        <div className='flex gap-10 md:w-[50%]'>
+        <div className='flex flex-col md:flex-row gap-2 sm:gap-10 md:w-[50%]'>
         <div className='pr-10 md:pr-20'>
             <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>Mission Statement</p>
             <p className='text-[12px]'>At M&Z, we craft timeless, high-quality scarves designed with a deep respect for style, comfort, and sustainability. Our mission is to celebrate self-expression through ethical craftsmanship and intentional design.</p>
@@ -28,7 +28,7 @@ const Footer = () => {
                 If you encounter any difficulties using our site or have suggestions for improvement, please reach out to us at: maaz52364@gmail.com</p>
         </div>
         <div>
-            <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>help</p>
+            <p className={`${cormorant.className} uppercase mr-4 mb-4 text-sm mt-10 md:mt-0 tracking-widest`}>help</p>
             <ul>
                 {helpData.map((item, i) => (
                     <li className='mb-1' key={i}>
@@ -38,7 +38,7 @@ const Footer = () => {
             </ul>
         </div>
         </div>
-        <div className='flex gap-16 text-sm'>
+        <div className='flex gap-10 md:gap-16 text-sm'>
             <div className='w-[70%]'>
                 <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>contact us</p>
                 <div>
