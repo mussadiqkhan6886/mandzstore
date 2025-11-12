@@ -14,6 +14,7 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
   if (slug === "dupatta" || slug === "hijab") {
     data = {
       title: slug.charAt(0).toUpperCase() + slug.slice(1),
+      slug,
       desc: `Explore our full collection of ${slug}s.`,
     };
   }
