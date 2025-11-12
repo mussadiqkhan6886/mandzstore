@@ -1,8 +1,8 @@
-import { connectDB } from "@/lib/config/database";
-import Admin from "@/lib/model/AdminSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken"
+import { connectDB } from "@/lib/config/database/db";
+import Admin from "@/lib/models/AdminSchema";
 
 export const POST = async (req: NextRequest) => {
   await connectDB()
