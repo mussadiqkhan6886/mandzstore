@@ -6,20 +6,19 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 type Props = {
-    id: number
+  _id: string
   name: string;
   images: string[];
   price: number;
   slug: string
-  newPrice: number
+  newPrice: number | null
   onSale: boolean
   oldSlug: string
 };
 
-const ProductCard = ({id, name, images, price, slug, newPrice, onSale, oldSlug }: Props) => {
+const ProductCard = ({_id, name, images, price, slug, newPrice, onSale, oldSlug }: Props) => {
   const [currentImage, setCurrentImage] = useState(images[0]);
   // const [hover, setHover] = useState(false);
-console.log(oldSlug)
   return (
     <div  
       onMouseEnter={() => {
@@ -35,7 +34,7 @@ console.log(oldSlug)
       <Link href={`${oldSlug}/${slug}`}>
       <div className="overflow-hidden">
         <Image
-          src={currentImage || null}
+          src={currentImage}
           alt={name}
           width={400}
           height={420}
@@ -46,7 +45,7 @@ console.log(oldSlug)
       {/* Info */}
       <div className="text-center mt-3">
         <h3 className="tracking-widest uppercase text-sm mb-1">{name}</h3>
-        <h4 className="text-gray-700">{onSale ? <span><span className='line-through text-sm opacity-85'>Rs. {price}</span> <span className='font-medium text-[17px]'>Rs. {newPrice}</span>  <span className='text-red-500 inline-block ml-4'>Save Rs. {price - newPrice}</span></span> : "Rs." + price }</h4>
+        <h4 className="text-gray-700">{onSale ? <span><span className='line-through text-sm opacity-85'>Rs. {price}</span> <span className='font-medium text-[17px]'>Rs. {newPrice}</span>  <span className='text-red-500 inline-block ml-4'>Save Rs. {price - newPrice!}</span></span> : "Rs." + price }</h4>
       </div>
       </Link>
       {/* Add to Cart Button

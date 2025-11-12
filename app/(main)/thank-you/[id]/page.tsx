@@ -6,12 +6,13 @@ import order from "@/lib/models/OrderSchema";
 
 interface ItemType {
   _id: number
-  image: string
+  images: string
   name: string
   quantity: number
   price: number
   newPrice: number
   selectedColor: string
+  onSale: boolean
 }
 
 const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => {

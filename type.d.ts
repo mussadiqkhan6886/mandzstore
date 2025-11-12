@@ -8,6 +8,12 @@ interface Product {
   images: string[];
   colors: string[];
   slug: string;
-  _id?: string; // MongoDB document ID
+  _id: string; // MongoDB document ID
 }
 
+interface reviewType {
+  _id: string
+  designation: string
+  name: string
+  message: string
+}

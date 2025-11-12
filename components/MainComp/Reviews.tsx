@@ -10,13 +10,12 @@ import axios from 'axios';
 
 export default function Reviews() {
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState<reviewType[]>([])
 
   
   const fetchData = async () => {
     try {
       const res = await axios.get("/api/testimonials");
-      console.log(res)
       setData(res.data.testimonials); // ✅ use fetched data
     } catch (err) {
       console.error("Failed to fetch reviews:", err);

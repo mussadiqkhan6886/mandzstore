@@ -26,7 +26,7 @@ const Footer = () => {
                 <span className='font-semibold'> Accessibility Statement</span>
                 <br />
                 Kef is dedicated to creating a website experience that is accessible and inclusive for everyone.
-                If you encounter any difficulties using our site or have suggestions for improvement, please reach out to us at: hello@kefuk.com</p>
+                If you encounter any difficulties using our site or have suggestions for improvement, please reach out to us at: maaz52364@gmail.com</p>
         </div>
         <div>
             <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>help</p>
@@ -45,15 +45,16 @@ const Footer = () => {
                 <div>
                     <p className='mb-4'><span className='font-semibold'>Address: </span> Building 1C, 1st Sunset Commercial Street, Phase 4, Defence, Karachi.</p>
                     <p className='mb-4'><span className='font-semibold'>Phone:</span> 0316-2222064</p>
-                    <p><span className='font-semibold'>Email:</span> info@kefpk.com</p>
+                    <p><span className='font-semibold'>Email:</span> maaz52364@gmail.com</p>
                 </div>
             </div>
             <div>
                 <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>Social</p>
                 <div className='flex gap-3'>
+                    <Link href={"https://www.instagram.com/mzstore_14?igsh=ZjlicTd1ZDhkcHFq"}>
                     <FiInstagram className='text-2xl' />
-                    <FiFacebook className='text-2xl' />
-                    <FiYoutube className='text-2xl' />
+                    </Link>
+                    <Link href={"https://www.facebook.com/share/16Qyi1SMMJ/"}><FiFacebook className='text-2xl' /></Link>
                 </div>
             </div>
         </div>
