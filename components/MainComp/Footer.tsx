@@ -44,7 +44,7 @@ const Footer = () => {
                 <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>contact us</p>
                 <div>
                     <p className='mb-4'><span className='font-semibold'>Address: </span> Building 1C, 1st Sunset Commercial Street, Phase 4, Defence, Karachi.</p>
-                    <p className='mb-4'><span className='font-semibold'>Phone:</span> 0316-2222064</p>
+                    <p className='mb-4'><span className='font-semibold'>Phone:</span> +923154955421</p>
                     <p><span className='font-semibold'>Email:</span> maaz52364@gmail.com</p>
                 </div>
             </div>
