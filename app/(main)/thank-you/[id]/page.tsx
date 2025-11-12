@@ -18,26 +18,24 @@ interface ItemType {
 const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 
-
   await connectDB()
     const res = await order.findOne({ _id: id });
     const data = JSON.parse(JSON.stringify(res))
-    console.log(data)
   return (
     <main className="flex flex-col pt-24 justify-center items-center min-h-screen bg-gray-50 px-5">
       <div className="bg-white shadow-md rounded-lg p-10 text-center max-w-2xl w-full">
         <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-6" />
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        <h1 className="text-xl md:text-3xl font-bold text-gray-800 mb-4">
           Thank You for Your Order!
         </h1>
-        <p className="text-gray-600 mb-4">
+        <p className="text-sm md:text-base text-gray-600 mb-4">
           Your order has been placed successfully. We’ll contact you shortly to
           confirm your details.
         </p>
 
         {/* ✅ Order Summary */}
-        <div className="text-left border-t border-gray-200 pt-4">
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">
+        <div className="text-left text-sm border-t border-gray-200 pt-4">
+          <h2 className="text-base md:text-xl font-semibold text-gray-800 mb-3">
             Order Summary
           </h2>
 

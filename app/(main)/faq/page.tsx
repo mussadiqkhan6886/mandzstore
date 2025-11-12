@@ -45,7 +45,7 @@ export default function Faq() {
         {faqData.map((item, index) => (
           <div key={index} className="border rounded-md p-3">
             <button
-              className="w-full text-left flex justify-between items-center font-medium"
+              className="w-full text-left flex justify-between text-sm md:text-base items-center font-medium"
               onClick={() => toggleFaq(index)}
             >
               {item.question}
