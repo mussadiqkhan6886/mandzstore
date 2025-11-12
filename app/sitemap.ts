@@ -35,12 +35,6 @@ export default async function sitemap() {
       changeFrequency: "monthly",
       priority: 0.5,
     },
-    {
-      url: `${baseUrl}/contact-us`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
     // Add each collection dynamically
     ...collections.map((collection) => ({
       url: `${baseUrl}/collections/${collection

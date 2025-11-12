@@ -5,7 +5,6 @@ import { FiFacebook, FiInstagram, FiYoutube } from 'react-icons/fi'
 
 
 const helpData = [
-    {title: "Contact Us", link: "/contact-us"},
     {title: "F.A.Qs", link: "/faq"},
     {title: "Colour Disclaimer", link: "/color-disclaimer"},
     {title: "Privacy Policy", link: "/privacy-policy"},
