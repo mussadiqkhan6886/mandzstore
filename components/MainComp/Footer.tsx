@@ -5,13 +5,13 @@ import { FiFacebook, FiInstagram, FiYoutube } from 'react-icons/fi'
 
 
 const helpData = [
-    {title: "Contact Us", link: "#"},
-    {title: "F.A.Qs", link: "#"},
-    {title: "Colour Disclaimer", link: "#"},
-    {title: "Privacy Policy", link: "#"},
-    {title: "Shipping Policy", link: "#"},
-    {title: "Terms of Servic", link: "#"},
-    {title: "Refund Policy", link: "#"},
+    {title: "Contact Us", link: "/contact-us"},
+    {title: "F.A.Qs", link: "/faq"},
+    {title: "Colour Disclaimer", link: "/color-disclaimer"},
+    {title: "Privacy Policy", link: "/privacy-policy"},
+    {title: "Shipping Policy", link: "/shipping-policy"},
+    {title: "Terms of Service", link: "/terms"},
+    {title: "Refund Policy", link: "/refund-policy"},
 ]
 
 const Footer = () => {

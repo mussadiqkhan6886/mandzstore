@@ -1,0 +1,18 @@
+# robots.txt for MZ Store
+# Last updated: 2025-11-12
+# Website: https://mzstore.com
+
+User-agent: *
+Allow: /
+
+# Disallow sensitive or duplicate pages
+Disallow: /admin-dashboard/
+Disallow: /api/
+Disallow: /checkout/
+Disallow: /cart/
+
+# Allow static assets
+Allow: /collections/
+
+# Sitemap (important for Google indexing)
+Sitemap: https://mzstore.com/sitemap.xml
