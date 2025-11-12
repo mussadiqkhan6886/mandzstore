@@ -9,6 +9,7 @@ export const POST = async (req: NextRequest) => {
   try {
     const { email, password } = await req.json()
 
+
     const findUser = await Admin.findOne({ email })
     if (!findUser) {
       return NextResponse.json({ message: "User does not exist" }, { status: 400 })
