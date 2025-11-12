@@ -1,7 +1,5 @@
 import ImageProduct from '@/components/MainComp/ImageProduct';
 import { cormorant } from '@/lib/fonts';
-import ProductCard from '@/components/MainComp/ProductCard';
-import Colors from '@/components/MainComp/Colors';
 import CollapseDetails from '@/components/MainComp/CollapseDetails';
 import AddToCartButton from '@/components/MainComp/AddToCartButton';
 import { Product } from '@/lib/models/ProductSchema';
