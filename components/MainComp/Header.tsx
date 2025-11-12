@@ -11,6 +11,7 @@ import SideBar from './SideBar';
 import CartSection from './CartSection';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Header = () => {
 
@@ -32,7 +33,7 @@ const Header = () => {
     return (
     <header className='bg-white py-4 border-b border-black/40'>
       <Link href={"/"}>
-        <h1 className='text-center text-3xl font-semibold'>M&Z Store</h1>
+        <Image src={"/logo.jpeg"} alt='logo header main' width={100} height={100}/>
       </Link>
     </header>
     )
