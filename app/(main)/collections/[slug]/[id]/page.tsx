@@ -5,13 +5,23 @@ import Colors from '@/components/MainComp/Colors';
 import CollapseDetails from '@/components/MainComp/CollapseDetails';
 import AddToCartButton from '@/components/MainComp/AddToCartButton';
 import { Product } from '@/lib/models/ProductSchema';
+import { connectDB } from '@/lib/config/database/db';
+import SortWrapper from '@/components/MainComp/Sorting';
+import HeaderProduct from '@/components/MainComp/HeaderProduct';
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
+  await connectDB();
 
   const res = await Product.findOne({slug: id}).lean()
 
   const product = JSON.parse(JSON.stringify(res))
+
+  const response = await Product.find({
+      collection: { $regex: new RegExp(`^${product.collection}$`, 'i') },
+    }).limit(3).lean();
+
+    const products = JSON.parse(JSON.stringify(response));
 
   if (!product) {
     return <div className="text-center py-20">Product not found</div>;
@@ -40,9 +50,14 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div> */}
          
           <CollapseDetails desc={product.description} />
-          
         </div>
       </section>
+           <div className='pt-16'>
+            <HeaderProduct title='May you like' desc="May You like these awesome related products" />
+            <div>
+              <SortWrapper key={products.slug} products={products} slug={products.slug} />
+            </div>
+          </div>
     </main>
   );
 };
