@@ -19,6 +19,16 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
     };
   }
 
+  if (!data) {
+  return (
+    <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0 pt-24">
+      <p className="text-center text-gray-500 my-10">
+        Collection not found.
+      </p>
+    </main>
+  );
+}
+
   const updatedSlug = slug
     .split("-")
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
