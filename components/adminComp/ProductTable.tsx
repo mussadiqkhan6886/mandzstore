@@ -20,7 +20,6 @@ export default function ProductTable({ products }: ProductTableProps) {
       const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`);
       if (res.status === 200) {
         alert("Product deleted successfully!");
-        window.location.reload();
       }
     } catch (err) {
       console.error(err);

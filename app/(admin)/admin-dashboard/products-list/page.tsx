@@ -1,31 +1,33 @@
+'use client';
+
 import ProductTable from "@/components/adminComp/ProductTable";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default async function AdminProductsPage() {
-  try {
-    // Call your API route
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`, {
-      next:{revalidate: 10}, // ensures fresh data every time
-    });
+export default function AdminProductsPage() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch products");
-    }
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`);
+        setProducts(res.data.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
 
-    const data = await res.json();
-    const products = data.data; // your GET route returns { message, data }
-    console.log(products)
-    return (
-      <div className="p-5">
-        <h1 className="text-2xl text-center font-semibold mb-4">Product List</h1>
-        <ProductTable products={products} />
-      </div>
-    );
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return (
-      <div className="text-center py-10">
-        Failed to load products.
-      </div>
-    );
-  }
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+
+  return (
+    <div className="p-5">
+      <h1 className="text-2xl text-center font-semibold mb-4">Product List</h1>
+      <ProductTable products={products} />
+    </div>
+  );
 }
