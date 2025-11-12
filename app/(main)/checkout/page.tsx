@@ -52,7 +52,7 @@ const Checkout = () => {
         newPrice: item.newPrice,
         quantity: item.quantity,
         images: item.images[0],
-        selectedColor: item.selectedColor,
+        selectedColor: item.selectedColor || "",
       })),
       totalPrice: totalAmount + 300,
       userDetails: {
@@ -81,6 +81,7 @@ const Checkout = () => {
       //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/order`,
       //   formDataToSend,{ headers: { "Content-Type": "multipart/form-data" } }
       // );
+      console.log(data)
       const res = await axios.post("/api/order", data);
 
       setStatus("Order placed successfully!");
@@ -236,7 +237,7 @@ const Checkout = () => {
                       <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                     </div>
                   </div>
-                  <p className="font-medium">{item.newPrice * item.quantity} PKR</p>
+                  <p className="font-medium">{item.onSale ? item.newPrice * item.quantity : item.price * item.quantity} PKR</p>
                 </div>
               ))}
 

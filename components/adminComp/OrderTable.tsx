@@ -12,9 +12,10 @@ import Link from "next/link";
 interface Order {
   _id: string;
   items: {
-    image: string;
+    images: string;
     name: string;
     quantity: number;
+    selectedColor: string
   }[];
   orderId: string;
   userDetails: {
@@ -41,10 +42,11 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
       orderId: order.orderId,
       userName: order.userDetails.fullName,
       email: order.userDetails.email,
+      phone: order.userDetails.phone,
       totalPrice: order.totalPrice,
       status: order.status,
-      paymentMethod: order.paymentMethod,
-      paymentProof: order.paymentProof || [],
+      // paymentMethod: order.paymentMethod,
+      // paymentProof: order.paymentProof || [],
       date: new Date(order.createdAt).toLocaleDateString(),
       address: order.shippingAddress.address,
       items: order.items,
@@ -74,20 +76,20 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
     {
       field: "items",
       headerName: "Items",
-      width: 200,
+      width: 600,
       renderCell: (params) => (
-        <div className="flex flex-col">
+        <div className="flex gap-2">
            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {params.value.map((item: any, i: number) => (
             <div key={i} className="flex items-center gap-2 mb-1">
               <Image
-                src={item.image}
+                src={item.images}
                 alt={item.name}
                 width={40}
                 height={40}
                 className="rounded-md object-cover border"
               />
-              <span className="text-sm">{item.name} × {item.quantity}</span>
+              <span className="text-sm">{item.name} × {item.quantity} - ({item.selectedColor})</span>
             </div>
           ))}
         </div>
@@ -95,7 +97,7 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
     },
     { field: "userName", headerName: "Customer", width: 140 },
     { field: "email", headerName: "Email", width: 160 },
-    { field: "totalPrice", headerName: "Total (Rs)", width: 130 },
+    { field: "totalPrice", headerName: "Total (Rs)", width: 90 },
     {
       field: "status",
       headerName: "Status",
@@ -159,36 +161,37 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
         );
       },
     },
-    { field: "paymentMethod", headerName: "Payment", width: 130 },
-    {
-      field: "paymentProof",
-      headerName: "Payment Proof",
-      width: 160,
-      renderCell: (params) =>
-        params.value?.length > 0 ? (
-          <div className="flex gap-2">
-            {params.value.map((img: string, index: number) => (
-              <Link
-                key={index}
-                href={img}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={img}
-                  alt="Payment Proof"
-                  width={50}
-                  height={50}
-                  className="rounded border object-cover"
-                />
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <span className="text-gray-400 text-sm">No Proof</span>
-        ),
-    },
+    // { field: "paymentMethod", headerName: "Payment", width: 130 },
+    // {
+    //   field: "paymentProof",
+    //   headerName: "Payment Proof",
+    //   width: 160,
+    //   renderCell: (params) =>
+    //     params.value?.length > 0 ? (
+    //       <div className="flex gap-2">
+    //         {params.value.map((img: string, index: number) => (
+    //           <Link
+    //             key={index}
+    //             href={img}
+    //             target="_blank"
+    //             rel="noopener noreferrer"
+    //           >
+    //             <Image
+    //               src={img}
+    //               alt="Payment Proof"
+    //               width={50}
+    //               height={50}
+    //               className="rounded border object-cover"
+    //             />
+    //           </Link>
+    //         ))}
+    //       </div>
+    //     ) : (
+    //       <span className="text-gray-400 text-sm">No Proof</span>
+    //     ),
+    // },
     { field: "date", headerName: "Date", width: 120 },
+    { field: "phone", headerName: "Phone", width: 120 },
     { field: "address", headerName: "Address", width: 280 },
     {
       field: "actions",

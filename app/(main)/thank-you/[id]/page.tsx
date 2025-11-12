@@ -41,7 +41,7 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
           </h2>
 
           <p className="text-gray-700 mb-1">
-            <strong>Order ID:</strong> {data._id}
+            <strong>Order ID:</strong> {data.orderId}
           </p>
           <p className="text-gray-700 mb-1">
             <strong>Name:</strong> {data.userDetails.fullName}
@@ -67,7 +67,7 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
                   <Image
                     width={120}
                     height={120}
-                    src={item.images[0]}
+                    src={item.images}
                     alt={item.name}
                     className="w-12 h-12 rounded-md object-cover"
                   />
@@ -79,7 +79,7 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
                   </div>
                 </div>
                 <p className="font-semibold text-gray-800">
-                  Rs.{item.quantity * item.newPrice}
+                  Rs.{item.onSale ? item.quantity * item.newPrice : item.quantity * item.price} 
                 </p>
               </div>
             ))}

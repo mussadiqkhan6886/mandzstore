@@ -36,7 +36,8 @@ const OrderSchema = new Schema({
       },
       selectedColor: {
         type: String,
-        required: true,
+        required: false,
+        default: "",
       },
     }
     ],
