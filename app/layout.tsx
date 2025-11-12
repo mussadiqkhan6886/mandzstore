@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="google-site-verification" content="Hd29-BAw31SJr6o6CiZXE8xVmGn4Fs_Q9r8GnzTN3k4" />
+        <meta name="google-site-verification" content="8ehoMtNRgXA69WWqUMa3-4UXpzW_3Rh_ek9iqRV7evc" />
       </head>
       <CartContextProvider>
         <body className={`antialiased ${montserrat.className}`}>{children}</body>
