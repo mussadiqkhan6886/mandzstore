@@ -5,11 +5,9 @@ import SortWrapper from '@/components/MainComp/Sorting';
 import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
 
-export const generateStaticParams = () => {
-  return collectionsData.map(item => ({
-    slug: item.slug
-  }))
-}
+// export const generateStaticParams = () => {
+//   return collectionsData.map(item => console.log(item.slug))
+// }
 
 const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;
@@ -55,6 +53,8 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
       collection: { $regex: new RegExp(`^${updatedSlug}$`, 'i') },
     }).lean();
   }
+
+  console.log(products)
 
   if (!products || products.length === 0) {
     return (
