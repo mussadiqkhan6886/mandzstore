@@ -9,7 +9,7 @@ import {FiMenu, FiSearch, FiShoppingCart, FiX} from "react-icons/fi"
 import 'swiper/css';
 import SideBar from './SideBar';
 import CartSection from './CartSection';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const Header = () => {
@@ -18,6 +18,15 @@ const Header = () => {
   const [showSearch, setShowSearch] = useState(false)
   const [showCart, setShowCart] = useState(false)
   const pathname = usePathname()
+  const router = useRouter();
+  const [query, setQuery] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    setShowSearch(false)
+    router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+  };
 
   if(pathname.includes("checkout")){
     return (
@@ -62,13 +71,13 @@ const Header = () => {
       </div>
       {showSearch && (
         <div className='bg-white/30 absolute h-screen w-full top-7'>
-          <div className='bg-gray-100 py-8 flex items-center justify-center gap-6'>
+          <form onSubmit={handleSearch} className='bg-gray-100 py-8 flex items-center justify-center gap-6'>
             <div className='border border-black/30 py-1.5 px-2 flex items-center w-[70%] pr-4'>
-              <input type='text' placeholder='Search' className='outline-none w-full px-3' />
+              <input type='text' placeholder='Search' value={query} onChange={(e) => setQuery(e.target.value)} className='outline-none w-full px-3' />
               <FiSearch className='text-xl' />
             </div>
-            <FiX onClick={() => setShowSearch(false)} className='text-xl cursor-pointer' />
-          </div>
+            <button type='submit'><FiX onClick={() => setShowSearch(false)} className='text-xl cursor-pointer' /></button>
+          </form>
         </div>
       )}
       {showCart && <CartSection showCart={showCart} setShowCart={setShowCart} />}
