@@ -45,7 +45,7 @@ const Checkout = () => {
     const data = {
       // include images for each item
       items: cart.map((item) => ({
-        id: Number(item.id),
+        id: item.id,
         name: item.name,
         price: item.price,
         onSale: item.onSale,
