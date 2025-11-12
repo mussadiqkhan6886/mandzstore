@@ -62,7 +62,7 @@ const Header = () => {
 
 
         <div >
-          <h1 className='font-bold text-3xl md:text-4xl'>MZ STORE</h1>
+          <Image src={"/logo.jpeg"} alt='logo header main' width={100} height={100}/>
         </div>
 
         <div className="flex items-center space-x-4 md:space-x-6">
