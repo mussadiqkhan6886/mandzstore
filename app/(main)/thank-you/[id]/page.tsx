@@ -1,8 +1,8 @@
-import { connectDB } from "@/lib/config/database";
-import order from "@/lib/model/OrderSchema";
 import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
 import Image from "next/image";
+import { connectDB } from "@/lib/config/database/db";
+import order from "@/lib/models/OrderSchema";
 
 interface ItemType {
   _id: number
@@ -10,7 +10,8 @@ interface ItemType {
   name: string
   quantity: number
   price: number
-
+  newPrice: number
+  selectedColor: string
 }
 
 const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -20,8 +21,9 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
   await connectDB()
     const res = await order.findOne({ _id: id });
     const data = JSON.parse(JSON.stringify(res))
+    console.log(data)
   return (
-    <main className="flex flex-col justify-center items-center min-h-screen bg-gray-50 px-5">
+    <main className="flex flex-col pt-24 justify-center items-center min-h-screen bg-gray-50 px-5">
       <div className="bg-white shadow-md rounded-lg p-10 text-center max-w-2xl w-full">
         <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-6" />
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
@@ -47,6 +49,9 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
           <p className="text-gray-700 mb-1">
             <strong>Email:</strong> {data.userDetails.email}
           </p>
+          <p className="text-gray-700 mb-1">
+            <strong>Phone:</strong> {data.userDetails.phone}
+          </p>
           <p className="text-gray-700 mb-4">
             <strong>Address:</strong> {data.shippingAddress.address}
           </p>
@@ -62,26 +67,26 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
                   <Image
                     width={120}
                     height={120}
-                    src={item.image}
+                    src={item.images[0]}
                     alt={item.name}
                     className="w-12 h-12 rounded-md object-cover"
                   />
                   <div>
-                    <p className="font-semibold text-gray-800">{item.name}</p>
+                    <p className="font-semibold text-gray-800">{item.name} - {item.selectedColor}</p>
                     <p className="text-sm text-gray-600">
-                      {item.quantity} × Rs.{item.price}
+                      {item.quantity} × Rs.{item.newPrice}
                     </p>
                   </div>
                 </div>
                 <p className="font-semibold text-gray-800">
-                  Rs.{item.quantity * item.price}
+                  Rs.{item.quantity * item.newPrice}
                 </p>
               </div>
             ))}
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between pt-3 items-center">
             <p className="font-semibold">Shipping Cost</p>
-            <p className="font-semibold">250</p>
+            <p className="font-semibold">Rs. 300</p>
             </div>
           <div className="mt-4 border-t pt-3 text-right">
             <p className="text-lg font-bold text-gray-800">

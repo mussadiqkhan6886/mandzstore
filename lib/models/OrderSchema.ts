@@ -31,7 +31,7 @@ const OrderSchema = new Schema({
         min: 1,
       },
       images: {
-        type: [String],
+        type: String,
         required: true,
       },
       selectedColor: {
@@ -58,16 +58,6 @@ const OrderSchema = new Schema({
       postalCode: { type: String },
       address: {type: String, required: true}
     },
-
-    // paymentMethod: {
-    //   type: String,
-    //   enum: ["cod", "easypaisa", "card"],
-    //   required: true
-    // },
-    // paymentProof: [{
-    //   type: String,
-    //   required: function(){return this.paymentMethod !== "cod"} 
-    // }]
   },
   { timestamps: true }
 )

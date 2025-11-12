@@ -20,17 +20,16 @@ const Checkout = () => {
   });
 
   const { cart, totalAmount, clearCart } = useCart();
-  console.log(cart)
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
-  const [paymentProof, setPaymentProof] = useState<File | null>(null); 
-  const [preview, setPreview] = useState<string | null>(null);
+  // const [paymentProof, setPaymentProof] = useState<File | null>(null); 
+  // const [preview, setPreview] = useState<string | null>(null);
 
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => { if (e.target.files && e.target.files[0]) { setPaymentProof(e.target.files[0]); setPreview(URL.createObjectURL(e.target.files[0])); } };
+  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => { if (e.target.files && e.target.files[0]) { setPaymentProof(e.target.files[0]); setPreview(URL.createObjectURL(e.target.files[0])); } };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -46,13 +45,16 @@ const Checkout = () => {
     const data = {
       // include images for each item
       items: cart.map((item) => ({
-        productId: item.id,
+        id: parseInt(item.id),
         name: item.name,
         price: item.price,
+        onSale: item.onSale,
+        newPrice: item.newPrice,
         quantity: item.quantity,
-        image: item.images[0]
+        images: item.images[0],
+        selectedColor: item.selectedColor,
       })),
-      totalPrice: totalAmount + 250,
+      totalPrice: totalAmount + 300,
       userDetails: {
         fullName: formData.fullName,
         phone: formData.phone,
@@ -64,21 +66,22 @@ const Checkout = () => {
         postalCode: formData.postalCode || "No Postal Code",
         address: formData.address,
       },
-      paymentMethod: formData.paymentMethod,
+      // paymentMethod: formData.paymentMethod,
     };
 
-    const formDataToSend = new FormData();
-    if(paymentProof){
-      formDataToSend.append("paymentProof", paymentProof);
-    }
-    formDataToSend.append("orderData", JSON.stringify(data));
+
+    // const formDataToSend = new FormData();
+    // // if(paymentProof){
+    // //   formDataToSend.append("paymentProof", paymentProof);
+    // // }
+    // formDataToSend.append("orderData", JSON.stringify(data));
 
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/order`,
-        formDataToSend,{ headers: { "Content-Type": "multipart/form-data" } }
-      );
-
+      // const res = await axios.post(
+      //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/order`,
+      //   formDataToSend,{ headers: { "Content-Type": "multipart/form-data" } }
+      // );
+      const res = await axios.post("/api/order", data);
 
       setStatus("Order placed successfully!");
 
@@ -171,7 +174,7 @@ const Checkout = () => {
                 className="w-full p-3 border-gray-300 outline-none border rounded-md"
               />
             </div>
-            <div className="text-green-600 text-center border py-2 md:col-span-2">
+            <div className="text-black text-center border py-2 md:col-span-2">
               <p>Payment Method</p>
               <p>Cash on Delivery</p>
               {/* <select value={formData.paymentMethod} onChange={handleChange} name="paymentMethod">
@@ -197,7 +200,7 @@ const Checkout = () => {
           </form>
 
           {status && (
-            <p className="mt-4 text-center text-blue-600 font-medium">{status}</p>
+            <p className="my-6 text-center text-black font-medium">{status}</p>
           )}
         </div>
 
@@ -209,9 +212,9 @@ const Checkout = () => {
             <p className="text-gray-500">Your cart is empty.</p>
           ) : (
             <>
-              {cart.map((item) => (
+              {cart.map((item, i) => (
                 <div
-                  key={item._id}
+                  key={i}
                   className="flex justify-between items-center border-b py-2"
                 >
                   <div className="flex gap-5">
@@ -240,11 +243,11 @@ const Checkout = () => {
               
               <div className="flex justify-between mt-4 font-bold text-lg">
                 <span>Shipping:</span>
-                <span>250 PKR</span>
+                <span>300 PKR</span>
               </div>
               <div className="flex justify-between mt-4 font-bold text-lg">
                 <span>Total:</span>
-                <span>{totalAmount + 250} PKR</span>
+                <span>{totalAmount + 300} PKR</span>
               </div>
             </>
           )}
