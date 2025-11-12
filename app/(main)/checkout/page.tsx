@@ -237,7 +237,7 @@ const Checkout = () => {
                       <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                     </div>
                   </div>
-                  <p className="font-medium">{item.onSale ? item.newPrice * item.quantity : item.price * item.quantity} PKR</p>
+                  <p className="font-medium">{item.onSale ? item?.newPrice! * item.quantity : item.price * item.quantity} PKR</p>
                 </div>
               ))}
 
