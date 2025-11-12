@@ -15,7 +15,7 @@ const helpData = [
 
 const Footer = () => {
   return (
-    <footer className='flex gap-3 flex-col bg-black p-10 text-white'>
+    <footer className='flex gap-3 flex-col bg-black p-7 lg:p-10 text-white'>
       <div className='flex flex-col md:flex-row gap-15 lg:gap-[200px]'>
         <div className='flex gap-10 md:w-[50%]'>
         <div className='pr-10 md:pr-20'>
@@ -32,7 +32,7 @@ const Footer = () => {
             <ul>
                 {helpData.map((item, i) => (
                     <li className='mb-1' key={i}>
-                        <Link className='text-sm whitespace-nowrap' href={item.link}>{item.title}</Link>
+                        <Link className='text-[13px] md:text-sm whitespace-nowrap' href={item.link}>{item.title}</Link>
                     </li>
                 ))}
             </ul>
