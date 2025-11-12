@@ -2,7 +2,7 @@ import { FiCreditCard, FiHeart, FiStar, FiTruck } from "react-icons/fi";
 
 export const upperHeaderData = [
     "Free Shipping above RS 4500",
-    "Hassle-Free Returns",
+    "Premium Quality Products",
     "15000+ Orders, 1000+ 5⭐ Reviews"
 ]
 
