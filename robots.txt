@@ -13,6 +13,13 @@ Disallow: /cart/
 
 # Allow static assets
 Allow: /collections/
+Allow: /color-disclaimer
+Allow: /contact-us
+Allow: /faq
+Allow: /privacy-policy
+Allow: /refund-policy
+Allow: /shipping-policy
+Allow: /terms
 
 # Sitemap (important for Google indexing)
 Sitemap: https://mzstore.com/sitemap.xml
