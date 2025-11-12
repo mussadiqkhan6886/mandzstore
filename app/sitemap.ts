@@ -2,7 +2,7 @@ import { connectDB } from "@/lib/config/database/db";
 import { Product } from "@/lib/models/ProductSchema";
 
 export default async function sitemap() {
-  const baseUrl = "https://mzstore.com";
+  const baseUrl = "https://mzstorepk.com/";
 
   await connectDB();
 

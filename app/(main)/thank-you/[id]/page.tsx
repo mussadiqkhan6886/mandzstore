@@ -15,6 +15,7 @@ interface ItemType {
   onSale: boolean
 }
 
+
 const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 

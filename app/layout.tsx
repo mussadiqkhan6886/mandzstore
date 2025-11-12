@@ -31,11 +31,11 @@ export const metadata: Metadata = {
     title: "MZ Store | Elegant Hijabs, Chaddars & Dupattas Online",
     description:
       "Discover stylish and modest hijabs, chaddars, and dupattas for every occasion. High-quality fabrics, exclusive designs, and fast nationwide delivery from MZ Store.",
-    url: "https://mzstore.com", // replace with your real domain
+    url: "https://mzstorepk.com/", // replace with your real domain
     siteName: "MZ Store",
     images: [
       {
-        url: "/og-image.jpg", // path to your store banner
+        url: "/logo.jpeg", // path to your store banner
         width: 1200,
         height: 630,
         alt: "MZ Store Hijab & Dupatta Collection",
@@ -43,14 +43,6 @@ export const metadata: Metadata = {
     ],
     locale: "en_PK",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "MZ Store | Hijabs, Chaddars & Dupattas Online in Pakistan",
-    description:
-      "Shop premium hijabs, chaddars, and dupattas designed for comfort and style. Fast nationwide delivery and cash on delivery available!",
-    creator: "@mzstore", // replace with your Twitter handle if any
-    images: ["/og-image.jpg"],
   },
 };
 
@@ -61,6 +53,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="Hd29-BAw31SJr6o6CiZXE8xVmGn4Fs_Q9r8GnzTN3k4" />
+      </head>
       <CartContextProvider>
         <body className={`antialiased ${montserrat.className}`}>{children}</body>
       </CartContextProvider>
