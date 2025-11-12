@@ -30,7 +30,7 @@ export default function Reviews() {
 
   return (
     <section className="py-10 bg-gray-50 max-w-5xl mx-auto">
-      <h4 className={`${cormorant.className} text-4xl text-center md:text-left mb-8 uppercase`}>Customer Reviews</h4>
+      <h4 className={`${cormorant.className} text-4xl text-center  mb-8 uppercase`}>Customer Reviews</h4>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}

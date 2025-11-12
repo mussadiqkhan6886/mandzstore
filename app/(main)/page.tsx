@@ -9,7 +9,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <main className='pt-14'>
+    <main className='pt-24 lg:pt-14'>
       <Hero />
       <Trust />
       <ByCollection data={byCollection} header='shop by collection' />
