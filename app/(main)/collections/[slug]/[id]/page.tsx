@@ -16,7 +16,6 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   if (!product) {
     return <div className="text-center py-20">Product not found</div>;
   }
-  console.log(product)
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-16 pt-44">
@@ -34,7 +33,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 
           <hr className='opacity-10' />
           {/* Add to Cart */}
-         <AddToCartButton id={product.id} images={product.images} price={product.price} onSale={product.onSale} name={product.name} newPrice={product.newPrice} quantity={1} colors={product.colors}  />
+         <AddToCartButton id={product._id} images={product.images} price={product.price} onSale={product.onSale} name={product.name} newPrice={product.newPrice} quantity={1} colors={product.colors}  />
           {/* <div className='mt-6'>
             <h3 className='font-medium text-gray-800 tracking-widest uppercase'>Description:</h3>
             <p>{product.desc}</p>

@@ -9,12 +9,25 @@ import {FiMenu, FiSearch, FiShoppingCart, FiX} from "react-icons/fi"
 import 'swiper/css';
 import SideBar from './SideBar';
 import CartSection from './CartSection';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 const Header = () => {
 
   const [showSideBar, setShowSideBar] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
   const [showCart, setShowCart] = useState(false)
+  const pathname = usePathname()
+
+  if(pathname.includes("checkout")){
+    return (
+    <header className='bg-white py-4 border-b border-black/40'>
+      <Link href={"/"}>
+        <h1 className='text-center text-3xl font-semibold'>M&Z Store</h1>
+      </Link>
+    </header>
+    )
+  }
 
   return (
     <header className='fixed top-0 w-full bg-white z-50' >
