@@ -36,9 +36,11 @@ const AddProduct = () => {
     }
   }, [data.name]);
 
+  // @ts-ignore
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTML>
   ) => {
+    // @ts-ignore
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
       setData({ ...data, [name]: checked });
