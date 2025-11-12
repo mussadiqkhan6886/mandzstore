@@ -31,7 +31,7 @@ const Header = () => {
 
   if(pathname.includes("checkout")){
     return (
-    <header className='bg-white py-4 border-b border-black/40'>
+    <header className='bg-white py-2 border-b border-black/40'>
       <Link href={"/"}>
         <Image src={"/logo.jpeg"} alt='logo header main' width={100} height={100}/>
       </Link>
@@ -55,15 +55,15 @@ const Header = () => {
       </Swiper>
 
         {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} />}
-      <div className="flex justify-between items-center py-6 px-6 md:px-12">
+      <div className="flex overflow-y-hidden justify-between items-center py-1 px-6 md:px-12">
         <button onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
           <FiMenu />
         </button>
 
 
-        <div >
-          <Image src={"/logo.jpeg"} alt='logo header main' width={100} height={100}/>
-        </div>
+        <Link href={"/"} >
+          <Image src={"/logo.jpeg"} className='scale-120' alt='logo header main' width={100} height={100}/>
+        </Link>
 
         <div className="flex items-center space-x-4 md:space-x-6">
           <button onClick={() => setShowSearch(true)}><FiSearch className='text-xl md:text-2xl cursor-pointer' /></button>
