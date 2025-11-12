@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import "./globals.css";
+import { CartContextProvider } from "@/context/CartContext";
+import { montserrat } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "M&Z Store | Premium Hijabs, Chaddars & Dupattas Online in Pakistan",
@@ -59,7 +61,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <CartContextProvider>
+        <body className={`antialiased ${montserrat.className}`}>{children}</body>
+      </CartContextProvider>
     </html>
   );
 }

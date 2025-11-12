@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import Header from "@/components/MainComp/Header";
-import { montserrat } from "@/lib/fonts";
 import Footer from "@/components/MainComp/Footer";
-import { CartContextProvider } from "@/context/CartContext";
 
 // const metadata: Metadata = {
 //   title: "M&Z Store | Premium Hijabs, Chaddars & Dupattas Online in Pakistan",
@@ -63,16 +61,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`antialiased ${montserrat.className}`}
-      >
-        <CartContextProvider>
+      <>
           <Header />
           {children}
           <Footer />
-        </CartContextProvider>
-      </body>
-    </html>
+      </>
   );
 }

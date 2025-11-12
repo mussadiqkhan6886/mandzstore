@@ -5,6 +5,12 @@ import SortWrapper from '@/components/MainComp/Sorting';
 import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
 
+export const generateStaticParams = () => {
+  return collectionsData.map(item => ({
+    slug: item.slug
+  }))
+}
+
 const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;
 

@@ -9,6 +9,12 @@ import { connectDB } from '@/lib/config/database/db';
 import SortWrapper from '@/components/MainComp/Sorting';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';
 
+export const generateStaticParams = async () => {
+  await connectDB();
+  const products = await Product.find({}).lean();
+  return products.map(product => ({ id: product.slug }));
+};
+
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   await connectDB();
