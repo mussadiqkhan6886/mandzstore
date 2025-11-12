@@ -38,7 +38,7 @@ const AddProduct = () => {
 
   // @ts-ignore
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTML>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     // @ts-ignore
     const { name, value, type, checked } = e.target;
