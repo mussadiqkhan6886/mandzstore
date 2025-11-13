@@ -30,6 +30,12 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const products = JSON.parse(JSON.stringify(response));
 
+  
+  const updatedSlug = product.collections
+    .split("-")
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
   if (!product) {
     return <div className="text-center py-20">Product not found</div>;
   }
@@ -62,11 +68,11 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
            <div className='pt-16'>
             <HeaderProduct title='May you like' desc="May You like these awesome related products" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.slice(0,2).map((product: Product) => (
+            {products.slice(0,3).map((product: Product) => (
               <div  
                     className="relative group cursor-pointer overflow-hidden  transition-all duration-300"
                   >
-                    <Link href={`/${product.slug}`}>
+                    <Link href={`/collections/${updatedSlug}/${product.slug}`}>
                     <div className="overflow-hidden">
                       <Image
                         src={product.images[0]}
