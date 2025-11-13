@@ -6,6 +6,7 @@ import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
 import SortWrapper from '@/components/MainComp/Sorting';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';
+import ProductCard from '@/components/MainComp/ProductCard';
 
 // export const generateStaticParams = async () => {
 //   await connectDB();
@@ -58,8 +59,10 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
       </section>
            <div className='pt-16'>
             <HeaderProduct title='May you like' desc="May You like these awesome related products" />
-            <div>
-              <SortWrapper key={products.slug} products={products} slug={products.slug} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.map((product: Product) => (
+              <ProductCard key={product._id} {...product} oldSlug={product.slug} />
+            ))}
             </div>
           </div>
     </main>
