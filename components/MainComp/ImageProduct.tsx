@@ -6,7 +6,7 @@ import Image from 'next/image';
 const ImageProduct = ({images, name}: {images: string[], name: string}) => {
       const [mainImage, setMainImage] = useState(images[0]);
   return (
-   <div className="flex gap-4">
+   <div className="flex flex-col md:flex-row gap-4">
           <div className="md:flex hidden flex-col gap-2">
             {images.map((img, i) => (
               <div
@@ -36,7 +36,7 @@ const ImageProduct = ({images, name}: {images: string[], name: string}) => {
               className="object-cover w-full h-full"
             />
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex md:hidden flex-row gap-2">
             {images.map((img, i) => (
               <div
                 key={i}
