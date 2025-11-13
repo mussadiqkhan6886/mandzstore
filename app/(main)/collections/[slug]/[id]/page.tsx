@@ -37,7 +37,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const products = JSON.parse(JSON.stringify(response));
 
   
-  const updatedSlug = product.collections
+  const updatedSlug = product.collection
     .split("-")
     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");

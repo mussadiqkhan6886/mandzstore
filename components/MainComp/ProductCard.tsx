@@ -31,7 +31,7 @@ const ProductCard = ({_id, name, images, price, slug, newPrice, onSale, oldSlug 
       }}
       className="relative group cursor-pointer overflow-hidden  transition-all duration-300"
     >
-      <Link href={`collections/${oldSlug}/${slug}`}>
+      <Link href={`${oldSlug}/${slug}`}>
       <div className="overflow-hidden">
         <Image
           src={currentImage}
