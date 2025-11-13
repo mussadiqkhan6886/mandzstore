@@ -81,7 +81,6 @@ const Checkout = () => {
       //   `${process.env.NEXT_PUBLIC_BASE_URL}/api/order`,
       //   formDataToSend,{ headers: { "Content-Type": "multipart/form-data" } }
       // );
-      console.log(data)
       const res = await axios.post("/api/order", data);
 
       setStatus("Order placed successfully!");

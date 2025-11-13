@@ -95,7 +95,6 @@ const AddProduct = () => {
       const res = await axios.post("/api/products", formData);
 
       if (res.status === 201) {
-        console.log(data.inStock)
         setResult("✅ Product added successfully!");
         setData({
           collection: "",

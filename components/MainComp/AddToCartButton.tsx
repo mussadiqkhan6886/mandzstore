@@ -29,7 +29,6 @@ const AddToCartButton = ({
   const [selectedColor, setSelectedColor] = useState('');
   const [added, setAdded] = useState(false);
 
-  console.log(id)
 
   const handleAddToCart = () => {
     if (colors && colors.length > 0 && !selectedColor) {
