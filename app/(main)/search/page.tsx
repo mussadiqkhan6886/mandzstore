@@ -1,8 +1,7 @@
 import React from "react";
 import axios from "axios";
-import SortWrapper from "@/components/MainComp/Sorting";
 import HeaderProduct from "@/components/MainComp/HeaderProduct";
-import ProductCard from "@/components/MainComp/ProductCard";
+import SearchCard from "@/components/MainComp/SearchCard";
 
 async function getData(query: string) {
   const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/search?q=${query}`);
@@ -34,7 +33,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         <div className="mt-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product: Product) => (
-            <ProductCard key={product._id} {...product} oldSlug={updatedSlug} />
+            <SearchCard key={product._id} {...product} oldSlug={updatedSlug} />
           ))}
         </div>
         </div>
