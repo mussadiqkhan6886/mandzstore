@@ -44,6 +44,7 @@ export const PATCH = async (
     const onSale = formData.get("onSale") === "true";
     const colors = formData.getAll("colors").map(c => c.toString());
     const slug = formData.get("slug") as string
+    const inStock = formData.get("inStock") === "true";
     const files = formData.getAll("images") as File[];
     const uploadedImages: string[] = [];
 
@@ -80,6 +81,7 @@ export const PATCH = async (
       newPrice,
       onSale,
       colors,
+      inStock,
       images: updatedImages, // just overwrite with merged array
     };
 

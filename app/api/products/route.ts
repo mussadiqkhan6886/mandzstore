@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     const onSale = formData.get("onSale") === "true";
     const colors = formData.getAll("colors").map((c) => c.toString());
     const files = formData.getAll("images");
+    const inStock = formData.get("inStock") === "true";
 
     if (!collection || !name || !description || !price) {
       throw new Error("Missing required fields");
@@ -76,6 +77,7 @@ export async function POST(req: NextRequest) {
       newPrice,
       onSale,
       colors,
+      inStock,
       images: uploadedImages,
     });
 

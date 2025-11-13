@@ -76,6 +76,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.slice(0,3).map((product: Product) => (
               <div  
+              key={product._id}
                     className="relative group cursor-pointer overflow-hidden  transition-all duration-300"
                   >
                     <Link href={`/collections/${updatedSlug}/${product.slug}`}>

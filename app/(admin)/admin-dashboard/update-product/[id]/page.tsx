@@ -5,7 +5,6 @@ import axios from "axios";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { useRouter } from "next/navigation";
-import { collectionsData } from "@/lib/constants"; // Adjust path
 
 const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
   const [files, setFiles] = useState<File[]>([]);
@@ -22,7 +21,8 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
     onSale: false,
     colors: [] as string[],
     images: [] as string[],
-    slug: ""
+    slug: "",
+    inStock: true
   });
 
   const router = useRouter();
@@ -43,7 +43,8 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
           onSale: product.onSale || false,
           colors: product.colors || [],
           images: product.images || [],
-          slug: product.slug || ""
+          slug: product.slug || "",
+          inStock: product.inStock || false,
         });
 
         setExistingImages(product.images || []);
@@ -145,37 +146,6 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
       <h1 className="text-2xl font-bold mb-6">Update Product</h1>
 
       <form className="grid gap-4 w-full md:w-[50%]" onSubmit={handleSubmit}>
-        {/* Collection Select */}
-        {/* <div>
-          <label className="block font-semibold mb-1">Collection Title</label>
-          <select
-            name="title"
-            value={data.title}
-            onChange={(e) => setData({ ...data, title: e.target.value })}
-            className="w-full border rounded-lg p-2"
-            required
-          >
-            <option value="">Select Collection</option>
-            {collectionsData.map((col) => (
-              <option key={col.slug} value={col.title}>
-                {col.title}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Category Description */}
-        {/* <div>
-          <label className="block font-semibold mb-1">Category Description</label>
-          <textarea
-            name="mainDescription"
-            value={data.mainDescription}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-            rows={3}
-          />
-        </div> */}
-        {/* Product Name */}
         <div>
           <label className="block font-semibold mb-1">Product Name</label>
           <input
@@ -233,6 +203,15 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
             onChange={handleChange}
           />
           <label className="font-semibold">On Sale</label>
+        </div>
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="inStock"
+            checked={data.inStock}
+            onChange={handleChange}
+          />
+          <label className="font-semibold">In Stock</label>
         </div>
 
         {data.onSale && (

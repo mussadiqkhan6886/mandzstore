@@ -8,6 +8,7 @@ interface Product {
   images: string[];
   colors: string[];
   slug: string;
+  inStock: boolean;
   _id: string; // MongoDB document ID
 }
 

@@ -58,7 +58,7 @@ const Checkout = () => {
       userDetails: {
         fullName: formData.fullName,
         phone: formData.phone,
-        email: formData.email,
+        email: formData.email || "No email",
       },
       notes: formData.notes || "No Notes",
       shippingAddress: {
@@ -134,7 +134,6 @@ const Checkout = () => {
                 name="email"
                 type="email"
                 placeholder="Email"
-                required
                 value={formData.email}
                 onChange={handleChange}
                 className="border-gray-300 outline-none w-full p-3 border rounded-md"

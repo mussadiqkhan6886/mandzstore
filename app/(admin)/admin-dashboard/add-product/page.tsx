@@ -21,6 +21,7 @@ const AddProduct = () => {
     price: "",
     newPrice: "",        // optional
     onSale: false,
+    inStock: true,
     colors: [] as string[],
     images: [] as string[],
   });
@@ -96,6 +97,7 @@ const AddProduct = () => {
       const res = await axios.post("/api/products", formData);
 
       if (res.status === 201) {
+        console.log(data.inStock)
         setResult("✅ Product added successfully!");
         setData({
           collection: "",
@@ -105,6 +107,7 @@ const AddProduct = () => {
           price: "",
           newPrice: "",
           onSale: false,
+          inStock: false,
           colors: [],
           images: [],
         });
@@ -203,6 +206,16 @@ const AddProduct = () => {
             onChange={handleChange}
           />
           <label className="font-semibold">On Sale</label>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="inStock"
+            checked={data.inStock}
+            onChange={handleChange}
+          />
+          <label className="font-semibold">In Stock</label>
         </div>
 
         {data.onSale && (
