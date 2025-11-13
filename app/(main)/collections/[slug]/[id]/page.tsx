@@ -26,7 +26,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
       collection: { $regex: new RegExp(`^${product.collection}$`, 'i') },
     }).limit(3).lean();
 
-    const products = JSON.parse(JSON.stringify(response));
+  const products = JSON.parse(JSON.stringify(response));
 
   if (!product) {
     return <div className="text-center py-20">Product not found</div>;
@@ -57,14 +57,14 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           <CollapseDetails desc={product.description} />
         </div>
       </section>
-           {/* <div className='pt-16'>
+           <div className='pt-16'>
             <HeaderProduct title='May you like' desc="May You like these awesome related products" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product: Product) => (
               <ProductCard key={product._id} {...product} oldSlug={product.slug} />
             ))}
             </div>
-          </div> */}
+          </div>
     </main>
   );
 };

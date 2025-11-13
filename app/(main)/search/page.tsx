@@ -15,12 +15,12 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
   console.log(products)
 
-   const updatedSlug = products.collection
-    .split("-")
-    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+  //  const updatedSlug = products.collection
+  //   .split("-")
+  //   .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+  //   .join(" ");
 
-    console.log(updatedSlug)
+  //   console.log(updatedSlug)
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-40">
@@ -29,7 +29,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         desc={`Showing results matching your search query.`}
       />
 
-      {products.length > 0 ? (
+      {/* {products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product: Product) => (
           <ProductCard key={product._id} {...product} oldSlug={updatedSlug} />
@@ -39,7 +39,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         <p className="text-center text-gray-500 mt-20">
           No products found matching “{query}”.
         </p>
-      )}
+      )} */}
     </main>
   );
 }
