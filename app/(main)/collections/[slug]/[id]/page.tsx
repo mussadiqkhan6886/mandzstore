@@ -24,9 +24,15 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const product = JSON.parse(JSON.stringify(res))
 
-  const response = await Product.find({
-      collection: { $regex: new RegExp(`^${product.collection}$`, 'i') },
-    }).limit(3).lean();
+ const response = await Product.aggregate([
+  { $match: { 
+      collection: product.collection, 
+      slug: { $ne: product.slug } 
+    } 
+  },
+  { $sample: { size: 3 } } // randomly pick 3 products
+]);
+
 
   const products = JSON.parse(JSON.stringify(response));
 
