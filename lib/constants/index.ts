@@ -36,69 +36,6 @@ export const byCollection = [
     {image: "/collectiondemo.jpg", link: "/collections/silk-hijab" , title: "Silk"},
 ]
 
-// export const essentials = [
-//     {image: "/essentials.jpg", link: "#", title: "Magnets and Pins"},
-//     {image: "/essentials.jpg", link: "#", title: "Underscarves"},
-//     {image: "/essentials.jpg", link: "#", title: "Scrunchies"},
-//     {image: "/essentials.jpg", link: "#", title: "Niqab"},
-// ]
-
-export const reviews = [
-  {
-    id: 1,
-    name: "Aisha Khan",
-    role: "Customer",
-    review: "Absolutely love the quality! Delivery was fast and the product exceeded my expectations.",
-  },
-  {
-    id: 2,
-    name: "Omar Malik",
-    role: "Verified Buyer",
-    review: "Great experience. The website is easy to use and support was very responsive.",
-  },
-  {
-    id: 3,
-    name: "Sana Ali",
-    role: "Customer",
-    review: "Beautiful packaging and excellent fabric. Will definitely order again.",
-  },
-  {
-    id: 4,
-    name: "Ahmed Raza",
-    role: "Customer",
-    review: "Customer service was amazing. They helped me choose the right size perfectly.",
-  },
-  {
-    id: 5,
-    name: "Fatima Noor",
-    role: "Verified Buyer",
-    review: "The quality feels premium and fits really well. Highly recommended!",
-  },
-  {
-    id: 6,
-    name: "Bilal Hussain",
-    role: "Customer",
-    review: "Loved it! True to description and delivery was right on time.",
-  },
-  {
-    id: 7,
-    name: "Zara Imtiaz",
-    role: "Customer",
-    review: "Simple, elegant and exactly what I wanted. Great job!",
-  },
-  {
-    id: 8,
-    name: "Hassan Qureshi",
-    role: "Verified Buyer",
-    review: "Good experience overall. Great prices and fast delivery.",
-  },
-  {
-    id: 9,
-    name: "Maryam Javed",
-    role: "Customer",
-    review: "Amazing service, quality and support. I’ll definitely recommend to friends.",
-  },
-];
 
 export const sidebarData = [
   { title: "Home", link: "/", delay: 0.1 },
@@ -137,17 +74,17 @@ export const sidebarData = [
 
 
 export const collectionsPage = [
-  { title: "Chiffon Dupatta", link: "/collections/chiffon-dupatta", image: "/collectiondemo.jpg" },
-  { title: "Lawn Cutwork Dupatta", link: "/collections/lawn-cutwork-dupatta", image: "/collectiondemo.jpg" },
-  { title: "Jackard Dupatta", link: "/collections/jackard-dupatta", image: "/collectiondemo.jpg" },
+  { title: "Chiffon Dupatta", link: "/collections/chiffon-dupatta", image: "/collection (4).jpg" },
+  { title: "Lawn Cutwork Dupatta", link: "/collections/lawn-cutwork-dupatta", image: "/collection (2).jpg" },
+  { title: "Jackard Dupatta", link: "/collections/jackard-dupatta", image: "/collection (8).jpg" },
   { title: "Organza Dupatta", link: "/collections/organza-dupatta", image: "/collectiondemo.jpg" },
   { title: "Silk Dupatta", link: "/collections/silk-dupatta", image: "/collectiondemo.jpg" },
-  { title: "Four Sided Border Dupatta", link: "/collections/four-sided-border-dupatta", image: "/collectiondemo.jpg" },
-  { title: "Fancy Dupatta", link: "/collections/fancy-dupatta", image: "/collectiondemo.jpg" },
-  { title: "Silk Hijab", link: "/collections/silk-hijab", image: "/collectiondemo.jpg" },
-  { title: "Lawn Hijab", link: "/collections/lawn-hijab", image: "/collectiondemo.jpg" },
-  { title: "Georgette Hijab", link: "/collections/georgette-hijab", image: "/collectiondemo.jpg" },
-  { title: "Chaddar", link: "/collections/chaddar", image: "/collectiondemo.jpg" },
+  { title: "Four Sided Border Dupatta", link: "/collections/four-sided-border-dupatta", image: "/collection (11).jpg" },
+  { title: "Fancy Dupatta", link: "/collections/fancy-dupatta", image: "/collection (3).jpg" },
+  { title: "Silk Hijab", link: "/collections/silk-hijab", image: "/collection (7).jpg" },
+  { title: "Lawn Hijab", link: "/collections/lawn-hijab", image: "/collection (5).jpg" },
+  { title: "Georgette Hijab", link: "/collections/georgette-hijab", image: "/collection (10).jpg" },
+  { title: "Chaddar", link: "/collections/chaddar", image: "/collection (9).jpg" },
 ];
 
 
