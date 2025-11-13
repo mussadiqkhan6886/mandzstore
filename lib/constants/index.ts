@@ -68,7 +68,7 @@ export const sidebarData = [
 
   { title: "Chaddar", link: "/collections/chaddar", delay: 0.4 },
 
-  { title: "Blog", link: "/blog", delay: 0.5 },
+  // { title: "Blog", link: "/blog", delay: 0.5 },
 ];
 
 

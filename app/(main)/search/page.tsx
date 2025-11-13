@@ -20,7 +20,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         .join(' ')
     : '';
 
-    console.log(updatedSlug)
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-40">

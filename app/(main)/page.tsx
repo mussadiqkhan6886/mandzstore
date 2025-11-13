@@ -1,4 +1,5 @@
 import ByCollection from '@/components/MainComp/ByCollection'
+import FrontCollection from '@/components/MainComp/FrontCollection'
 import Hero from '@/components/MainComp/Hero'
 import Reviews from '@/components/MainComp/Reviews'
 import Trust from '@/components/MainComp/Trust'
@@ -15,6 +16,7 @@ const Home = () => {
       <Trust />
       <ByCollection data={byCollection} header='shop by collection' />
       <Vision />
+      <FrontCollection />
       <Reviews />
     </main>
   )

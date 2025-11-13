@@ -37,10 +37,10 @@ const ByCollection = ({ data, header }: { data: Props[]; header: string }) => {
         >
           {data.map((item, i) => (
             <SwiperSlide key={i}>
-              <div className="overflow-hidden flex flex-col items-center">
+              <div className="overflow-hidden justify-center flex flex-col items-center">
                 <Link href={item.link}>
                   <Image
-                    className="rounded-xl hover:scale-105 duration-500 ease-in-out cursor-pointer"
+                    className="rounded-xl hover:scale-105 w-full h-[350px] duration-500 ease-in-out cursor-pointer"
                     src={item.image}
                     alt={item.title}
                     width={300}
