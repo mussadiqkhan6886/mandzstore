@@ -31,9 +31,9 @@ export const trustData = [
 ];
 
 export const byCollection = [
-    {image: "/collectiondemo.jpg", link: "/collections/georgette-hijab" , title: "Georgette"},
-    {image: "/collectiondemo.jpg", link: "/collections/lawn-hijab" , title: "Lawn"},
-    {image: "/collectiondemo.jpg", link: "/collections/silk-hijab" , title: "Silk"},
+    {image: "/collection (10).jpg", link: "/collections/georgette-hijab" , title: "Georgette"},
+    {image: "/collection (5).jpg", link: "/collections/lawn-hijab" , title: "Lawn"},
+    {image: "/collection (7).jpg", link: "/collections/silk-hijab" , title: "Silk"},
 ]
 
 
