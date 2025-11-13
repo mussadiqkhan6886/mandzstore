@@ -13,7 +13,7 @@ const Home = () => {
       <Trust />
       <ByCollection data={byCollection} header='shop by collection' />
       <Vision />
-      <Reviews />
+      {/* <Reviews /> */}
     </main>
   )
 }
