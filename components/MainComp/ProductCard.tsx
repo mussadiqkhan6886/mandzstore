@@ -13,7 +13,7 @@ type Props = {
   slug: string
   newPrice: number | null
   onSale: boolean
-  oldSlug: string
+  oldSlug?: string
 };
 
 const ProductCard = ({_id, name, images, price, slug, newPrice, onSale, oldSlug }: Props) => {

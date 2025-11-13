@@ -7,6 +7,8 @@ import { connectDB } from '@/lib/config/database/db';
 import SortWrapper from '@/components/MainComp/Sorting';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';
 import ProductCard from '@/components/MainComp/ProductCard';
+import Link from 'next/link';
+import Image from 'next/image';
 
 // export const generateStaticParams = async () => {
 //   await connectDB();
@@ -60,8 +62,28 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
            <div className='pt-16'>
             <HeaderProduct title='May you like' desc="May You like these awesome related products" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product: Product) => (
-              <ProductCard key={product._id} {...product} oldSlug={product.slug} />
+            {products.slice(0,2).map((product: Product) => (
+              <div  
+                    className="relative group cursor-pointer overflow-hidden  transition-all duration-300"
+                  >
+                    <Link href={`/${product.slug}`}>
+                    <div className="overflow-hidden">
+                      <Image
+                        src={product.images[0]}
+                        alt={product.name}
+                        width={400}
+                        height={420}
+                        className="w-full h-full object-cover transition-all duration-500 ease-in-out scale-100 group-hover:scale-105"
+                      />
+                    </div>
+              
+                    {/* Info */}
+                    <div className="text-center mt-3">
+                      <h3 className="tracking-widest uppercase text-sm mb-1">{product.name}</h3>
+                      <h4 className="text-gray-700">{product.onSale ? <span><span className='line-through text-sm opacity-85'>Rs. {product.price}</span> <span className='font-medium text-[17px]'>Rs. {product.newPrice}</span>  <span className='text-red-500 inline-block ml-4'>Save Rs. {product.price - product.newPrice!}</span></span> : "Rs." + product.price }</h4>
+                    </div>
+                    </Link>
+                  </div>
             ))}
             </div>
           </div>

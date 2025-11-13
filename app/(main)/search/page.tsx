@@ -13,14 +13,15 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const query = (await searchParams).q || "";
   const products = query ? await getData(query) : [];
 
-  console.log(products)
+  const updatedSlug =
+  products.length > 0 && products[0].collection
+    ? products[0].collection
+        .split('-')
+        .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+    : '';
 
-  //  const updatedSlug = products.collection
-  //   .split("-")
-  //   .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-  //   .join(" ");
-
-  //   console.log(updatedSlug)
+    console.log(updatedSlug)
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-40">
@@ -29,17 +30,19 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         desc={`Showing results matching your search query.`}
       />
 
-      {/* {products.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product: Product) => (
-          <ProductCard key={product._id} {...product} oldSlug={updatedSlug} />
-        ))}
+      {products.length > 0 ? (
+        <div className="mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((product: Product) => (
+            <ProductCard key={product._id} {...product} oldSlug={updatedSlug} />
+          ))}
+        </div>
         </div>
       ) : (
         <p className="text-center text-gray-500 mt-20">
           No products found matching “{query}”.
         </p>
-      )} */}
+      )}
     </main>
   );
 }
