@@ -1,6 +1,13 @@
+import type { Metadata } from 'next';
 import CollectionCard from '@/components/MainComp/CollectionCard'
 import { collectionsPage } from '@/lib/constants'
 import { cormorant } from '@/lib/fonts'
+
+
+export const generateMetadata = (): Metadata => { return {
+  title: "M&Z Store | Collections",
+  description: "M&Z Store different type of collections which include different variates such as silk hijab, lawn hijab, chaddar, dupatta and more. Discover them and have your dream hijab, Chaddar or Dupatta now."
+} };
 
 const page = () => {
     

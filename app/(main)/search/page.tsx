@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import React from "react";
 import axios from "axios";
 import HeaderProduct from "@/components/MainComp/HeaderProduct";
@@ -7,6 +8,10 @@ async function getData(query: string) {
   const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/search?q=${query}`);
   return res.data.products;
 }
+
+export const generateMetadata = (): Metadata => { return {
+  title: "Search Result"
+} };
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const query = (await searchParams).q || "";

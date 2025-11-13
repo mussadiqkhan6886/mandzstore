@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';
 import { collectionsData } from '@/lib/constants';
 import React from 'react';
@@ -5,9 +6,25 @@ import SortWrapper from '@/components/MainComp/Sorting';
 import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
 
-// export const generateStaticParams = () => {
-//   return collectionsData.map(item => console.log(item.slug))
-// }
+export const revalidate = 50; 
+
+export const generateStaticParams = () => {
+  return collectionsData.map(item => ({
+    slug: item.slug,
+  }));
+};
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+  const formattedTitle = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+  return {
+    title: formattedTitle + " M&Z Store", // optional: format the slug
+  };
+}
+
 
 const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;

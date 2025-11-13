@@ -1,5 +1,19 @@
+import type { Metadata } from 'next';
 import { cormorant } from '@/lib/fonts';
 import React from 'react';
+
+export const generateMetadata = (): Metadata => {
+  return {
+    title: 'Color Disclaimer',
+    description: 'Please note that product colors may slightly vary due to lighting and screen settings.',
+    openGraph: {
+      title: 'Color Disclaimer | Zayphire Store',
+      description: 'Please note that product colors may slightly vary due to lighting and screen settings.',
+      url: 'https://mzstorepk.com/color-disclaimer',
+      siteName: 'M&Z Store',
+    },
+  };
+};
 
 const page = () => {
   return (

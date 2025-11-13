@@ -1,6 +1,24 @@
 import { cormorant } from '@/lib/fonts';
 import React from 'react';
 
+import type { Metadata } from 'next';
+
+export const generateMetadata = (): Metadata => {
+  return {
+    title: 'Terms & Conditions',
+    description:
+      'Review the Terms & Conditions of using M&Z Store. Learn about our policies, user responsibilities, and service agreements.',
+    openGraph: {
+      title: 'Terms & Conditions | M&Z Store',
+      description:
+        'Review the Terms & Conditions of using M&Z Store. Learn about our policies, user responsibilities, and service agreements.',
+      url: 'https://mzstorepk.com/terms',
+      siteName: 'M&Z Store',
+    },
+  };
+};
+
+
 const page = () => {
   return (
     <main className="pt-40 max-w-3xl mx-auto px-6">

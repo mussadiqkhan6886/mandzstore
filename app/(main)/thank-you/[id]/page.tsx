@@ -15,6 +15,15 @@ interface ItemType {
   onSale: boolean
 }
 
+import type { Metadata } from 'next';
+
+export const generateMetadata = (): Metadata => {
+  return {
+    title: 'Thankyou',
+  };
+};
+
+
 
 const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;

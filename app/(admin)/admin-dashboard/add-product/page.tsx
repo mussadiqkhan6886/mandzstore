@@ -26,8 +26,6 @@ const AddProduct = () => {
     images: [] as string[],
   });
 
-  const router = useRouter();
-
   useEffect(() => {
     if (data.name) {
       const slug = data.name.toLowerCase().replace(/\s+/g, "-");

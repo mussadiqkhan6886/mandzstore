@@ -4,17 +4,17 @@ import CollapseDetails from '@/components/MainComp/CollapseDetails';
 import AddToCartButton from '@/components/MainComp/AddToCartButton';
 import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
-import SortWrapper from '@/components/MainComp/Sorting';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';
-import ProductCard from '@/components/MainComp/ProductCard';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// export const generateStaticParams = async () => {
-//   await connectDB();
-//   const products = await Product.find({}).lean();
-//   return products.map(product => ({ id: product.slug }));
-// };
+export const revalidate = 50; 
+
+export const generateStaticParams = async () => {
+  await connectDB();
+  const products = await Product.find({}).lean();
+  return products.map(product => ({ id: product.slug }));
+};
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;

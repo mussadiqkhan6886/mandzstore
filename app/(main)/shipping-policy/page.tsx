@@ -1,6 +1,24 @@
 import { cormorant } from '@/lib/fonts';
 import React from 'react';
 
+import type { Metadata } from 'next';
+
+export const generateMetadata = (): Metadata => {
+  return {
+    title: 'Shipping Policy',
+    description:
+      'Learn about our Shipping Policy, delivery times, and shipping charges at M&Z Store. We deliver nationwide across Pakistan.',
+    openGraph: {
+      title: 'Shipping Policy | M&Z Store',
+      description:
+        'Learn about our Shipping Policy, delivery times, and shipping charges at M&Z Store. We deliver nationwide across Pakistan.',
+      url: 'https://mzstorepk.com/shipping-policy',
+      siteName: 'M&Z Store',
+    },
+  };
+};
+
+
 const page = () => {
   return (
     <main className="pt-40 max-w-2xl mx-auto px-6">

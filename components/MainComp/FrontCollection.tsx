@@ -3,8 +3,6 @@
 import { cormorant } from '@/lib/fonts';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import SearchCard from './SearchCard';
 
 const FrontCollection = () => {
@@ -17,10 +15,8 @@ const FrontCollection = () => {
     try {
       const res = await axios.get('/api/products');
       const response = res.data;
-      console.log(response.data)
       const filteredData = response.data.filter((item: Product) => item.collection.toLowerCase().includes(current));
       setData(filteredData);
-      console.log(data)
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {

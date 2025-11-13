@@ -1,5 +1,13 @@
+import type { Metadata } from 'next';
 import { cormorant } from '@/lib/fonts';
 import React from 'react';
+
+export const generateMetadata = (): Metadata => {
+  return {
+    title: 'Privacy Policy',
+    description: 'Read our Privacy Policy to learn how M&Z Store collects, uses, and protects your personal information.',
+  };
+};
 
 const page = () => {
   return (
