@@ -48,13 +48,13 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-16 pt-44">
-      <section className="flex flex-col lg:flex-row gap-18">
+      <section className="flex flex-col lg:flex-row gap-8 xl:gap-14">
         {/* LEFT: IMAGES */}
         <ImageProduct images={product.images} name={product.name} />
 
         {/* RIGHT: PRODUCT DETAILS */}
-        <div className="flex-1 flex flex-col gap-6">
-          <h1 className={`${cormorant.className} text-2xl text-center md:text-left md:text-4xl tracking-widest uppercase`} >{product.name}</h1>
+        <div className="flex-1 pt-10 md:pt-0 flex flex-col gap-6">
+          <h1 className={`${cormorant.className} text-2xl text-center md:text-left md:text-3xl tracking-widest uppercase`} >{product.name}</h1>
           <div>
            <h2 className="text-gray-700">Rs. {product.onSale ? <span><span className='line-through text-sm opacity-85'>{product.price}</span> <span className='font-medium text-[19px]'>{product.newPrice}</span>  <span className='text-red-500 inline-block ml-4'>save RS {product.price - product.newPrice}</span></span> : product.price }</h2>
             <p className="text-sm text-gray-500">Shipping calculated at checkout.</p>

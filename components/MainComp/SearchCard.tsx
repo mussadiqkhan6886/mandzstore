@@ -69,6 +69,7 @@ const SearchCard = ({
   );
 
   return (
+    <>
     <div
       onMouseEnter={() => setCurrentImage(images[1])}
       onMouseLeave={() => setCurrentImage(images[0])}
@@ -80,6 +81,7 @@ const SearchCard = ({
         <div className="cursor-not-allowed">{content}</div>
       )}
     </div>
+    </>
   );
 };
 
