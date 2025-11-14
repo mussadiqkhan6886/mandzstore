@@ -55,7 +55,7 @@ const FrontCollection = () => {
 
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {data.slice(0, 8).map((product) => (
+        {data.slice(0, 9).map((product) => (
           <SearchCard key={product._id} _id={product._id}
           name={product.name}
           images={product.images}
@@ -67,7 +67,7 @@ const FrontCollection = () => {
           inStock={product.inStock} />
         ))}
       </div>
-      <Link className='bg-black px-6 py-3 text-sm text-white font-semibold' href={`/collections/${current}`}>View All</Link>
+      <Link className='bg-black px-6 py-3 mt-10 text-sm text-white font-semibold' href={`/collections/${current}`}>View All</Link>
     </section>
   );
 };

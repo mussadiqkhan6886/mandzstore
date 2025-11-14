@@ -63,10 +63,6 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           <hr className='opacity-10' />
           {/* Add to Cart */}
          <AddToCartButton id={product._id} images={product.images} price={product.price} onSale={product.onSale} name={product.name} newPrice={product.newPrice} quantity={1} colors={product.colors}  />
-          {/* <div className='mt-6'>
-            <h3 className='font-medium text-gray-800 tracking-widest uppercase'>Description:</h3>
-            <p>{product.desc}</p>
-          </div> */}
          
           <CollapseDetails desc={product.description} />
         </div>
