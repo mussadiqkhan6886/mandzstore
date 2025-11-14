@@ -13,10 +13,10 @@ const Home = () => {
     <main className='pt-24 lg:pt-14'>
       <WhatsAppButton />
       <Hero />
+      <FrontCollection />
       <Trust />
       <ByCollection data={byCollection} header='shop by collection' />
       <Vision />
-      <FrontCollection />
       <Reviews />
     </main>
   )
