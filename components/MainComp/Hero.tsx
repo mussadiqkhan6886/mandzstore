@@ -9,7 +9,7 @@ const Hero = () => {
       <Link href={"/collections/hijab"}>
       <picture>
         <source media="(max-width: 767px)" srcSet="/main_hero_small.jpg" />
-         <Image src={"/main_hero_large.jpg"} alt='main banner hero image large screen' width={1000} height={1000} className='w-full h-full' priority  />
+         <Image src={"/main_hero_large.jpg"} alt='main banner hero image large screen' width={1000} height={1000} className='w-full h-full' priority fetchPriority='high'  />
       </picture>
       </Link>
       <div className='flex flex-col items-center justify-center gap-4 md:gap-7 py-9'>

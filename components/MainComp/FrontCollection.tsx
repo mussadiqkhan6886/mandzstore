@@ -34,9 +34,9 @@ const FrontCollection = () => {
 
   return (
     <section className="my-20 max-w-7xl flex flex-col items-center mx-auto px-4">
-      <h4 className={`${cormorant.className} text-3xl md:text-4xl uppercase my-8 text-center`}>
+      <h3 className={`${cormorant.className} text-3xl md:text-4xl uppercase my-8 text-center`}>
         Wrap Yourself in Style
-      </h4>
+      </h3>
 
       {/* Category Tabs */}
       <div className="flex justify-center gap-6 mb-10">
