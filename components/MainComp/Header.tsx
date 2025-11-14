@@ -56,8 +56,8 @@ const Header = () => {
 
         {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} />}
       <div className="flex overflow-y-hidden justify-between items-center py-1 px-6 md:px-12">
-        <button onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
-          <FiMenu />
+        <button aria-label="menu icon button" onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
+          <FiMenu aria-label="menu icon" />
         </button>
 
 
@@ -66,8 +66,8 @@ const Header = () => {
         </Link>
 
         <div className="flex items-center space-x-4 md:space-x-6">
-          <button onClick={() => setShowSearch(true)}><FiSearch className='text-xl md:text-2xl cursor-pointer' /></button>
-          <button onClick={() => setShowCart(true)}><FiShoppingCart className='text-xl md:text-2xl cursor-pointer' /></button>
+          <button aria-label="search icon button" onClick={() => setShowSearch(true)}><FiSearch aria-label="search icon" className='text-xl md:text-2xl cursor-pointer' /></button>
+          <button aria-label="shopping cart button" onClick={() => setShowCart(true)}><FiShoppingCart aria-label="shopping cart icon" className='text-xl md:text-2xl cursor-pointer' /></button>
         </div>
       </div>
       {showSearch && (
@@ -75,7 +75,7 @@ const Header = () => {
           <form onSubmit={handleSearch} className='bg-gray-100 py-8 flex items-center justify-center gap-6'>
             <div className='border border-black/30 py-1.5 px-2 flex items-center w-[70%] pr-4'>
               <input type='text' placeholder='Search' value={query} onChange={(e) => setQuery(e.target.value)} className='outline-none w-full px-3' />
-              <FiSearch className='text-xl' />
+              <FiSearch aria-label="search button icon" className='text-xl' />
             </div>
             <button type='submit'><FiX onClick={() => setShowSearch(false)} className='text-xl cursor-pointer' /></button>
           </form>

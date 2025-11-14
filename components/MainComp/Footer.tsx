@@ -50,9 +50,9 @@ const Footer = () => {
                 <p className={`${cormorant.className} uppercase mb-4 text-sm tracking-widest`}>Social</p>
                 <div className='flex gap-3'>
                     <Link href={"https://www.instagram.com/mzstore_14?igsh=ZjlicTd1ZDhkcHFq"}>
-                    <FiInstagram className='text-2xl' />
+                    <FiInstagram aria-label='instagram icon profile' className='text-2xl' />
                     </Link>
-                    <Link href={"https://www.facebook.com/share/16Qyi1SMMJ/"}><FiFacebook className='text-2xl' /></Link>
+                    <Link href={"https://www.facebook.com/share/16Qyi1SMMJ/"}><FiFacebook aria-label='facebook icon profile' className='text-2xl' /></Link>
                 </div>
             </div>
         </div>
