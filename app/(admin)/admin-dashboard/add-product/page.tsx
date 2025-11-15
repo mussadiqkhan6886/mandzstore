@@ -27,13 +27,19 @@ const AddProduct = () => {
   });
 
   useEffect(() => {
-    if (data.name) {
-      const slug = data.name.toLowerCase().replace(/\s+/g, "-");
-      setData((prev) => ({ ...prev, slug }));
-    } else {
-      setData((prev) => ({ ...prev, slug: "" }));
-    }
-  }, [data.name]);
+  if (data.name) {
+    const slug = data.name
+      .toLowerCase()                       // lowercase
+      .trim()                               // remove leading/trailing spaces
+      .replace(/\s+/g, "-")                 // replace spaces with hyphens
+      .replace(/[^a-z0-9-]/g, "")           // remove invalid characters
+      .replace(/-+/g, "-")                  // replace multiple hyphens with single
+      .replace(/^-|-$/g, "");               // remove leading/trailing hyphens
+    setData((prev) => ({ ...prev, slug }));
+  } else {
+    setData((prev) => ({ ...prev, slug: "" }));
+  }
+}, [data.name]);
 
   // @ts-ignore
   const handleChange = (
