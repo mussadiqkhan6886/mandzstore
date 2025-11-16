@@ -68,6 +68,12 @@ export default function ProductTable({ products }: ProductTableProps) {
       type: 'boolean',
     },
     {
+      field: 'stock',
+      headerName: 'Stock',
+      width: 80,
+      type: 'number',
+    },
+    {
       field: 'colors',
       headerName: 'Colors',
       width: 320,

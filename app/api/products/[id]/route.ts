@@ -41,6 +41,7 @@ export const PATCH = async (
     const description = formData.get("description") as string;
     const price = Number(formData.get("price"));
     const newPrice = formData.get("newPrice") ? Number(formData.get("newPrice")) : null;
+    const stock = Number(formData.get("stock"))
     const onSale = formData.get("onSale") === "true";
     const colors = formData.getAll("colors").map(c => c.toString());
     const slug = formData.get("slug") as string
@@ -78,6 +79,7 @@ export const PATCH = async (
       slug,
       description,
       price,
+      stock,
       newPrice,
       onSale,
       colors,

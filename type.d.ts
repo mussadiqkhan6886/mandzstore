@@ -9,6 +9,7 @@ interface Product {
   colors: string[];
   slug: string;
   inStock: boolean;
+  stock: number
   _id: string; // MongoDB document ID
 }
 

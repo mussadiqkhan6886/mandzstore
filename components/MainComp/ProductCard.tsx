@@ -11,6 +11,7 @@ type Props = {
   onSale: boolean;
   oldSlug?: string;
   inStock: boolean;
+  stock: number
 };
 
 const ProductCard = ({
@@ -23,6 +24,7 @@ const ProductCard = ({
   onSale,
   oldSlug,
   inStock,
+  stock,
 }: Props) => {
 
   const content = (
@@ -59,6 +61,7 @@ const ProductCard = ({
             'Rs.' + price
           )}
         </h4>
+        <h4>Stock : {stock} Available</h4>
       </div>
     </>
   );

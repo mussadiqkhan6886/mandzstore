@@ -22,7 +22,8 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
     colors: [] as string[],
     images: [] as string[],
     slug: "",
-    inStock: true
+    inStock: true,
+    stock: ""
   });
 
   const router = useRouter();
@@ -45,6 +46,7 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
           images: product.images || [],
           slug: product.slug || "",
           inStock: product.inStock || false,
+          stock: product.stock
         });
 
         setExistingImages(product.images || []);
@@ -195,6 +197,17 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
             name="price"
             type="number"
             value={data.price}
+            onChange={handleChange}
+            className="w-full border rounded-lg p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-semibold mb-1">Stock</label>
+          <input
+            name="stock"
+            type="number"
+            value={data.stock}
             onChange={handleChange}
             className="w-full border rounded-lg p-2"
             required

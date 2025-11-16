@@ -4,7 +4,6 @@ import React, { ChangeEvent, useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
-import { useRouter } from "next/navigation";
 import { collectionsData } from "@/lib/constants"; // adjust path
 
 const AddProduct = () => {
@@ -24,6 +23,7 @@ const AddProduct = () => {
     inStock: true,
     colors: [] as string[],
     images: [] as string[],
+    stock: ""
   });
 
   useEffect(() => {
@@ -113,10 +113,10 @@ const AddProduct = () => {
           inStock: false,
           colors: [],
           images: [],
+          stock: ""
         });
         setFiles([]);
         setPreviews([]);
-        // setTimeout(() => router.push("/admin-dashboard/products-list"), 1500);
       }
     } catch (err) {
       console.error(err);
@@ -194,6 +194,17 @@ const AddProduct = () => {
             name="price"
             type="number"
             value={data.price}
+            onChange={handleChange}
+            className="w-full border rounded-lg p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-semibold mb-1">Stock</label>
+          <input
+            name="stock"
+            type="number"
+            value={data.stock}
             onChange={handleChange}
             className="w-full border rounded-lg p-2"
             required
