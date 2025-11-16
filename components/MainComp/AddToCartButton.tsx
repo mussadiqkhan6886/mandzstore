@@ -13,6 +13,7 @@ interface Props {
   name: string;
   quantity: number;
   colors?: string[];
+  stock: number
 }
 
 const AddToCartButton = ({
@@ -24,11 +25,10 @@ const AddToCartButton = ({
   name,
   quantity,
   colors,
+  stock
 }: Props) => {
   const { addToCart } = useCart();
   const [selectedColor, setSelectedColor] = useState('');
-  const [added, setAdded] = useState(false);
-
 
   const handleAddToCart = () => {
     if (colors && colors.length > 0 && !selectedColor) {
@@ -45,14 +45,12 @@ const AddToCartButton = ({
       name,
       quantity,
       selectedColor,
+      stock
     });
 
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1000);
   };
 
   const hasColors = colors && colors.length > 0;
-
   return (
     <div className="space-y-4">
       {/* Color Selector */}
@@ -75,7 +73,7 @@ const AddToCartButton = ({
               : 'bg-black text-white hover:bg-gray-800'
           }`}
       >
-        {added ? 'Added' : hasColors && !selectedColor ? 'Select Color to Add' : 'Add to Cart'}
+        {hasColors && !selectedColor ? 'Select Color to Add' : 'Add to Cart'}
       </button>
     </div>
   );

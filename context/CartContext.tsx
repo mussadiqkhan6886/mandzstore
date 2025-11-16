@@ -11,6 +11,7 @@ export interface CartItem {
   quantity: number;
   images: string[];
   selectedColor: string
+  stock: number
 }
 
 // 🧠 Define context type
@@ -41,39 +42,38 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
   }, [cart]);
 
   // ➕ Add item
- const addToCart = (newItem: CartItem) => {
-  setCart((prev) => {
-    const existing = prev.find(
-      (item) => item.id === newItem.id && item.selectedColor === newItem.selectedColor
-    );
+    const addToCart = (newItem: CartItem) => {
+      setCart((prev) => {
+        const existing = prev.find(
+          (item) => item.id === newItem.id && item.selectedColor === newItem.selectedColor
+        );
 
-    if (existing) {
-      return prev.map((item) =>
-        item.id === newItem.id && item.selectedColor === newItem.selectedColor
-          ? { ...item, quantity: item.quantity + newItem.quantity }
-          : item
-      );
-    }
+        if (existing) {
+          // Ensure quantity does not exceed stock
+          const updatedQuantity = Math.min(
+            existing.quantity + newItem.quantity,
+            newItem.stock
+          );
+          return prev.map((item) =>
+            item.id === newItem.id && item.selectedColor === newItem.selectedColor
+              ? { ...item, quantity: updatedQuantity }
+              : item
+          );
+        }
 
-    return [...prev, newItem];
-  });
-};
+        // If new item, don't allow quantity greater than stock
+        const quantity = Math.min(newItem.quantity, newItem.stock);
+        return [...prev, { ...newItem, quantity }];
+      });
+    };
 
   // ❌ Remove item
   const removeFromCart = (id: number) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // 🔄 Update quantity
-  const updateQuantity = (id: number, quantity: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
-      )
-    );
-  };
+  const updateQuantity = (id: number, quantity: number) => { setCart((prev) => prev.map((item) => item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item ) ); };
 
-  // 🧹 Clear all
   const clearCart = () => setCart([]);
 
   return (

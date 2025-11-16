@@ -59,9 +59,13 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
                     </div>
                     <div className='flex justify-between'>
                     <div className="flex items-center gap-6 border border-black/30 px-3 py-1">
-                      <button className='text-xl' onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                      <button className='text-xl' onClick={() => {
+                        if(item.quantity < item.stock){
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
+                      }}>+</button>
                       <p>{item.quantity}</p>
-                      <button className='text-xl' onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                        <button className='text-xl' onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                     </div>
                       <FiTrash
                         onClick={() => removeFromCart(item.id)}
@@ -71,7 +75,7 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
 
                     <div>
                       {item.onSale ? (
-                        <h4 className="text-gray-700 text-[12px] sm:text-sm">
+                        <h4 className="text-gray-700 mt-1 text-[12px] sm:text-sm">
                           <span className="line-through opacity-70">Rs. {item.price}</span>{" "}
                           <span className="font-semibold text-[14px] sm:text-[16px]">Rs. {item.newPrice}</span>{" "}
                           <span className="text-red-500 text-xs">
@@ -81,6 +85,7 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
                       ) : (
                         <h4 className="text-gray-800 text-[16px]">Rs. {item.price}</h4>
                       )}
+                      <p className='text-[13px]'>Stock: {item.stock}</p>
                     </div>
                   </div>
                 </div>

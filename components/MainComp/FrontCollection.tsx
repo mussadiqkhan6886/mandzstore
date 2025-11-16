@@ -31,6 +31,7 @@ const FrontCollection = () => {
 
   if (loading) return <div className="text-center py-10">Loading...</div>;
 
+
   return (
     <section className="my-20 max-w-7xl flex flex-col items-center mx-auto px-4">
       <h3 className={`${cormorant.className} text-3xl md:text-4xl uppercase my-8 text-center`}>
@@ -63,7 +64,8 @@ const FrontCollection = () => {
           newPrice={product.newPrice}
           onSale={product.onSale}
           oldSlug={product.collection} // optional if you want to keep it
-          inStock={product.inStock} />
+          inStock={product.inStock}
+          stock={product.stock} />
         ))}
       </div>
       <Link className='bg-black px-6 py-3 mt-10 text-sm text-white font-semibold' href={`/collections/${current}`}>View All</Link>

@@ -58,11 +58,12 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
           <div>
            <h2 className="text-gray-700">Rs. {product.onSale ? <span><span className='line-through text-sm opacity-85'>{product.price}</span> <span className='font-medium text-[19px]'>{product.newPrice}</span>  <span className='text-red-500 inline-block ml-4'>save RS {product.price - product.newPrice}</span></span> : product.price }</h2>
             <p className="text-sm text-gray-500">Shipping calculated at checkout.</p>
+             <h4 className='flex mt-3 items-center text-gray-700 gap-2 my-1 text-sm'> {product.inStock ? <span className="w-2 h-2 inline-block bg-green-500 rounded-full"></span> : <span className="w-2 h-2 inline-block bg-red-500 rounded-full"></span>} Stock : {product.stock} Available</h4>
           </div>
 
           <hr className='opacity-10' />
           {/* Add to Cart */}
-         <AddToCartButton id={product._id} images={product.images} price={product.price} onSale={product.onSale} name={product.name} newPrice={product.newPrice} quantity={1} colors={product.colors}  />
+         <AddToCartButton id={product._id} images={product.images} price={product.price} onSale={product.onSale} name={product.name} newPrice={product.newPrice} quantity={1} colors={product.colors} stock={product.stock}  />
          
           <CollapseDetails desc={product.description} />
         </div>
