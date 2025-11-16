@@ -70,7 +70,11 @@ const Page = () => {
                     <p className="font-medium">{item.quantity}</p>
                     <button
                       className="text-xl font-semibold hover:text-gray-700"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      onClick={() => {
+                        if(item.quantity < item.stock){
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
+                      }}
                     >
                       +
                     </button>
