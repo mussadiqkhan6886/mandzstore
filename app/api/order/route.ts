@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/config/database/db";
 import cloudinary from "@/lib/config/cloudinary";
 import order from "@/lib/models/OrderSchema";
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -67,6 +68,30 @@ export const POST = async (req: NextRequest) => {
       createdAt: new Date(),
     });
 
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_APP_PASSWORD,
+      },
+    });
+
+    const html = `
+      <h2>New Order Received!</h2>
+      <a href="https://www.mzstorepk.com/admin-dashboard">Check it out</a>
+    `;
+
+    // 3️⃣ Mail options
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: "maaz52364@gmail.com", // admin email
+      subject: `New Order`,
+      html,
+    };
+
+    // 4️⃣ Send email
+    await transporter.sendMail(mailOptions);
+
     return NextResponse.json({
       success: true,
       order: newOrder,
@@ -80,19 +105,3 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-// export const POST = async (req: NextRequest) => {
-//   try {
-//     await connectDB();
-//     const orderData = await req.json();
-
-//     const newOrder = await order.create({
-//       ...orderData,
-//       createdAt: new Date(),
-//     });
-
-//     return NextResponse.json({ success: true, order: newOrder });
-//   } catch (error) {
-//     console.error("Order creation failed:", error);
-//     return NextResponse.json({ success: false, message: "Failed to place order." }, { status: 500 });
-//   }
-// };
