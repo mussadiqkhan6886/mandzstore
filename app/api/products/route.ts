@@ -83,9 +83,6 @@ export async function POST(req: NextRequest) {
       inStock,
       images: uploadedImages,
     });
-    console.log(newProduct)
-    
-    console.log(stock)
     await newProduct.save();
 
     return NextResponse.json(
