@@ -3,6 +3,7 @@ import cloudinary from "@/lib/config/cloudinary";
 import order from "@/lib/models/OrderSchema";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { Product } from "@/lib/models/ProductSchema";
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -67,6 +68,23 @@ export const POST = async (req: NextRequest) => {
       paymentProof: uploadedImages[0] || null,
       createdAt: new Date(),
     });
+
+
+   for (const item of orderData.items) {
+  const product = await Product.findById(item.id);
+
+  if (product) {
+    // Calculate new stock
+    let newStock = product.stock - item.quantity;
+    if (newStock < 0) newStock = 0;
+
+    // Update stock and inStock flag
+    await Product.findByIdAndUpdate(item.id, {
+      stock: newStock,
+      inStock: newStock > 0, // true if stock > 0, false if 0
+    });
+  }
+}
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
