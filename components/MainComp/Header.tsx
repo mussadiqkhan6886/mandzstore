@@ -1,12 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { upperHeaderData } from '@/lib/constants';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
 import {FiMenu, FiSearch, FiShoppingCart, FiX} from "react-icons/fi"
-
-import 'swiper/css';
 import SideBar from './SideBar';
 import CartSection from './CartSection';
 import { usePathname, useRouter } from 'next/navigation';
@@ -41,25 +36,11 @@ const Header = () => {
 
   return (
     <header className='fixed top-0 w-full bg-white z-50' >
-      <Swiper
-        modules={[Autoplay]}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
-        loop
-        className="text-center bg-[#EEECE5] text-[12px] py-2"
-      >
-        {upperHeaderData.map((item, i) => (
-          <SwiperSlide key={i}>
-            <p className='py-2 font-semibold uppercase tracking-[0.2em]'>{item}</p>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
         {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} />}
       <div className="flex overflow-y-hidden justify-between items-center py-1 px-6 md:px-12">
         <button aria-label="menu icon button" onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
           <FiMenu aria-label="menu icon" />
         </button>
-
 
         <Link href={"/"} >
           <Image src={"/logo.jpeg"} className='scale-120' alt='logo header main' width={100} height={100}/>

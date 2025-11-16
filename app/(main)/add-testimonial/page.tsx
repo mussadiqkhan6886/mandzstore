@@ -24,7 +24,7 @@ const AddTestimonialPage = () => {
         setResult("Testimonial added successfully!")
         setForm({ name: "", designation: "", message: "" });
         setTimeout(() => {
-          router.push("/admin-dashboard/testimonials")
+          router.push("/")
         }, 1500)
       } else {
         setResult("Failed to add testimonial.");

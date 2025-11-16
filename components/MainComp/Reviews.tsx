@@ -7,18 +7,22 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { cormorant } from '@/lib/fonts';
 import axios from 'axios';
+import Link from 'next/link';
 
 export default function Reviews() {
 
   const [data, setData] = useState<reviewType[]>([])
-
+  const [loading, setLoading] = useState(false)
   
   const fetchData = async () => {
     try {
       const res = await axios.get("/api/testimonials");
       setData(res.data.testimonials); // ✅ use fetched data
+      setLoading(true)
     } catch (err) {
       console.error("Failed to fetch reviews:", err);
+    } finally{
+      setLoading(false)
     }
   };
 
@@ -26,11 +30,14 @@ export default function Reviews() {
     fetchData()
   }, [])
 
-  // if (!data.length) return <p className="text-center py-10">Loading reviews...</p>;
+  if (loading) return <p className="text-center py-10">Loading reviews...</p>;
 
   return (
     <section className="py-10 bg-gray-50 max-w-5xl mx-auto">
-      <h4 className={`${cormorant.className} text-4xl text-center  mb-8 uppercase`}>Customer Reviews</h4>
+      <div className='flex items-center justify-between mb-8 px-2'>
+        <h4 className={`${cormorant.className} text-2xl md:text-4xl text-center sm:uppercase`}>Customer Reviews</h4>
+        <button className="bg-black text-white px-2 sm:px-3.5 py-1.5 sm:py-3 text-sm cursor-pointer"><Link href={"/add-testimonial"}>Add Review</Link></button>
+      </div>
       <Swiper
         slidesPerView={3}
         spaceBetween={30}

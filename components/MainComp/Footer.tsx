@@ -24,7 +24,7 @@ const Footer = () => {
             <p className='text-[12px] italic mt-4'>
                 <span className='font-semibold'> Accessibility Statement</span>
                 <br />
-                Kef is dedicated to creating a website experience that is accessible and inclusive for everyone.
+                M&Z Store is dedicated to creating a website experience that is accessible and inclusive for everyone.
                 If you encounter any difficulties using our site or have suggestions for improvement, please reach out to us at: maaz52364@gmail.com</p>
         </div>
         <div>

@@ -1,16 +1,9 @@
 import { FiCreditCard, FiHeart, FiStar, FiTruck } from "react-icons/fi";
 
-export const upperHeaderData = [
-    "Free Shipping above RS 4500",
-    "Premium Quality Products",
-    "15000+ Orders, 1000+ 5⭐ Reviews"
-]
-
-
 export const trustData = [
   {
     icon: FiHeart,
-    heading: "150,000+ Orders Delivered",
+    heading: "Trust worthy",
     desc: "Trusted by modest wear lovers worldwide.",
   },
   {
@@ -29,13 +22,6 @@ export const trustData = [
     desc: "From fit to fabric, your voice shapes everything we create.",
   },
 ];
-
-export const byCollection = [
-    {image: "/collection (10).jpg", link: "/collections/georgette-hijab" , title: "Georgette"},
-    {image: "/collection (5).jpg", link: "/collections/lawn-hijab" , title: "Lawn"},
-    {image: "/collection (7).jpg", link: "/collections/silk-hijab" , title: "Silk"},
-]
-
 
 export const sidebarData = [
   { title: "Home", link: "/", delay: 0.1 },

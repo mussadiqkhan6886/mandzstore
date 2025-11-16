@@ -4,7 +4,6 @@ import { cormorant } from '@/lib/fonts';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import SearchCard from './SearchCard';
-import { Product } from '@/lib/models/ProductSchema';
 import Link from 'next/link';
 
 const FrontCollection = () => {
@@ -54,7 +53,7 @@ const FrontCollection = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8">
         {data.slice(0, 9).map((product) => (
           <SearchCard key={product._id} _id={product._id}
           name={product.name}

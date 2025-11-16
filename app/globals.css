@@ -25,3 +25,13 @@ html, body{
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
+
+.productSwiper .swiper-pagination-bullet {
+  background: black !important;
+  opacity: 0.5;
+}
+
+.productSwiper .swiper-pagination-bullet-active {
+  background: black !important;
+  opacity: 1;
+}

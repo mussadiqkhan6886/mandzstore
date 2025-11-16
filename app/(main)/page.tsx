@@ -1,11 +1,8 @@
-import ByCollection from '@/components/MainComp/ByCollection'
 import FrontCollection from '@/components/MainComp/FrontCollection'
 import Hero from '@/components/MainComp/Hero'
 import Reviews from '@/components/MainComp/Reviews'
 import Trust from '@/components/MainComp/Trust'
-import Vision from '@/components/MainComp/Vision'
 import WhatsAppButton from '@/components/MainComp/WhatsApp'
-import { byCollection } from '@/lib/constants'
 import React from 'react'
 
 const Home = () => {
@@ -15,8 +12,6 @@ const Home = () => {
       <Hero />
       <FrontCollection />
       <Trust />
-      <ByCollection data={byCollection} header='shop by collection' />
-      <Vision />
       <Reviews />
     </main>
   )

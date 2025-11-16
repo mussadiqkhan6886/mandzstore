@@ -30,7 +30,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
       slug: { $ne: product.slug } 
     } 
   },
-  { $sample: { size: 3 } } // randomly pick 3 products
+  { $sample: { size: 4 } } // randomly pick 3 products
 ]);
 
 
@@ -47,7 +47,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-16 pt-44">
+    <main className="max-w-7xl mx-auto px-4 py-16 pt-30 sm:pt-44">
       <section className="flex flex-col lg:flex-row gap-8 xl:gap-14">
         {/* LEFT: IMAGES */}
         <ImageProduct images={product.images} name={product.name} />
@@ -69,14 +69,14 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
       </section>
            <div className='pt-16'>
             <HeaderProduct title='May you like' desc="May You like these awesome related products" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8">
             {products.slice(0,3).map((product: Product) => (
               <div  
               key={product._id}
                     className="relative group cursor-pointer overflow-hidden  transition-all duration-300"
                   >
                     <Link href={`/collections/${updatedSlug}/${product.slug}`}>
-                    <div className="overflow-hidden">
+                    <div className="overflow-hidden h-[200px] md:h-[350px]">
                       <Image
                         src={product.images[0]}
                         alt={product.name}
@@ -88,7 +88,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
               
                     {/* Info */}
                     <div className="text-center mt-3">
-                      <h3 className="tracking-widest uppercase text-sm mb-1">{product.name}</h3>
+                      <h3 className="tracking-widest md:uppercase text-[12px] md:text-sm mb-1">{product.name}</h3>
                       <h4 className="text-gray-700">{product.onSale ? <span><span className='line-through text-sm opacity-85'>Rs. {product.price}</span> <span className='font-medium text-[17px]'>Rs. {product.newPrice}</span>  <span className='text-red-500 inline-block ml-4'>Save Rs. {product.price - product.newPrice!}</span></span> : "Rs." + product.price }</h4>
                     </div>
                     </Link>
