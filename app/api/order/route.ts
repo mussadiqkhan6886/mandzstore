@@ -42,7 +42,7 @@ export const POST = async (req: NextRequest) => {
             cloudinary.uploader
               .upload_stream(
                 {
-                  folder: "hairoil",
+                  folder: "mzstore",
                   resource_type: "image",
                 },
                 (error, result) => {
