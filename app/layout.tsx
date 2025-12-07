@@ -3,9 +3,7 @@ import "./globals.css";
 import { CartContextProvider } from "@/context/CartContext";
 import { montserrat } from "@/lib/fonts";
 import dynamic from "next/dynamic";
-const MetaPixel = dynamic(() => import("@/components/adminComp/MetaPixel"), {
-  ssr: false,
-});
+const MetaPixel = dynamic(() => import("@/components/adminComp/MetaPixel"));
 
 
 export const metadata: Metadata = {
