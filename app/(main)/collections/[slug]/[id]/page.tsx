@@ -8,13 +8,8 @@ import HeaderProduct from '@/components/MainComp/HeaderProduct';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export const revalidate = 50; 
-
-export const generateStaticParams = async () => {
-  await connectDB();
-  const products = await Product.find({}).lean();
-  return products.map(product => ({ id: product.slug }));
-};
+export const revalidate = 50;
+export const dynamic = 'force-dynamic';
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
