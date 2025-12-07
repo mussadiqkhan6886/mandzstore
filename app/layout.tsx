@@ -2,6 +2,11 @@ import { Metadata } from "next";
 import "./globals.css";
 import { CartContextProvider } from "@/context/CartContext";
 import { montserrat } from "@/lib/fonts";
+import dynamic from "next/dynamic";
+const MetaPixel = dynamic(() => import("@/components/adminComp/MetaPixel"), {
+  ssr: false,
+});
+
 
 export const metadata: Metadata = {
   title: "M&Z Store | Premium Hijabs, Chaddars & Dupattas Online in Pakistan",
@@ -57,6 +62,7 @@ export default function RootLayout({
         <meta name="google-site-verification" content="8ehoMtNRgXA69WWqUMa3-4UXpzW_3Rh_ek9iqRV7evc" />
       </head>
       <CartContextProvider>
+        <MetaPixel />
         <body className={`antialiased ${montserrat.className}`}>{children}</body>
       </CartContextProvider>
     </html>
