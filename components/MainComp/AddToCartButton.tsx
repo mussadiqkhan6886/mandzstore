@@ -1,8 +1,9 @@
 'use client';
 
 import { useCart } from '@/hooks/useCart';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Colors from './Colors';
+import { FaCheck } from 'react-icons/fa';
 
 interface Props {
   id: number;
@@ -29,13 +30,14 @@ const AddToCartButton = ({
 }: Props) => {
   const { addToCart } = useCart();
   const [selectedColor, setSelectedColor] = useState('');
-
+  const [show, setShow] = useState(false)
   const handleAddToCart = () => {
     if (colors && colors.length > 0 && !selectedColor) {
       // Safety check: if colors exist, ensure one is selected
       return;
     }
 
+    
     addToCart({
       id,
       images,
@@ -47,8 +49,17 @@ const AddToCartButton = ({
       selectedColor,
       stock
     });
+    setShow(true)
 
   };
+
+useEffect(() => {
+  let timer: NodeJS.Timeout;
+  if (show) {
+    timer = setTimeout(() => setShow(false), 2000);
+  }
+  return () => clearTimeout(timer);
+}, [show]);
 
   const hasColors = colors && colors.length > 0;
   return (
@@ -75,6 +86,24 @@ const AddToCartButton = ({
       >
         {hasColors && !selectedColor ? 'Select Color to Add' : 'Add to Cart'}
       </button>
+
+      {show && (
+  <div className="fixed top-6 right-6 z-50 flex items-center gap-3
+    bg-white text-black px-5 py-3 rounded-lg shadow-xl
+    border border-gray-100
+    animate-fade-in">
+    
+    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
+      <FaCheck className="text-green-600 text-sm" />
+    </div>
+
+    <span className="text-sm font-medium">
+      Added to cart successfully
+    </span>
+  </div>
+)}
+
+
     </div>
   );
 };
