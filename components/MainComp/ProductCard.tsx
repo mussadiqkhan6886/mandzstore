@@ -40,6 +40,7 @@ const ProductCard = ({
           alt={name}
           width={400}
           height={420}
+          unoptimized
           className={`w-full h-full object-cover transition-all duration-500 ease-in-out scale-100 group-hover:scale-105 ${
             !inStock ? 'opacity-60' : ''
           }`}
