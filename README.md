@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# M&Z Store — Modest Fashion E-Commerce
 
-## Getting Started
+> A full-stack e-commerce store for **M&Z Store**, a Pakistani modest fashion brand selling hijabs, chaddars, and dupattas nationwide with COD.
 
-First, run the development server:
+🌐 **Live Site:** [mzstorepk.com](https://www.mzstorepk.com)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## What Was Built
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A complete e-commerce platform built for a modest fashion brand with a catalogue of 233+ products. The store needed a scalable product system with real stock visibility per item, a URL-based search engine so customers could filter and land directly on relevant pages, and a clean admin dashboard to manage everything without developer involvement. Meta Pixel is integrated throughout for Facebook and Instagram ad conversion tracking.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## What I Learned Building This
 
-To learn more about Next.js, take a look at the following resources:
+**URL query-based search & filtering** — Built the backend search engine using URL query parameters rather than client-side state. Search, category filters, and sort options are all encoded in the URL, making filtered results shareable, bookmarkable, and indexable by search engines. This was a new pattern for me and significantly improved both UX and SEO.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Stock management** — Implemented per-product stock tracking that displays live availability on every product card and detail page. Out-of-stock items are flagged automatically and blocked from being added to cart. Stock is decremented on order placement and managed by the admin from the dashboard.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Customer-Facing
+- **233+ products** across hijabs, chaddars, dupattas, and scarves
+- **URL query-based search** — filtering by category, price, and sort order encoded in the URL for shareable, SEO-friendly results
+- **Live stock display** — each product shows exact units available; out-of-stock items are clearly flagged
+- **Cart system** — add to cart with stock validation, quantity management, and order placement
+- **COD (Cash on Delivery)** — primary payment method for the Pakistani market
+- **Customer reviews** — submit and view testimonials per product
+- **Meta Pixel** — integrated for Facebook & Instagram ad conversion tracking
+- **Accessibility statement** — inclusive design commitment on the storefront
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Admin Dashboard
+- **Product CRUD** — add, edit, and delete products with image upload via Cloudinary
+- **Order management** — view and handle all incoming orders
+- **Review moderation** — approve or remove customer reviews
+- **Stock management** — update stock levels per product from the dashboard
+- **Secure access** — JWT authentication with bcrypt password hashing
+
+---
+
+## Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|---|---|
+| **Next.js 16** | App Router, SSR & SSG |
+| **React 19 + TypeScript** | Type-safe component architecture |
+| **Tailwind CSS v4** | Utility-first styling |
+| **Motion (Framer Motion)** | UI animations |
+| **Swiper.js** | Product image carousels |
+| **MUI v7 + Data Grid** | Admin dashboard tables and UI |
+| **React Icons** | Icon library |
+
+### Backend (Next.js API Routes)
+| Technology | Purpose |
+|---|---|
+| **MongoDB + Mongoose** | Products, orders, reviews, stock |
+| **JWT + bcryptjs** | Secure admin authentication |
+| **Nodemailer** | Order confirmation emails |
+| **Cloudinary** | Image storage and CDN delivery |
+| **browser-image-compression** | Client-side compression before upload |
+| **Axios + UUID** | API calls and unique order ID generation |
+
+---
+
+## 👨‍💻 Built By
+
+Designed & developed by **[Mussadiq Khan](https://github.com/mussadiqkhan6886)** — **[Scrupulous](https://scrupulous.vercel.app)** Agency.
+
+> *Shared for portfolio purposes with client permission. Environment variables and sensitive configuration are excluded.*
+
+---
+
+**Business:** M&Z Store · **Location:** Pakistan · **Specialty:** Hijabs, chaddars, and dupattas for modest fashion
