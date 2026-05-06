@@ -35,11 +35,11 @@ interface Order {
   createdAt: string;
 }
 
-export default function OrderTable({ orders }: { orders: Order[] }) {
+export default function   OrderTable({ orders }: { orders: Order[] }) {
   const [rows, setRows] = React.useState(() =>
     orders.map((order) => ({
       id: order._id,
-      orderId: order.orderId,
+      orderId: order.orderId.slice(0,7),
       userName: order.userDetails.fullName,
       email: order.userDetails.email,
       phone: order.userDetails.phone,
@@ -89,7 +89,7 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
                 height={40}
                 className="rounded-md object-cover border"
               />
-              <span className="text-sm">{item.name} × {item.quantity} - ({item.selectedColor})</span>
+              <span className="text-sm">{item.name} × {item.quantity} {item.selectedColor && - (item.selectedColor)}</span>
             </div>
           ))}
         </div>
@@ -210,7 +210,7 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
         rows={rows}
         columns={columns}
         disableRowSelectionOnClick
-        autoHeight
+        getRowHeight={() => "auto"}
       />
     </div>
   );
