@@ -23,7 +23,7 @@ A complete e-commerce platform built for a modest fashion brand with a catalogue
 ## Features
 
 ### Customer-Facing
-- **233+ products** across hijabs, chaddars, dupattas, and scarves
+- **300+ products** across hijabs, chaddars, dupattas, and scarves
 - **URL query-based search** — filtering by category, price, and sort order encoded in the URL for shareable, SEO-friendly results
 - **Live stock display** — each product shows exact units available; out-of-stock items are clearly flagged
 - **Cart system** — add to cart with stock validation, quantity management, and order placement
@@ -52,7 +52,6 @@ A complete e-commerce platform built for a modest fashion brand with a catalogue
 | **Motion (Framer Motion)** | UI animations |
 | **Swiper.js** | Product image carousels |
 | **MUI v7 + Data Grid** | Admin dashboard tables and UI |
-| **React Icons** | Icon library |
 
 ### Backend (Next.js API Routes)
 | Technology | Purpose |
