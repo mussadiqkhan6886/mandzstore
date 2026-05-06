@@ -1,10 +1,12 @@
 // components/SideBar.tsx
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sidebarData } from '@/lib/constants';
 import Link from 'next/link';
+import axios from 'axios';
+import { NavItem } from '@/app/(admin)/admin-dashboard/navbar/page';
 
 type Props = {
   isOpen: boolean;
@@ -20,6 +22,17 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
   const toggleMenu = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const[navbar, setNavbar] = useState<NavItem[] | []>([])
+
+  const fetchNavdata = async () => {
+    const res = await axios.get("/api/navbar")
+    setNavbar(res.data.data)
+  }
+
+  useEffect(() => {
+    fetchNavdata()
+  }, [])
 
   return (
     <AnimatePresence>
@@ -57,21 +70,21 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
 
             <div className="p-6 pt-20">
               <ul>
-              {sidebarData.map((item, i) => (
+              {navbar.map((item, i) => (
                 <motion.li initial={{ opacity: 0, y:200 }}
-          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut', delay: item.delay }} key={i}>
+          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut', delay: i - 0.8 }} key={i}>
                   <div
                     className="flex w-full tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center"
                   >
-                    {item.children ? (
+                    {(item.children && item.children?.length > 0) ? (
                       <p onClick={() => toggleMenu(i)}>{item.title}</p>
                     ) : (
-                      <Link onClick={() => setIsOpen(false)} className="w-full" href={item.link}>
+                      <Link onClick={() => setIsOpen(false)} className="w-full" href={`/collections/${item.link}`}>
                         {item.title}
                       </Link>
                     )}
 
-                  {item.children && (
+                  {(item.children && item.children?.length > 0) && (
                     <div onClick={() => toggleMenu(i)}>
                       {openIndex === i ? (
                         <FiChevronUp className="text-xl" />
@@ -87,7 +100,7 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                           {item.children.map((child, j) => (
                             <motion.li initial={{ opacity: 0, y:200 }}
           animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut'}}  key={j}>
-                              <Link onClick={() => setIsOpen(false)} href={child.link}>{child.title}</Link>
+                              <Link onClick={() => setIsOpen(false)} href={`/collections/${child.link}`}>{child.title}</Link>
                             </motion.li>
                           ))}
                         </ul>

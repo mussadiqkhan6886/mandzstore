@@ -10,7 +10,7 @@ interface Child {
   link: string;
 }
 
-interface NavItem {
+export interface NavItem {
   _id: string;
   title: string;
   link: string;
