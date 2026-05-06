@@ -29,7 +29,7 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
       >
         {/* 🛒 Header */}
         <div className="flex justify-between items-center">
-          <p className="font-semibold text-xl">Your Cart(Items: {totalItems})</p>
+          <p className="font-semibold text-xl">Your Cart (Items: {totalItems})</p>
           <FiX className="cursor-pointer text-xl" onClick={() => setShowCart(false)} />
         </div>
 
@@ -47,18 +47,18 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
                       alt={`${item.name} - ${item.selectedColor}`}
                       width={90}
                       height={90}
-                      className="w-[90%] sm:w-full"
+                      className="aspect-square"
                     />
                   </div>
 
                   <div className="flex flex-col justify-between text-left flex-1">
                     <div>
                       <p className="font-medium text-sm">
-                        {item.name} <span className="text-gray-500">({item.selectedColor})</span>
+                        {item.name} {item.selectedColor && <span className="text-gray-500">({item.selectedColor})</span>}
                       </p>
                     </div>
                     <div className='flex justify-between'>
-                    <div className="flex items-center gap-6 border border-black/30 px-3 py-1">
+                    <div className="flex items-center gap-6 mt-1 border border-black/30 px-3 py-1">
                       <button className='text-xl' onClick={() => {
                         if(item.quantity < item.stock){
                           updateQuantity(item.id, item.quantity + 1)
@@ -83,9 +83,9 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
                           </span>
                         </h4>
                       ) : (
-                        <h4 className="text-gray-800 text-[16px]">Rs. {item.price}</h4>
+                        <h4 className="text-gray-800 text-[16px] mt-1">Rs. {item.price}</h4>
                       )}
-                      <p className='text-[13px]'>Stock: {item.stock}</p>
+                      <p className='text-[12px] text-zinc-700'>Stock: {item.stock}</p>
                     </div>
                   </div>
                 </div>
