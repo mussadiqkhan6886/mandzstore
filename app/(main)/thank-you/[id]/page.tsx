@@ -50,7 +50,7 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
           </h2>
 
           <p className="text-gray-700 mb-1">
-            <strong>Order ID:</strong> {data.orderId}
+            <strong>Order ID:</strong> {data.orderId.slice(0,7)}
           </p>
           <p className="text-gray-700 mb-1">
             <strong>Name:</strong> {data.userDetails.fullName}
@@ -83,7 +83,7 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
                   <div>
                     <p className="font-semibold text-gray-800">{item.name} - {item.selectedColor}</p>
                     <p className="text-sm text-gray-600">
-                      {item.quantity} × Rs.{item.newPrice}
+                      {item.quantity} × Rs.{item.newPrice || item.price}
                     </p>
                   </div>
                 </div>
