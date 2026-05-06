@@ -39,7 +39,7 @@ const Header = () => {
   return (
     <header className='fixed top-0 w-full bg-white z-50' >
         {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} />}
-      <div className="flex overflow-y-hidden justify-between items-center py-1 px-6 md:px-12">
+      <div className="flex overflow-y-hidden justify-between items-center px-6 md:px-12">
         <button aria-label="menu icon button" onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
           <FiMenu aria-label="menu icon" />
         </button>
