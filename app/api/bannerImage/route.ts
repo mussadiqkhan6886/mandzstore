@@ -32,9 +32,14 @@ export const POST = async (req: NextRequest) => {
     try {
         const formData = await req.formData()
         const image = formData.get("image") as File
+        const title = formData.get("title") as string
+        const link = formData.get("link") as string
 
         if (!image) {
             return NextResponse.json({ success: false, message: "No image provided" }, { status: 400 })
+        }
+        if (!link && !title) {
+            return NextResponse.json({ success: false, message: "No data provided" }, { status: 400 })
         }
 
         const arrayBuffer = await image.arrayBuffer()
@@ -45,6 +50,8 @@ export const POST = async (req: NextRequest) => {
         const banner = await BannerImg.create({
             image: uploadResult.secure_url,
             publicId: uploadResult.public_id,
+            title: title,
+            link: link
         })
 
         return NextResponse.json({ success: true, image: banner }, { status: 201 })

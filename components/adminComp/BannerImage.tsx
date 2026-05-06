@@ -13,6 +13,8 @@ export default function BannerUpload() {
   const [fileName, setFileName] = useState("")
   const compressedRef = useRef<File | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [title, setTitle] = useState("")
+  const [link, setLink] = useState("")
 
   const fmt = (b: number) =>
     b < 1048576 ? Math.round(b / 1024) + "KB" : (b / 1048576).toFixed(1) + "MB"
@@ -45,6 +47,8 @@ export default function BannerUpload() {
     setStatus("uploading")
     const fd = new FormData()
     fd.append("image", compressedRef.current, compressedRef.current.name)
+    fd.append("title", title)
+    fd.append("link", link)
     try {
       const res = await fetch("/api/bannerImage", { method: "POST", body: fd })
       const data = await res.json()
@@ -56,13 +60,30 @@ export default function BannerUpload() {
   }
 
   const clear = () => {
-    setPreview(""); setStatus("idle"); setOrigSize(""); setCompSize(""); setFileName("")
+    setPreview(""); setStatus("idle"); setOrigSize(""); setCompSize(""); setFileName(""); setTitle(""); setLink("")
     compressedRef.current = null
     if (inputRef.current) inputRef.current.value = ""
   }
 
   return (
     <div className="w-full space-y-3 mb-4">
+      <div className="flex flex-col sm:flex-row gap-2">
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          type="text"
+          placeholder="Banner title"
+          className="flex-1 px-3 py-2 rounded-lg border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400"
+        />
+
+        <input
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          type="text"
+          placeholder="Banner link"
+          className="flex-1 px-3 py-2 rounded-lg border border-zinc-300 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400"
+        />
+      </div>
       {/* Drop zone */}
       <div
         onClick={() => inputRef.current?.click()}

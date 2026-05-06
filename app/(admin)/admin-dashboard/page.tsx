@@ -21,13 +21,15 @@ const AdminPage = async () => {
       <section className="px-4 border-t border-black pt-2">
          <h1 className="font-semibold text-4xl mb-3">Banner Image</h1>
          {res.map(item => (
-          <div key={item.publicId} className="relative">
-          <Image  src={item.image || "/main_hero_large.jpg"} alt="image banner" width={500} height={300} className="w-full h-full object-cover" />
-          <DeleteBanner publicId={item.publicId} />
-          </div>
+            <div key={item.publicId} className="relative">
+              <Image  src={item.image || "/main_hero_large.jpg"} alt="image banner" width={500} height={300} className="w-full h-full object-cover" />
+              <DeleteBanner publicId={item.publicId} />
+              <h3 className="absolute top-20 left-10 font-bold text-2xl"><span className="font-semibold text-lg">Title: </span> {item.title}</h3>
+              <p className="absolute left-10 top-30 text-xl"><span className="font-semibold text-lg">Link: </span>{item.link}</p>
+            </div>
          ))}
          {res.length <= 0 && (<>
-          <h2>Upload Image</h2>
+          <h2 className="font-semibold text-2xl mb-3">Upload Banner</h2>
           <BannerUpload />
          </>)}
       </section>
