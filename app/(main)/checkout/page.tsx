@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import Image from "next/image";
@@ -24,7 +24,23 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [paymentProof, setPaymentProof] = useState<File | null>(null); 
   const [preview, setPreview] = useState<string | null>(null);
+  const [deliveryCharges, setDeliveryCharges] = useState([])
+  const [currentDeliveryCharge, setCurrentDeliveryCharge] = useState(0)
 
+  const fetchDeliveryCharges = async () => {
+    const res = await axios.get("/api/deliveryCharges")
+    setDeliveryCharges(res.data)
+  }
+
+  useEffect(() => {
+    fetchDeliveryCharges()
+  }, [])
+
+
+  useEffect(() => {
+    const found : {charge: number} = deliveryCharges.find((item: {city: string}) => item.city.toLowerCase() === formData.city.toLowerCase())
+    setCurrentDeliveryCharge(found ? found.charge : 250)
+  }, [formData.city, deliveryCharges])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,7 +70,7 @@ const Checkout = () => {
         images: item.images[0],
         selectedColor: item.selectedColor || "",
       })),
-      totalPrice: totalAmount + 300,
+      totalPrice: totalAmount + currentDeliveryCharge,
       userDetails: {
         fullName: formData.fullName,
         phone: formData.phone,
@@ -244,11 +260,11 @@ const Checkout = () => {
               
               <div className="flex justify-between mt-4 font-bold text-lg">
                 <span>Shipping:</span>
-                <span>300 PKR</span>
+                <span>{currentDeliveryCharge} PKR</span>
               </div>
               <div className="flex justify-between mt-4 font-bold text-lg">
                 <span>Total:</span>
-                <span>{totalAmount + 300} PKR</span>
+                <span>{totalAmount + currentDeliveryCharge} PKR</span>
               </div>
             </>
           )}

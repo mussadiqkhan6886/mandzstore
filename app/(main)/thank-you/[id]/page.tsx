@@ -16,6 +16,7 @@ interface ItemType {
 }
 
 import type { Metadata } from 'next';
+import DeliveryChargesSchema from "@/lib/models/DeliveryChargesSchema";
 
 export const generateMetadata = (): Metadata => {
   return {
@@ -31,6 +32,9 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
   await connectDB()
     const res = await order.findOne({ _id: id });
     const data = JSON.parse(JSON.stringify(res))
+    const res2 = await DeliveryChargesSchema.find().lean()
+
+    const current = res2.find(item => item.city === data.shippingAddress.city)
   return (
     <main className="flex flex-col pt-24 justify-center items-center min-h-screen bg-gray-50 px-5">
       <div className="bg-white shadow-md rounded-lg p-10 text-center max-w-2xl w-full">
@@ -95,7 +99,7 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
           </div>
           <div className="flex justify-between pt-3 items-center">
             <p className="font-semibold">Shipping Cost</p>
-            <p className="font-semibold">Rs. 300</p>
+            <p className="font-semibold">Rs. {current == undefined ? current.charge : 250}</p>
             </div>
           <div className="mt-4 border-t pt-3 text-right">
             <p className="text-lg font-bold text-gray-800">
