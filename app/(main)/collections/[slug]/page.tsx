@@ -1,18 +1,38 @@
 import type { Metadata } from 'next';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';
-import { collectionsData } from '@/lib/constants';
+// import { collectionsData } from '@/lib/constants';
 import React from 'react';
 import SortWrapper from '@/components/MainComp/Sorting';
 import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
+import Navbar from '@/lib/models/NavbarSchema';
+import { cormorant } from '@/lib/fonts';
 
 export const revalidate = 50; 
 
-export const generateStaticParams = () => {
-  return collectionsData.map(item => ({
-    slug: item.slug,
-  }));
-};
+export const generateStaticParams = async () => {
+  await connectDB();
+
+  const data = await Navbar.find({}).lean();
+
+  const flat = data.flatMap((item: any) => {
+    if(item.title.toLowerCase() === "home") return [];
+
+    if (item.children?.length) {
+      return item.children.map((child: any) => ({
+        slug: child.link,
+      }));
+    }
+
+    return [
+      {
+        slug: item.link,
+      },
+    ];
+  });
+
+  return flat
+}
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
@@ -28,27 +48,6 @@ export async function generateMetadata(
 
 const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const slug = (await params).slug;
-
-  let data = collectionsData.find(item => item.slug === slug);
-
-  // For main category pages (Dupatta / Hijab)
-  if (slug === "dupatta" || slug === "hijab") {
-    data = {
-      title: slug.charAt(0).toUpperCase() + slug.slice(1),
-      slug,
-      desc: `Explore our full collection of ${slug}s.`,
-    };
-  }
-
-  if (!data) {
-  return (
-    <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0 pt-24">
-      <p className="text-center text-gray-500 my-10">
-        Collection not found.
-      </p>
-    </main>
-  );
-}
 
   const updatedSlug = slug
     .split("-")
@@ -75,7 +74,8 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
   if (!products || products.length === 0) {
     return (
       <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0 pt-24">
-        <HeaderProduct title={data.title} desc={data.desc} />
+        {/* <HeaderProduct title={products.title} desc={product.desc} /> */}
+        <h1 className={`${cormorant.className} text-4xl text-center uppercase mb-5`}>{updatedSlug}</h1>
         <p className="text-center text-gray-500 my-10">
           No products found in this collection.
         </p>
@@ -86,7 +86,11 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
   const safeProducts = JSON.parse(JSON.stringify(products));
   return (
     <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0 pt-14">
-      <HeaderProduct title={data.title} desc={data.desc} />
+      {/* <HeaderProduct title={data.title} desc={data.desc} /> */}
+      <section>
+        <h1 className={`${cormorant.className} text-4xl text-center uppercase mb-5`}>{updatedSlug}</h1>
+        <p className='text-gray-900 md:pr-10 mb-10 text-center md:text-left'>{"Explore our premium collections of " + updatedSlug}</p>
+      </section>
       <p className="text-sm text-gray-500 mb-6 text-center md:text-left">
         Disclaimer: Colour may slightly differ from the actual picture due to lighting
         and the device being used to view it.

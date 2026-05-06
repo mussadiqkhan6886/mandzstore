@@ -4,7 +4,6 @@ import React, { ChangeEvent, useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
-import { collectionsData } from "@/lib/constants"; // adjust path
 import { NavItem } from "../navbar/page";
 
 const AddProduct = () => {

@@ -71,7 +71,7 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
               <ul>
               {navbar.map((item, i) => (
                 <motion.li initial={{ opacity: 0, y:200 }}
-          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut', delay: i - 0.8 }} key={i}>
+          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut' }} key={i}>
                   <div
                     className="flex w-full tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center"
                   >
