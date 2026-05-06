@@ -40,7 +40,7 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
           ) : (
             <div className="flex flex-col gap-3">
               {cart.map((item, i) => (
-                <div className="flex gap-0 sm:gap-4 border-b border-gray-200 pb-3" key={i}>
+                <div className="flex gap-2 sm:gap-4 border-b border-gray-200 pb-3" key={i}>
                   <div className="shrink-0">
                     <Image
                       src={item.images[0]}
