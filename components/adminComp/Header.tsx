@@ -8,6 +8,7 @@ import { FiHome, FiMessageSquare, FiPackage, FiPlusCircle, FiShoppingBag } from 
 const Header = () => {
 
      const menuItems = [
+    { name: 'Home', href: '/admin-dashboard', icon: <FiHome className="w-4 h-4" /> },
     { name: 'Testimonials', href: '/admin-dashboard/testimonials', icon: <FiMessageSquare className="w-4 h-4" /> },
     { name: 'Products', href: '/admin-dashboard/products-list', icon: <FiPackage className="w-4 h-4" /> },
     { name: 'Add Product', href: '/admin-dashboard/add-product', icon: <FiPlusCircle className="w-4 h-4" /> },
