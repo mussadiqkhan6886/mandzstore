@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
-import { sidebarData } from '@/lib/constants';
 import Link from 'next/link';
 import axios from 'axios';
 import { NavItem } from '@/app/(admin)/admin-dashboard/navbar/page';

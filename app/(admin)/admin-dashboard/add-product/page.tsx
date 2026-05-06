@@ -134,11 +134,14 @@ const AddProduct = () => {
   const data = res.data.data;
 
  const flat = data.flatMap((item: NavItem) => {
+  console.log(item)
   if (item.title.toLowerCase() === "home") return [];
+
 
   if (item.children?.length) {
     return item.children
       .filter(c => c.title)
+      .filter(c => c.title.toLowerCase() !== "view all")
       .map(child => ({
         title: child.title,
         link: child.link || "",
