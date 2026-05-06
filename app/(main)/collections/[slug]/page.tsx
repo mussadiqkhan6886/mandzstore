@@ -85,7 +85,7 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
 
   const safeProducts = JSON.parse(JSON.stringify(products));
   return (
-    <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0 pt-24">
+    <main className="max-w-7xl mx-auto my-16 px-4 xl:px-0 pt-14">
       <HeaderProduct title={data.title} desc={data.desc} />
       <p className="text-sm text-gray-500 mb-6 text-center md:text-left">
         Disclaimer: Colour may slightly differ from the actual picture due to lighting
