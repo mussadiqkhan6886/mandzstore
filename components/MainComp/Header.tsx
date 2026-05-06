@@ -7,6 +7,7 @@ import CartSection from './CartSection';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCart } from '@/hooks/useCart';
 
 const Header = () => {
 
@@ -16,6 +17,7 @@ const Header = () => {
   const pathname = usePathname()
   const router = useRouter();
   const [query, setQuery] = useState('');
+  const {cart, totalItems} = useCart()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +50,11 @@ const Header = () => {
 
         <div className="flex items-center space-x-4 md:space-x-6">
           <button aria-label="search icon button" onClick={() => setShowSearch(true)}><FiSearch aria-label="search icon" className='text-xl md:text-2xl cursor-pointer' /></button>
-          <button aria-label="shopping cart button" onClick={() => setShowCart(true)}><FiShoppingCart aria-label="shopping cart icon" className='text-xl md:text-2xl cursor-pointer' /></button>
+          <div className="relative">
+            <button aria-label="shopping cart button" onClick={() => setShowCart(true)}><FiShoppingCart aria-label="shopping cart icon" className='text-xl md:text-2xl cursor-pointer' /></button>
+            {cart.length >= 1 && <div className='absolute -top-2 text-center -right-2 bg-red-600 text-white rounded-full px-2 py-0.5 text-[11px] font-semibold scale-95'>{totalItems}</div>}
+          </div>
+
         </div>
       </div>
       {showSearch && (
