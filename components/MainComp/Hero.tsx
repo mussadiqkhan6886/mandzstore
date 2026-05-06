@@ -1,16 +1,20 @@
+import { connectDB } from '@/lib/config/database/db';
 import { cormorant } from '@/lib/fonts'
+import { BannerImg } from '@/lib/models/BannerImage';
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const Hero = () => {
+export const revalidate = 60;
+
+const Hero = async () => {
+  await connectDB()
+
+  const res = await BannerImg.find().lean()
   return (
     <section>
       <Link href={"/collections/hijab"}>
-      <picture>
-        <source media="(max-width: 767px)" srcSet="/main_hero_small.jpg" />
-         <Image src={"/main_hero_large.jpg"} alt='main banner hero image large screen' width={1000} height={1000} className='w-full h-full' priority fetchPriority='high'  />
-      </picture>
+      <Image src={res[0].image} alt='main banner hero image large screen' width={1000} height={1000} className='w-full h-full' priority fetchPriority='high'  />
       </Link>
       <div className='flex flex-col items-center justify-center gap-4 md:gap-7 py-9'>
         <h1 className={`${cormorant.className} uppercase text-3xl md:text-4xl`}>for women like you</h1>
