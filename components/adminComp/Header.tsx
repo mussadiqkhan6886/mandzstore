@@ -3,7 +3,7 @@
 import axios from 'axios';
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation';
-import { FiHome, FiMessageSquare, FiPackage, FiPlusCircle, FiShoppingBag } from 'react-icons/fi'
+import { FiHome, FiMessageSquare, FiPackage, FiPlusCircle, FiShoppingBag, FiTruck } from 'react-icons/fi'
 
 const Header = () => {
 
@@ -13,6 +13,7 @@ const Header = () => {
     { name: 'Products', href: '/admin-dashboard/products-list', icon: <FiPackage className="w-4 h-4" /> },
     { name: 'Add Product', href: '/admin-dashboard/add-product', icon: <FiPlusCircle className="w-4 h-4" /> },
     { name: 'Orders', href: '/admin-dashboard/orders-list', icon: <FiShoppingBag className="w-4 h-4" /> },
+    { name: 'Delivery', href: '/admin-dashboard/delivery', icon: <FiTruck className="w-4 h-4" /> },
   ]
   const pathname = usePathname()
   const router = useRouter()
