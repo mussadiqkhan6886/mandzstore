@@ -131,6 +131,7 @@ const Checkout = () => {
               <input
                 name="email"
                 type="email"
+                required
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
