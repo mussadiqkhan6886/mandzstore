@@ -58,9 +58,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="google-site-verification" content="8ehoMtNRgXA69WWqUMa3-4UXpzW_3Rh_ek9iqRV7evc" />
+        <MetaPixel />
       </head>
       <CartContextProvider>
-        <MetaPixel />
         <body className={`antialiased ${montserrat.className}`}>{children}</body>
       </CartContextProvider>
     </html>
