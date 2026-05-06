@@ -189,6 +189,99 @@ export const POST = async (req: NextRequest) => {
       html,
     };
 
+    const customerHtml = `
+  <div style="font-family: Arial, sans-serif; background:#f6f6f6; padding:20px;">
+    <div style="max-width:600px; margin:auto; background:#ffffff; padding:20px; border-radius:8px;">
+
+      <h2 style="color:#333;">🎉 Order Confirmed!</h2>
+      <p style="color:#555;">
+        Hi ${newOrder.userDetails.fullName},<br/><br/>
+        Thank you for your order! Your order has been successfully placed.
+      </p>
+
+      <hr />
+
+      <h3>📦 Order Summary</h3>
+      <p><strong>Order ID:</strong> ${newOrder.orderId.slice(0,7)}</p>
+      <p><strong>Total Amount:</strong> Rs. ${newOrder.totalPrice}</p>
+      <p><strong>Payment Method:</strong> ${newOrder.paymentMethod.toUpperCase()}</p>
+
+      <hr />
+
+      <h3>🧾 Items</h3>
+      <table width="100%" style="border-collapse: collapse;">
+        <thead>
+          <tr style="background:#f2f2f2;">
+            <th align="left">Image</th>
+            <th align="left">Product</th>
+            <th align="center">Qty</th>
+            <th align="right">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${newOrder.items.map((item: any) => `
+            <tr>
+              <td>
+                <img 
+                  src="${item.images}" 
+                  width="50" 
+                  height="50"
+                  style="border-radius:6px; object-fit:cover;"
+                />
+              </td>
+              <td>
+                ${item.name} ${item.selectedColor ? `(${item.selectedColor})` : ""}
+              </td>
+              <td align="center">${item.quantity}</td>
+              <td align="right">Rs. ${item.newPrice || item.price}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+
+      <hr />
+
+      <h3>📍 Shipping Address</h3>
+      <p>
+        ${newOrder.shippingAddress.address},<br/>
+        ${newOrder.shippingAddress.city} - ${newOrder.shippingAddress.postalCode}
+      </p>
+
+      ${
+        newOrder.notes
+          ? `<p><strong>📝 Notes:</strong> ${newOrder.notes}</p>`
+          : ""
+      }
+
+      <hr />
+
+      <p style="color:#555;">
+        We’ll notify you when your order is shipped 🚚
+      </p>
+
+      <div style="text-align:center; margin-top:20px;">
+        <a href="https://www.mzstorepk.com"
+          style="background:#000; color:#fff; padding:12px 20px; text-decoration:none; border-radius:5px;">
+          Continue Shopping
+        </a>
+      </div>
+
+      <p style="margin-top:20px; font-size:12px; color:#888;">
+        If you have any questions, contact us at 
+        <a href="mailto:maaz52364@gmail.com">maaz52364@gmail.com</a>
+      </p>
+
+    </div>
+  </div>
+`;
+
+await transporter.sendMail({
+  from: `"MZ Store" <${process.env.EMAIL_USER}>`,
+  to: newOrder.userDetails.email, // customer email
+  subject: `🎉 Order Confirmed #${newOrder.orderId.slice(0,7)}`,
+  html: customerHtml,
+});
+
     // 4️⃣ Send email
     await transporter.sendMail(mailOptions);
 
