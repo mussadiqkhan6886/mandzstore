@@ -21,7 +21,7 @@ const AdminPage = async () => {
       <section className="px-4 border-t border-black pt-2">
          <h1 className="font-semibold text-4xl mb-3">Banner Image</h1>
          {res.map(item => (
-            <div key={item.publicId} className="relative">
+            <div key={item.publicId} className="relative text-white">
               <Image  src={item.image || "/main_hero_large.jpg"} alt="image banner" width={500} height={300} className="w-full h-full object-cover" />
               <DeleteBanner publicId={item.publicId} />
               <h3 className="absolute top-20 left-10 font-bold text-2xl"><span className="font-semibold text-lg">Title: </span> {item.title}</h3>
