@@ -6,6 +6,11 @@ import axios from "axios";
 import Image from "next/image";
 import { useCart } from "@/hooks/useCart";
 
+type DeliveryCharge = {
+  city: string;
+  charge: number;
+};
+
 const Checkout = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -24,7 +29,7 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [paymentProof, setPaymentProof] = useState<File | null>(null); 
   const [preview, setPreview] = useState<string | null>(null);
-  const [deliveryCharges, setDeliveryCharges] = useState([])
+  const [deliveryCharges, setDeliveryCharges] = useState<DeliveryCharge[]>([]);
   const [currentDeliveryCharge, setCurrentDeliveryCharge] = useState(0)
 
   const fetchDeliveryCharges = async () => {
@@ -38,8 +43,8 @@ const Checkout = () => {
 
 
   useEffect(() => {
-    const found : {charge: number} = deliveryCharges.find((item: {city: string}) => item.city.toLowerCase() === formData.city.toLowerCase())
-    setCurrentDeliveryCharge(found ? found.charge : 250)
+    const found  = deliveryCharges.find((item: DeliveryCharge) => item.city.toLowerCase() === formData.city.toLowerCase())
+    setCurrentDeliveryCharge(found?.charge ?? 250)
   }, [formData.city, deliveryCharges])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
