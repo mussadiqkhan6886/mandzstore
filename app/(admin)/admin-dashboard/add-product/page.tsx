@@ -5,6 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { collectionsData } from "@/lib/constants"; // adjust path
+import { NavItem } from "../navbar/page";
 
 const AddProduct = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -126,6 +127,41 @@ const AddProduct = () => {
     }
   };
 
+  const [collections, setCollections] = useState<NavItem[] | []>([])
+
+ const fetchNav = async () => {
+  const res = await axios.get("/api/navbar");
+  const data = res.data.data;
+
+ const flat = data.flatMap((item: NavItem) => {
+  if (item.title.toLowerCase() === "home") return [];
+
+  if (item.children?.length) {
+    return item.children
+      .filter(c => c.title)
+      .map(child => ({
+        title: child.title,
+        link: child.link || "",
+      }));
+  }
+
+  if (!item.title) return [];
+
+  return [
+    {
+      title: item.title,
+      link: item.link || "",
+    },
+  ];
+});
+
+  setCollections(flat);
+};
+
+useEffect(() => {
+  fetchNav()
+}, [])
+
   return (
     <main className="p-6 flex flex-col items-center lg:px-20 md:px-17 px-5">
       <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
@@ -142,9 +178,9 @@ const AddProduct = () => {
             required
           >
             <option value="">Select Collection</option>
-            {collectionsData.map((col) => (
-              <option key={col.slug} value={col.title}>
-                {col.title}
+            {collections.map((col) => (
+              <option key={col?.link} value={col?.title}>
+                {col?.title}
               </option>
             ))}
           </select>
