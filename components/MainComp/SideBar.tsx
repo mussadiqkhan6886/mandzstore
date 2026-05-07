@@ -1,4 +1,3 @@
-// components/SideBar.tsx
 'use client';
 import React, { useEffect, useState } from 'react';
 import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
@@ -70,8 +69,7 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
             <div className="p-6 pt-20">
               <ul>
               {navbar.map((item, i) => (
-                <motion.li initial={{ opacity: 0, y:200 }}
-          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut' }} key={i}>
+                <li key={i}>
                   <div
                     className="flex w-full tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center"
                   >
@@ -97,14 +95,13 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                       {item.children && openIndex === i && (
                         <ul className="ml-2 mb-3 space-y-2 text-sm text-gray-700">
                           {item.children.map((child, j) => (
-                            <motion.li initial={{ opacity: 0, y:200 }}
-          animate={{ opacity: 1, y:0 }} transition={{ type: 'tween', duration: 0.25, ease: 'easeInOut'}}  key={j}>
+                            <li key={j}>
                               <Link onClick={() => setIsOpen(false)} href={`/collections/${child.link}`}>{child.title}</Link>
-                            </motion.li>
+                            </li>
                           ))}
                         </ul>
                       )}
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>

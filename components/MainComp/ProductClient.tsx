@@ -158,7 +158,7 @@ export default function ProductClient({ product }: { product: Product }) {
       </div>
 
       {/* ── RIGHT: PRODUCT DETAILS ── */}
-      <div className="flex-1 pt-10 md:pt-0 flex flex-col gap-6">
+      <div className="flex-1 pt-6 md:pt-0 flex flex-col gap-6">
         <h1 className={`${cormorant.className} text-2xl text-center md:text-left md:text-3xl tracking-widest uppercase`}>
           {product.name}
         </h1>
