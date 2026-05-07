@@ -193,7 +193,7 @@ export const POST = async (req: NextRequest) => {
     // 3️⃣ Mail options
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "mussadiqkhan6886@gmail.com", // admin email
+      to: "maaz52364@gmail.com", // admin email
       subject: `New Order`,
       html,
     };
