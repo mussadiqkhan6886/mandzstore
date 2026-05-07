@@ -1,28 +1,27 @@
 "use client";
-import { createContext, useState, useEffect, ReactNode, Dispatch, SetStateAction } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 
-// 🧱 Define item type
 export interface CartItem {
-  id: number;
+  id: string;           // MongoDB _id (string, not number)
+  variantId: string;    // variant._id — unique key per variant
   name: string;
   price: number;
   onSale: boolean;
-  newPrice: number | null
+  newPrice: number | null;
   quantity: number;
   images: string[];
-  selectedColor: string
-  stock: number
+  selectedColor: string; // holds variant title
+  stock: number;
 }
 
-// 🧠 Define context type
 export interface CartContextType {
   cart: CartItem[];
   totalAmount: number;
   totalItems: number;
   addToCart: (item: CartItem) => void;
-  removeFromCart: (id: number) => void;
+  removeFromCart: (variantId: string) => void;
   clearCart: () => void;
-  updateQuantity: (id: number, quantity: number) => void;
+  updateQuantity: (variantId: string, quantity: number) => void;
 }
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -31,62 +30,55 @@ export const CartContextProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
-  
 
-  // 🧮 Recalculate totals
   useEffect(() => {
-    const amount = cart.reduce((sum, item) => item.onSale ? sum + item.newPrice! * item.quantity : sum + item.price * item.quantity, 0);
+    const amount = cart.reduce(
+      (sum, item) =>
+        item.onSale
+          ? sum + item.newPrice! * item.quantity
+          : sum + item.price * item.quantity,
+      0
+    );
     const items = cart.reduce((sum, item) => sum + item.quantity, 0);
     setTotalAmount(amount);
     setTotalItems(items);
   }, [cart]);
 
-  // ➕ Add item
-    const addToCart = (newItem: CartItem) => {
-      setCart((prev) => {
-        const existing = prev.find(
-          (item) => item.id === newItem.id && item.selectedColor === newItem.selectedColor
+  const addToCart = (newItem: CartItem) => {
+    setCart((prev) => {
+      // Match on variantId — each variant is its own cart line
+      const existing = prev.find((item) => item.variantId === newItem.variantId);
+
+      if (existing) {
+        return prev.map((item) =>
+          item.variantId === newItem.variantId
+            ? { ...item, quantity: Math.min(item.quantity + newItem.quantity, item.stock) }
+            : item
         );
+      }
 
-        if (existing) {
-          // Ensure quantity does not exceed stock
-          const updatedQuantity = Math.min(
-            existing.quantity + newItem.quantity,
-            newItem.stock
-          );
-          return prev.map((item) =>
-            item.id === newItem.id && item.selectedColor === newItem.selectedColor
-              ? { ...item, quantity: updatedQuantity }
-              : item
-          );
-        }
-
-        // If new item, don't allow quantity greater than stock
-        const quantity = Math.min(newItem.quantity, newItem.stock);
-        return [...prev, { ...newItem, quantity }];
-      });
-    };
-
-  // ❌ Remove item
-  const removeFromCart = (id: number) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+      return [...prev, { ...newItem, quantity: Math.min(newItem.quantity, newItem.stock) }];
+    });
   };
 
-  const updateQuantity = (id: number, quantity: number) => { setCart((prev) => prev.map((item) => item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item ) ); };
+  // All operations now keyed on variantId, not id
+  const removeFromCart = (variantId: string) =>
+    setCart((prev) => prev.filter((item) => item.variantId !== variantId));
+
+  const updateQuantity = (variantId: string, quantity: number) =>
+    setCart((prev) =>
+      prev.map((item) =>
+        item.variantId === variantId
+          ? { ...item, quantity: Math.min(Math.max(1, quantity), item.stock) }
+          : item
+      )
+    );
 
   const clearCart = () => setCart([]);
 
   return (
     <CartContext.Provider
-      value={{
-        cart,
-        totalAmount,
-        totalItems,
-        addToCart,
-        removeFromCart,
-        clearCart,
-        updateQuantity,
-      }}
+      value={{ cart, totalAmount, totalItems, addToCart, removeFromCart, clearCart, updateQuantity }}
     >
       {children}
     </CartContext.Provider>

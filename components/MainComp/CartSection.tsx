@@ -61,14 +61,14 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
                     <div className="flex items-center gap-6 mt-1 border border-black/30 px-3 py-1">
                       <button className='text-xl' onClick={() => {
                         if(item.quantity < item.stock){
-                          updateQuantity(item.id, item.quantity + 1)
+                          updateQuantity(item.variantId, item.quantity + 1)
                         }
                       }}>+</button>
                       <p>{item.quantity}</p>
-                        <button className='text-xl' onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                        <button className='text-xl' onClick={() => updateQuantity(item.variantId, item.quantity - 1)}>-</button>
                     </div>
                       <FiTrash
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => removeFromCart(item.variantId)}
                         className="cursor-pointer text-gray-500 hover:text-red-500"
                       />
                       </div>

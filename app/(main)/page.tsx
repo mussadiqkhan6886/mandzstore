@@ -10,7 +10,7 @@ const Home = () => {
     <main className='pt-24 lg:pt-14'>
       <WhatsAppButton />
       <Hero />
-      <FrontCollection />
+      {/* <FrontCollection /> */}
       <Trust />
       <Reviews />
     </main>

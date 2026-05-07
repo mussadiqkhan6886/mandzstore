@@ -1,31 +1,26 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+interface Variant {
+  price: number;
+  stock: number;
+  image: string;
+  onSale: boolean;
+  newPrice: number | null;
+}
+
 type Props = {
   _id: string;
   name: string;
-  images: string[];
-  price: number;
   slug: string;
-  newPrice: number | null;
-  onSale: boolean;
+  variants: Variant[];
   oldSlug?: string;
-  inStock: boolean;
-  stock: number
 };
 
-const ProductCard = ({
-  _id,
-  name,
-  images,
-  price,
-  slug,
-  newPrice,
-  onSale,
-  oldSlug,
-  inStock,
-  stock,
-}: Props) => {
+const ProductCard = ({ _id, name, slug, variants, oldSlug }: Props) => {
+  const first = variants[0];
+  const inStock = variants.some((v) => v.stock > 0); // in stock if ANY variant has stock
+  // const totalStock = variants.reduce((sum, v) => sum + v.stock, 0);
 
   const content = (
     <>
@@ -36,7 +31,7 @@ const ProductCard = ({
           </div>
         )}
         <Image
-          src={images[0]}
+          src={first.image}
           alt={name}
           width={400}
           height={420}
@@ -50,27 +45,28 @@ const ProductCard = ({
       <div className="text-center mt-3">
         <h3 className="tracking-widest md:uppercase text-[12px] md:text-sm mb-1">{name}</h3>
         <h4 className="text-gray-700">
-          {onSale ? (
+          {first.onSale ? (
             <span>
-              <span className="line-through text-sm opacity-85">Rs. {price}</span>{' '}
-              <span className="font-medium text-[17px]">Rs. {newPrice}</span>{' '}
+              <span className="line-through text-sm opacity-85">Rs. {first.price}</span>{' '}
+              <span className="font-medium text-[17px]">Rs. {first.newPrice}</span>{' '}
               <span className="text-red-500 inline-block ml-4">
-                Save Rs. {price - newPrice!}
+                Save Rs. {first.price - first.newPrice!}
               </span>
             </span>
           ) : (
-            'Rs.' + price
+            'Rs. ' + first.price
           )}
         </h4>
-        <h4 className='flex items-center justify-center gap-1 my-1 text-sm'> {inStock ? <span className="w-2 h-2 inline-block bg-green-500 rounded-full"></span> : <span className="w-2 h-2 inline-block bg-red-500 rounded-full"></span>} Stock : {stock} Available</h4>
+        {/* <h4 className="flex items-center justify-center gap-1 my-1 text-sm">
+          <span className={`w-2 h-2 inline-block rounded-full ${inStock ? 'bg-green-500' : 'bg-red-500'}`} />
+          Stock: {totalStock} Available
+        </h4> */}
       </div>
     </>
   );
 
   return (
-    <div
-      className="relative group cursor-pointer overflow-hidden transition-all duration-300"
-    >
+    <div className="relative group cursor-pointer overflow-hidden transition-all duration-300">
       {inStock ? (
         <Link href={`${oldSlug}/${slug}`}>{content}</Link>
       ) : (
