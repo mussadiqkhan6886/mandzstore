@@ -330,17 +330,7 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
       </div>
 
       {/* ── Desktop: MUI DataGrid (hidden below md) ── */}
-      <div className="md:block"
-  style={{
-    height: rows.length > 0 ? "auto" : 600,
-    width: "100%",
-    display: "none",
-  }}
-  ref={(el) => {
-    if (el) {
-      el.style.display = window.innerWidth >= 768 ? "block" : "none";
-    }
-  }}>
+      <div className="hidden md:block">
         <DataGrid
           rows={rows}
           columns={columns}
