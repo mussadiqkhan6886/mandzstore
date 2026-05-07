@@ -55,17 +55,16 @@ const FrontCollection = () => {
 
       {/* Product Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8">
-        {data.slice(0, 9).map((product) => (
+        {data.slice(0, 8).map((product) => (
           <SearchCard key={product._id} _id={product._id}
           name={product.name}
-          images={product.images}
-          price={product.price}
+          images={product.variants[0].image}
+          price={product.variants[0].price}
           slug={product.slug}
-          newPrice={product.newPrice}
-          onSale={product.onSale}
+          newPrice={product.variants[0].newPrice}
+          onSale={product.variants[0].onSale}
           oldSlug={product.collection} // optional if you want to keep it
-          inStock={product.inStock}
-          stock={product.stock} />
+          stock={product.variants[0].stock} />
         ))}
       </div>
       <Link className='bg-black px-6 py-3 mt-10 text-sm text-white font-semibold' href={`/collections/${current}`}>View All</Link>

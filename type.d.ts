@@ -1,21 +1,26 @@
+interface Variant {
+  _id: string;
+  title: string;
+  price: number;
+  stock: number;
+  image: string;
+  sku?: string;
+  onSale: boolean;
+  newPrice: number | null;
+}
+
 interface Product {
-  collection: string,
+  _id: string;
+  collection: string;
   name: string;
   description: string;
-  price: number;
-  newPrice: number | null;
-  onSale: boolean;
-  images: string[];
-  colors: string[];
   slug: string;
-  inStock: boolean;
-  stock: number
-  _id: string; // MongoDB document ID
+  variants: Variant[];
 }
 
 interface reviewType {
-  _id: string
-  designation: string
-  name: string
-  message: string
+  _id: string;
+  designation: string;
+  name: string;
+  message: string;
 }

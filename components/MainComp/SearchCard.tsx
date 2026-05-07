@@ -4,13 +4,12 @@ import Link from 'next/link';
 type Props = {
   _id: string;
   name: string;
-  images: string[];
+  images: string;
   price: number;
   slug: string;
   newPrice: number | null;
   onSale: boolean;
   oldSlug?: string;
-  inStock: boolean;
   stock: number
 };
 
@@ -23,26 +22,18 @@ const SearchCard = ({
   newPrice,
   onSale,
   oldSlug,
-  inStock,
   stock
 }: Props) => {
 
   const content = (
     <>
       <div className="overflow-hidden h-[200px] md:h-[400px] relative">
-        {!inStock && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-sm font-medium z-10">
-            Out of Stock
-          </div>
-        )}
         <Image
-          src={images[0]}
+          src={images}
           alt={name}
           width={400}
           height={420}
-          className={`w-full h-full object-cover object-bottom transition-all duration-500 ease-in-out scale-100 group-hover:scale-105 ${
-            !inStock ? 'opacity-60' : ''
-          }`}
+          className={`w-full h-full object-cover object-bottom transition-all duration-500 ease-in-out scale-100 group-hover:scale-105`}
         />
       </div>
 
@@ -61,7 +52,7 @@ const SearchCard = ({
             'Rs.' + price
           )}
         </h4>
-        <h4 className='text-sm my-1 flex items-center gap-2 justify-center'>{inStock ? <span className="w-2 h-2 inline-block bg-green-500 rounded-full"></span> : <span className="w-2 h-2 inline-block bg-red-500 rounded-full"></span>} Stock: {stock} Available</h4>
+        {/* <h4 className='text-sm my-1 flex items-center gap-2 justify-center'>{inStock ? <span className="w-2 h-2 inline-block bg-green-500 rounded-full"></span> : <span className="w-2 h-2 inline-block bg-red-500 rounded-full"></span>} Stock: {stock} Available</h4> */}
       </div>
     </>
   );
@@ -71,11 +62,7 @@ const SearchCard = ({
     <div
       className="relative group cursor-pointer overflow-hidden transition-all duration-300"
     >
-      {inStock ? (
         <Link href={`/collections/${oldSlug}/${slug}`}>{content}</Link>
-      ) : (
-        <div className="cursor-not-allowed">{content}</div>
-      )}
     </div>
     </>
   );
