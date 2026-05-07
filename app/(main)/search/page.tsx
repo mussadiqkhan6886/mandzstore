@@ -37,9 +37,17 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         <div className="mt-10">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8">
           {products.map((product: Product) => (
-            <SearchCard key={product._id} {...product} oldSlug={updatedSlug} />
-          ))}
-        </div>
+            <SearchCard key={product._id} _id={product._id}
+              name={product.name}
+              images={product.variants[0].image}
+              price={product.variants[0].price}
+              slug={product.slug}
+              newPrice={product.variants[0].newPrice}
+              onSale={product.variants[0].onSale}
+              oldSlug={updatedSlug} // optional if you want to keep it
+              stock={product.variants[0].stock} />
+            ))}
+          </div>
         </div>
       ) : (
         <p className="text-center text-gray-500 mt-20">
