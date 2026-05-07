@@ -18,10 +18,10 @@ const SortWrapper: React.FC<SortWrapperProps> = ({ products, slug }) => {
 
     switch (sortOption) {
       case 'price-low-high':
-        sorted.sort((a, b) => a.price - b.price);
+        sorted.sort((a, b) => a.variants[0].price - b.variants[0].price);
         break;
       case 'price-high-low':
-        sorted.sort((a, b) => b.price - a.price);
+        sorted.sort((a, b) => b.variants[0].price - a.variants[0].price);
         break;
       case 'a-z':
         sorted.sort((a, b) => a.name.localeCompare(b.name));
