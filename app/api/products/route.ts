@@ -25,64 +25,66 @@ export async function POST(req: NextRequest) {
     const name = formData.get("name")?.toString() || "";
     const slug = formData.get("slug")?.toString() || "";
     const description = formData.get("description")?.toString() || "";
-    const price = Number(formData.get("price"));
-    const stock = Number(formData.get("stock"));
-    const newPrice = Number(formData.get("newPrice")) || null;
-    const onSale = formData.get("onSale") === "true";
-    const colors = formData.getAll("colors").map((c) => c.toString());
-    const files = formData.getAll("images");
-    const inStock = formData.get("inStock") === "true";
+    const variantMetaRaw = formData.get("variantMeta")?.toString() || "[]";
 
-    
-    if (!collection || !name || !description || !price || !stock) {
-      throw new Error("Missing required fields");
-    }
-    
-    if (!files || files.length === 0) {
-      throw new Error("No images uploaded");
+    if (!collection || !name || !slug || !description) {
+      return NextResponse.json(
+        { success: false, message: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
-    const uploadedImages: string[] = [];
-    
-    for (const file of files) {
+    const variantMeta: {
+      title: string;
+      price: number;
+      stock: number;
+      sku?: string;
+      onSale: boolean;
+      newPrice: number | null;
+    }[] = JSON.parse(variantMetaRaw);
+
+    if (!variantMeta.length) {
+      return NextResponse.json(
+        { success: false, message: "At least one variant is required" },
+        { status: 400 }
+      );
+    }
+
+    // Upload one image per variant
+    const variants = [];
+    for (let i = 0; i < variantMeta.length; i++) {
+      const file = formData.get(`variantImage_${i}`);
       if (!(file instanceof File)) {
-        throw new Error("Invalid file format");
+        return NextResponse.json(
+          { success: false, message: `Missing image for variant ${i + 1}` },
+          { status: 400 }
+        );
       }
-      
-      const arrayBuffer = await file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      
+
+      const buffer = Buffer.from(await file.arrayBuffer());
       const uploadResult: any = await new Promise((resolve, reject) => {
         cloudinary.uploader
-          .upload_stream(
-            {
-              folder: "mzstore",
-              resource_type: "image",
-            },
-            (error, result) => {
-              if (error) reject(error);
-              else resolve(result);
-            }
-          )
+          .upload_stream({ folder: "mzstore", resource_type: "image" }, (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          })
           .end(buffer);
-        });
-        
-        uploadedImages.push(uploadResult.secure_url);
-      }
-      
-      const newProduct = new Product({
-        collection,
-        slug,
-        name,
-        description,
-        price,
-        stock,
-      newPrice,
-      onSale,
-      colors,
-      inStock,
-      images: uploadedImages,
+      });
+
+      variants.push({
+        ...variantMeta[i],
+        image: uploadResult.secure_url,
+      });
+    }
+
+    const newProduct = new Product({
+      collection,
+      name,
+      slug,
+      description,
+      variants,
     });
+
     await newProduct.save();
 
     return NextResponse.json(

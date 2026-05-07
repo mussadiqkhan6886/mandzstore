@@ -6,117 +6,155 @@ import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { NavItem } from "../navbar/page";
 
+interface Variant {
+  title: string;
+  price: string;
+  stock: string;
+  sku: string;
+  onSale: boolean;
+  newPrice: string;
+  imageFile: File | null;
+  imagePreview: string;
+}
+
+const emptyVariant = (): Variant => ({
+  title: "",
+  price: "",
+  stock: "",
+  sku: "",
+  onSale: false,
+  newPrice: "",
+  imageFile: null,
+  imagePreview: "",
+});
+
 const AddProduct = () => {
-  const [files, setFiles] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
+  const [collections, setCollections] = useState<NavItem[]>([]);
 
   const [data, setData] = useState({
     collection: "",
-    slug: "",
     name: "",
-    description: "",     // Product description
-    price: "",
-    newPrice: "",        // optional
-    onSale: false,
-    inStock: true,
-    colors: [] as string[],
-    images: [] as string[],
-    stock: ""
+    slug: "",
+    description: "",
   });
 
+  const [variants, setVariants] = useState<Variant[]>([emptyVariant()]);
+
+  // Auto-generate slug from name
   useEffect(() => {
-  if (data.name) {
     const slug = data.name
-      .toLowerCase()                       // lowercase
-      .trim()                               // remove leading/trailing spaces
-      .replace(/\s+/g, "-")                 // replace spaces with hyphens
-      .replace(/[^a-z0-9-]/g, "")           // remove invalid characters
-      .replace(/-+/g, "-")                  // replace multiple hyphens with single
-      .replace(/^-|-$/g, "");               // remove leading/trailing hyphens
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
     setData((prev) => ({ ...prev, slug }));
-  } else {
-    setData((prev) => ({ ...prev, slug: "" }));
-  }
-}, [data.name]);
+  }, [data.name]);
 
-  // @ts-ignore
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+ useEffect(() => {
+  setVariants((prev) =>
+    prev.map((v, i) => ({
+      ...v,
+      sku: `${data.name.slice(0, 3).toUpperCase().replace(/\s+/g, "")}-${v.title.slice(0, 3).toUpperCase().replace(/\s+/g, "") || `V${i + 1}`}-${String(i + 1).padStart(2, "0")}`,
+    }))
+  );
+}, [data.name, variants.map((v) => v.title).join(",")]);
+
+  // Fetch collections
+  useEffect(() => {
+    const fetchNav = async () => {
+      const res = await axios.get("/api/navbar");
+      const navData = res.data.data;
+      const flat = navData.flatMap((item: NavItem) => {
+        if (item.title.toLowerCase() === "home") return [];
+        if (item.children?.length) {
+          return item.children
+            .filter((c) => c.title && c.title.toLowerCase() !== "view all")
+            .map((child) => ({ title: child.title, link: child.link || "" }));
+        }
+        if (!item.title) return [];
+        return [{ title: item.title, link: item.link || "" }];
+      });
+      setCollections(flat);
+    };
+    fetchNav();
+  }, []);
+
+  const handleDataChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    // @ts-ignore
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setData({ ...data, [name]: checked });
-    } else {
-      setData({ ...data, [name]: value });
-    }
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleColorChange = (index: number, value: string) => {
-    const updated = [...data.colors];
-    updated[index] = value;
-    setData({ ...data, colors: updated });
+  // ── Variant helpers ──────────────────────────────────────────────────────
+
+  const updateVariant = (index: number, field: keyof Variant, value: string | boolean | File | null) => {
+    setVariants((prev) =>
+      prev.map((v, i) => (i === index ? { ...v, [field]: value } : v))
+    );
   };
 
-  const addColor = () => setData({ ...data, colors: [...data.colors, ""] });
-  const removeColor = (index: number) =>
-    setData({ ...data, colors: data.colors.filter((_, i) => i !== index) });
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const selectedFiles = Array.from(e.target.files);
-    setFiles((prev) => [...prev, ...selectedFiles]);
-    const newPreviews = selectedFiles.map((file) => URL.createObjectURL(file));
-    setPreviews((prev) => [...prev, ...newPreviews]);
+  const handleVariantImage = (index: number, e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    updateVariant(index, "imageFile", file);
+    updateVariant(index, "imagePreview", URL.createObjectURL(file));
   };
+
+  const addVariant = () => setVariants((prev) => [...prev, emptyVariant()]);
+
+  const removeVariant = (index: number) =>
+    setVariants((prev) => prev.filter((_, i) => i !== index));
+
+  // ── Submit ───────────────────────────────────────────────────────────────
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (variants.some((v) => !v.imageFile)) {
+      setResult("❌ Each variant needs an image.");
+      return;
+    }
+
     setLoading(true);
+    setResult("");
 
     try {
       const formData = new FormData();
+      formData.append("collection", data.collection);
+      formData.append("name", data.name);
+      formData.append("slug", data.slug);
+      formData.append("description", data.description);
 
-      // Append all fields
-      Object.entries(data).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((item) => formData.append(key, item));
-        } else if (value !== undefined && value !== null) {
-          formData.append(key, value.toString());
-        }
-      });
+      // Send variant metadata as JSON string, images separately keyed by index
+      const variantMeta = variants.map((v) => ({
+        title: v.title,
+        price: Number(v.price),
+        stock: Number(v.stock),
+        sku: v.sku,
+        onSale: v.onSale,
+        newPrice: v.onSale && v.newPrice ? Number(v.newPrice) : null,
+      }));
+      formData.append("variantMeta", JSON.stringify(variantMeta));
 
-      // Compress images before upload
-      for (const file of files) {
-        const compressedFile = await imageCompression(file, {
+      for (let i = 0; i < variants.length; i++) {
+        const compressed = await imageCompression(variants[i].imageFile!, {
           maxSizeMB: 1,
           maxWidthOrHeight: 1200,
           useWebWorker: true,
         });
-        formData.append("images", compressedFile);
+        formData.append(`variantImage_${i}`, compressed);
       }
 
       const res = await axios.post("/api/products", formData);
 
       if (res.status === 201) {
         setResult("✅ Product added successfully!");
-        setData({
-          collection: "",
-          slug: "",
-          name: "",
-          description: "",
-          price: "",
-          newPrice: "",
-          onSale: false,
-          inStock: false,
-          colors: [],
-          images: [],
-          stock: ""
-        });
-        setFiles([]);
-        setPreviews([]);
+        setData({ collection: "", name: "", slug: "", description: "" });
+        setVariants([emptyVariant()]);
       }
     } catch (err) {
       console.error(err);
@@ -126,222 +164,231 @@ const AddProduct = () => {
     }
   };
 
-  const [collections, setCollections] = useState<NavItem[] | []>([])
-
- const fetchNav = async () => {
-  const res = await axios.get("/api/navbar");
-  const data = res.data.data;
-
- const flat = data.flatMap((item: NavItem) => {
-  console.log(item)
-  if (item.title.toLowerCase() === "home") return [];
-
-
-  if (item.children?.length) {
-    return item.children
-      .filter(c => c.title)
-      .filter(c => c.title.toLowerCase() !== "view all")
-      .map(child => ({
-        title: child.title,
-        link: child.link || "",
-      }));
-  }
-
-  if (!item.title) return [];
-
-  return [
-    {
-      title: item.title,
-      link: item.link || "",
-    },
-  ];
-});
-
-  setCollections(flat);
-};
-
-useEffect(() => {
-  fetchNav()
-}, [])
-
   return (
     <main className="p-6 flex flex-col items-center lg:px-20 md:px-17 px-5">
       <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
 
-      <form className="grid gap-4 w-full md:w-[50%]" onSubmit={handleSubmit}>
-        {/* Collection Select */}
-        <div>
-          <label className="block font-semibold mb-1">Collection Title</label>
-          <select
-            name="collection"
-            value={data.collection}
-            onChange={(e) => setData({ ...data, collection: e.target.value })}
-            className="w-full border rounded-lg p-2"
-            required
-          >
-            <option value="">Select Collection</option>
-            {collections.map((col) => (
-              <option key={col?.link} value={col?.title}>
-                {col?.title}
-              </option>
-            ))}
-          </select>
-        </div>
+      <form className="grid gap-5 w-full md:w-[60%]" onSubmit={handleSubmit}>
+        {/* ── Base Info ── */}
+        <section className="grid gap-4 p-5 border rounded-xl bg-gray-50">
+          <h2 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">
+            Product Info
+          </h2>
 
-
-        {/* Product Name */}
-        <div>
-          <label className="block font-semibold mb-1">Product Name</label>
-          <input
-            name="name"
-            value={data.name}
-            onChange={handleChange}
-            type="text"
-            className="w-full border rounded-lg p-2"
-            required
-          />
-        </div>
-        {/* Slug */}
-        <div>
-          <label className="block font-semibold mb-1">Slug</label>
-          <input
-            name="slug"
-            value={data.slug}
-            readOnly
-            className="w-full border rounded-lg p-2 bg-gray-100"
-          />
-        </div>
-
-        {/* Description */}
-        <div>
-          <label className="block font-semibold mb-1">Description</label>
-          <textarea
-            name="description"
-            value={data.description}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-            rows={4}
-            required
-          />
-        </div>
-
-        {/* Price */}
-        <div>
-          <label className="block font-semibold mb-1">Price</label>
-          <input
-            name="price"
-            type="number"
-            value={data.price}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-            required
-          />
-        </div>
-        <div>
-          <label className="block font-semibold mb-1">Stock</label>
-          <input
-            name="stock"
-            type="number"
-            value={data.stock}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-            required
-          />
-        </div>
-
-        {/* On Sale */}
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="onSale"
-            checked={data.onSale}
-            onChange={handleChange}
-          />
-          <label className="font-semibold">On Sale</label>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="inStock"
-            checked={data.inStock}
-            onChange={handleChange}
-          />
-          <label className="font-semibold">In Stock</label>
-        </div>
-
-        {data.onSale && (
+          {/* Collection */}
           <div>
-            <label className="block font-semibold mb-1">New Price</label>
+            <label className="block font-semibold mb-1 text-sm">Collection</label>
+            <select
+              name="collection"
+              value={data.collection}
+              onChange={handleDataChange}
+              className="w-full border rounded-lg p-2 bg-white"
+              required
+            >
+              <option value="">Select Collection</option>
+              {collections.map((col) => (
+                <option key={col.link} value={col.title}>
+                  {col.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Name */}
+          <div>
+            <label className="block font-semibold mb-1 text-sm">Product Name</label>
             <input
-              name="newPrice"
-              type="number"
-              value={data.newPrice}
-              onChange={handleChange}
+              name="name"
+              value={data.name}
+              onChange={handleDataChange}
+              type="text"
               className="w-full border rounded-lg p-2"
               required
             />
           </div>
-        )}
 
-        {/* Colors */}
-        <div>
-          <label className="block font-semibold mb-2">Colors</label>
-          {data.colors.map((clr, i) => (
-            <div key={i} className="flex items-center gap-2 mb-2">
-              <input
-                type="text"
-                value={clr}
-                onChange={(e) => handleColorChange(i, e.target.value)}
-                className="w-full border rounded-lg p-2"
-                placeholder={`Color ${i + 1}`}
-              />
-              <button type="button" onClick={() => removeColor(i)} className="text-red-500">
-                ✕
-              </button>
+          {/* Slug */}
+          <div>
+            <label className="block font-semibold mb-1 text-sm">Slug</label>
+            <input
+              name="slug"
+              value={data.slug}
+              readOnly
+              className="w-full border rounded-lg p-2 bg-gray-100 text-gray-500 text-sm"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="block font-semibold mb-1 text-sm">Description</label>
+            <textarea
+              name="description"
+              value={data.description}
+              onChange={handleDataChange}
+              className="w-full border rounded-lg p-2"
+              rows={4}
+              required
+            />
+          </div>
+        </section>
+
+        {/* ── Variants ── */}
+        <section className="grid gap-4">
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold text-gray-700 text-sm uppercase tracking-wide">
+              Variants ({variants.length})
+            </h2>
+            <button
+              type="button"
+              onClick={addVariant}
+              className="text-sm bg-black text-white px-3 py-1.5 rounded-lg hover:bg-gray-800 transition"
+            >
+              + Add Variant
+            </button>
+          </div>
+
+          {variants.map((variant, i) => (
+            <div
+              key={i}
+              className="border rounded-xl p-4 bg-white shadow-sm grid gap-3 relative"
+            >
+              {/* Variant header */}
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
+                  Variant {i + 1}
+                </span>
+                {variants.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeVariant(i)}
+                    className="text-xs text-red-500 hover:text-red-700 transition"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+
+              {/* Title + SKU */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-semibold mb-1">Title</label>
+                  <input
+                    type="text"
+                    value={variant.title}
+                    onChange={(e) => updateVariant(i, "title", e.target.value)}
+                    placeholder="e.g. Design 1"
+                    className="w-full border rounded-lg p-2 text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-1">
+                    SKU <span className="text-gray-400 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={variant.sku}
+                    onChange={(e) => updateVariant(i, "sku", e.target.value)}
+                    placeholder="e.g. MZ-001"
+                    className="w-full border rounded-lg p-2 text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Price + Stock */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-semibold mb-1">Price (Rs)</label>
+                  <input
+                    type="number"
+                    value={variant.price}
+                    onChange={(e) => updateVariant(i, "price", e.target.value)}
+                    className="w-full border rounded-lg p-2 text-sm"
+                    required
+                    min={0}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-1">Stock</label>
+                  <input
+                    type="number"
+                    value={variant.stock}
+                    onChange={(e) => updateVariant(i, "stock", e.target.value)}
+                    className="w-full border rounded-lg p-2 text-sm"
+                    required
+                    min={0}
+                  />
+                </div>
+              </div>
+
+              {/* On Sale */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id={`onSale-${i}`}
+                  checked={variant.onSale}
+                  onChange={(e) => updateVariant(i, "onSale", e.target.checked)}
+                  className="w-4 h-4"
+                />
+                <label htmlFor={`onSale-${i}`} className="text-sm font-semibold">
+                  On Sale
+                </label>
+              </div>
+
+              {variant.onSale && (
+                <div>
+                  <label className="block text-sm font-semibold mb-1">Sale Price (Rs)</label>
+                  <input
+                    type="number"
+                    value={variant.newPrice}
+                    onChange={(e) => updateVariant(i, "newPrice", e.target.value)}
+                    className="w-full border rounded-lg p-2 text-sm"
+                    required
+                    min={0}
+                  />
+                </div>
+              )}
+
+              {/* Image */}
+              <div>
+                <label className="block text-sm font-semibold mb-1">Variant Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleVariantImage(i, e)}
+                  className="w-full border rounded-lg p-2 text-sm"
+                  required={!variant.imageFile}
+                />
+                {variant.imagePreview && (
+                  <div className="mt-2">
+                    <Image
+                      src={variant.imagePreview}
+                      width={80}
+                      height={80}
+                      alt={`Variant ${i + 1} preview`}
+                      className="w-20 h-20 object-cover rounded-lg border"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           ))}
-          <button type="button" onClick={addColor} className="text-sm text-blue-600">
-            + Add Color
-          </button>
-        </div>
+        </section>
 
-        {/* Images */}
-        <div>
-          <label className="block font-semibold mb-1">Product Images</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            required
-            onChange={handleImageChange}
-            className="w-full border rounded-lg p-2"
-          />
-          {previews.length > 0 && (
-            <div className="flex flex-wrap gap-3 mt-4">
-              {previews.map((url, idx) => (
-                <Image
-                  key={idx}
-                  src={url}
-                  width={80}
-                  height={80}
-                  alt={`Preview ${idx}`}
-                  className="w-28 h-28 object-cover rounded-lg border"
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Submit */}
+        {/* ── Submit ── */}
         <button
           type="submit"
           disabled={loading}
-          className="bg-black text-white px-4 py-2 mt-4 rounded"
+          className="bg-black text-white px-4 py-3 rounded-xl font-semibold hover:bg-gray-800 transition disabled:opacity-50"
         >
           {loading ? "Uploading..." : "Add Product"}
         </button>
-        <p>{result}</p>
+
+        {result && (
+          <p className={`text-center font-medium ${result.startsWith("✅") ? "text-green-600" : "text-red-500"}`}>
+            {result}
+          </p>
+        )}
       </form>
     </main>
   );
