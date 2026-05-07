@@ -23,7 +23,7 @@ const DeleteBanner = ({publicId}: {publicId: string}) => {
     };
 
   return (
-    <button onClick={deleteImage} className='absolute z-50 bg-red-600 p-2 rounded-2xl  top-10 cursor-pointer right-10'>
+    <button onClick={deleteImage} className='absolute z-50 bg-red-600 p-2 rounded-2xl  top-5 sm:top-10 cursor-pointer right-5 sm:right-10'>
        {loading ? <div className='animate-spin border-2 border-white border-t-transparent bg-transparent w-3 h-3 rounded-full' /> :  <FiTrash color='white' />}
     </button>
   )

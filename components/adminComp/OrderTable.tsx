@@ -15,7 +15,7 @@ interface Order {
     images: string;
     name: string;
     quantity: number;
-    selectedColor: string
+    selectedColor: string;
   }[];
   orderId: string;
   userDetails: {
@@ -35,11 +35,59 @@ interface Order {
   createdAt: string;
 }
 
-export default function   OrderTable({ orders }: { orders: Order[] }) {
+const STATUS_COLORS: Record<string, string> = {
+  pending: "#facc15",
+  processing: "#60a5fa",
+  shipped: "#34d399",
+  delivered: "#22c55e",
+  cancelled: "#f87171",
+};
+
+const STATUS_TEXT_COLORS: Record<string, string> = {
+  pending: "#713f12",
+  processing: "#1e3a5f",
+  shipped: "#064e3b",
+  delivered: "#14532d",
+  cancelled: "#7f1d1d",
+};
+
+const STATUS_OPTIONS = ["pending", "processing", "shipped", "delivered", "cancelled"];
+
+function StatusSelect({
+  value,
+  rowId,
+  onUpdate,
+  disabled,
+}: {
+  value: string;
+  rowId: string;
+  onUpdate: (id: string, status: string) => Promise<void>;
+  disabled: boolean;
+}) {
+  const bg = STATUS_COLORS[value] ?? "#9ca3af";
+  const color = STATUS_TEXT_COLORS[value] ?? "#fff";
+  return (
+    <select
+      disabled={disabled}
+      value={value}
+      onChange={(e) => onUpdate(rowId, e.target.value)}
+      className="border-0 rounded-full px-3 py-1 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-black cursor-pointer capitalize"
+      style={{ backgroundColor: bg, color }}
+    >
+      {STATUS_OPTIONS.map((s) => (
+        <option key={s} value={s} style={{ backgroundColor: "#fff", color: "#111" }}>
+          {s.charAt(0).toUpperCase() + s.slice(1)}
+        </option>
+      ))}
+    </select>
+  );
+}
+
+export default function OrderTable({ orders }: { orders: Order[] }) {
   const [rows, setRows] = React.useState(() =>
     orders.map((order) => ({
       id: order._id,
-      orderId: order.orderId.slice(0,7),
+      orderId: order.orderId.slice(0, 7),
       userName: order.userDetails.fullName,
       email: order.userDetails.email,
       phone: order.userDetails.phone,
@@ -56,162 +104,270 @@ export default function   OrderTable({ orders }: { orders: Order[] }) {
   const [updating, setUpdating] = React.useState(false);
 
   const deleteOrder = async (id: string) => {
-    const confirmDelete = confirm("Are you sure you want to delete this order?");
-    if (!confirmDelete) return;
-
+    if (!confirm("Are you sure you want to delete this order?")) return;
     try {
       const res = await axios.delete(`/api/order/${id}`);
       if (res.data.success) {
-        setRows((prev) => prev.filter((order) => order.id !== id));
+        setRows((prev) => prev.filter((o) => o.id !== id));
       } else {
         alert("Failed to delete order");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
+  const updateStatus = async (id: string, newStatus: string) => {
+    setUpdating(true);
+    try {
+      const res = await axios.patch(`/api/order/${id}`, { status: newStatus });
+      if (res.data.success) {
+        setRows((prev) =>
+          prev.map((o) => (o.id === id ? { ...o, status: newStatus } : o))
+        );
+      } else {
+        alert("Failed to update status");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error updating status");
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  // ─── Desktop columns ───────────────────────────────────────────────────────
   const columns: GridColDef[] = [
     { field: "orderId", headerName: "Order ID", width: 100 },
     {
       field: "items",
       headerName: "Items",
-      width: 600,
+      width: 520,
       renderCell: (params) => (
-        <div className="flex gap-2">
-           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <div className="flex flex-wrap gap-2 py-1">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {params.value.map((item: any, i: number) => (
-            <div key={i} className="flex items-center gap-2 mb-1">
+            <div key={i} className="flex items-center gap-2">
               <Image
                 src={item.images}
                 alt={item.name}
-                width={40}
-                height={40}
+                width={36}
+                height={36}
                 className="rounded-md object-cover border"
               />
-              <span className="text-sm">{item.name} × {item.quantity} {item.selectedColor && - (item.selectedColor)}</span>
+              <span className="text-xs leading-tight">
+                {item.name} × {item.quantity}
+                {item.selectedColor && (
+                  <span className="ml-1 text-gray-400">({item.selectedColor})</span>
+                )}
+              </span>
             </div>
           ))}
         </div>
       ),
     },
-    { field: "userName", headerName: "Customer", width: 140 },
+    { field: "userName", headerName: "Customer", width: 130 },
     { field: "email", headerName: "Email", width: 160 },
     { field: "totalPrice", headerName: "Total (Rs)", width: 90 },
     {
       field: "status",
       headerName: "Status",
-      width: 170,
-      renderCell: (params) => {
-        const getColor = (status: string) => {
-          switch (status) {
-            case "pending":
-              return "#facc15"; // yellow
-            case "processing":
-              return "#60a5fa"; // blue
-            case "shipped":
-              return "#34d399"; // green
-            case "delivered":
-              return "#22c55e"; // bright green
-            case "cancelled":
-              return "#f87171"; // red
-            default:
-              return "#9ca3af"; // gray
-          }
-        };
-
-        const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-          const newStatus = e.target.value;
-          setUpdating(true);
-          try {
-            const res = await axios.patch(`/api/order/${params.row.id}`, { status: newStatus });
-            if (res.data.success) {
-              params.api.updateRows([{ ...params.row, status: newStatus }]);
-            } else {
-              alert("Failed to update status");
-            }
-          } catch (error) {
-            console.error(error);
-            alert("Error updating status");
-          } finally {
-            setUpdating(false);
-          }
-        };
-
-        const currentColor = getColor(params.value);
-
-        return (
-          <select
-            disabled={updating}
-            value={params.value}
-            onChange={handleChange}
-            className="border border-gray-300 rounded px-2 py-1 text-sm font-semibold focus:outline-none"
-            style={{
-              backgroundColor: currentColor,
-              color: "white",
-              textTransform: "capitalize",
-            }}
-          >
-            <option value="pending">Pending</option>
-            <option value="processing">Processing</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
-        );
-      },
-    },
-    { field: "paymentMethod", headerName: "Payment", width: 130 },
-    {
-  field: "paymentProof",
-  headerName: "Payment Proof",
-  width: 160,
-  renderCell: (params) =>
-    params.value ? (
-      <Link
-        href={params.value}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          src={params.value}
-          alt="Payment Proof"
-          width={50}
-          height={50}
-          className="rounded border object-cover"
+      width: 160,
+      renderCell: (params) => (
+        <StatusSelect
+          value={params.value}
+          rowId={params.row.id}
+          onUpdate={updateStatus}
+          disabled={updating}
         />
-      </Link>
-    ) : (
-      <span className="text-gray-400 text-sm">No Proof</span>
-    ),
-},
-    { field: "date", headerName: "Date", width: 120 },
+      ),
+    },
+    { field: "paymentMethod", headerName: "Payment", width: 120 },
+    {
+      field: "paymentProof",
+      headerName: "Proof",
+      width: 90,
+      renderCell: (params) =>
+        params.value ? (
+          <Link href={params.value} target="_blank" rel="noopener noreferrer">
+            <Image
+              src={params.value}
+              alt="Payment Proof"
+              width={44}
+              height={44}
+              className="rounded border object-cover"
+            />
+          </Link>
+        ) : (
+          <span className="text-gray-400 text-xs">—</span>
+        ),
+    },
+    { field: "date", headerName: "Date", width: 110 },
     { field: "phone", headerName: "Phone", width: 120 },
-    { field: "address", headerName: "Address", width: 280 },
+    { field: "address", headerName: "Address", width: 240 },
     {
       field: "actions",
-      headerName: "Actions",
+      headerName: "",
       sortable: false,
-      width: 100,
+      width: 60,
       renderCell: (params) => (
         <Box>
-          <IconButton color="error" onClick={() => deleteOrder(params.row.id)}>
-            <FaTrash />
+          <IconButton color="error" size="small" onClick={() => deleteOrder(params.row.id)}>
+            <FaTrash size={14} />
           </IconButton>
         </Box>
       ),
     },
   ];
 
+  // ─── Mobile card ────────────────────────────────────────────────────────────
+  const MobileCard = ({ row }: { row: (typeof rows)[0] }) => (
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-3">
+      {/* Header row */}
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="text-xs text-gray-400 font-mono uppercase tracking-widest">
+            #{row.orderId}
+          </p>
+          <p className="font-semibold text-gray-900 text-sm mt-0.5">{row.userName}</p>
+          <p className="text-xs text-gray-500">{row.date}</p>
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <StatusSelect
+            value={row.status}
+            rowId={row.id}
+            onUpdate={updateStatus}
+            disabled={updating}
+          />
+          <button
+            onClick={() => deleteOrder(row.id)}
+            className="p-1.5 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition"
+            aria-label="Delete order"
+          >
+            <FaTrash size={13} />
+          </button>
+        </div>
+      </div>
+
+      {/* Items */}
+      <div className="flex flex-wrap gap-2">
+        {row.items.map((item, i) => (
+          <div key={i} className="flex items-center gap-2 bg-gray-50 rounded-xl px-2 py-1.5">
+            <Image
+              src={item.images}
+              alt={item.name}
+              width={32}
+              height={32}
+              className="rounded-lg object-cover border border-gray-200"
+            />
+            <div className="text-xs leading-tight">
+              <p className="font-medium text-gray-800">{item.name}</p>
+              <p className="text-gray-400">
+                × {item.quantity}
+                {item.selectedColor && ` · ${item.selectedColor}`}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Info grid */}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-gray-600">
+        <div>
+          <span className="text-gray-400 block">Total</span>
+          <span className="font-semibold text-gray-900">Rs {row.totalPrice}</span>
+        </div>
+        <div>
+          <span className="text-gray-400 block">Payment</span>
+          <span className="capitalize">{row.paymentMethod}</span>
+        </div>
+        <div>
+          <span className="text-gray-400 block">Phone</span>
+          <span>{row.phone}</span>
+        </div>
+        <div>
+          <span className="text-gray-400 block">Email</span>
+          <span className="truncate block">{row.email}</span>
+        </div>
+        <div className="col-span-2">
+          <span className="text-gray-400 block">Address</span>
+          <span>{row.address}</span>
+        </div>
+      </div>
+
+      {/* Payment proof */}
+      {row.paymentProof && (
+        <Link href={row.paymentProof} target="_blank" rel="noopener noreferrer">
+          <div className="flex items-center gap-2 text-xs text-blue-600 hover:underline mt-1">
+            <Image
+              src={row.paymentProof}
+              alt="Payment Proof"
+              width={36}
+              height={36}
+              className="rounded-lg border object-cover"
+            />
+            View payment proof
+          </div>
+        </Link>
+      )}
+    </div>
+  );
+
   return (
-    <div style={{ width: "100%" }}>
-      <h2 className="text-2xl text-center mt-3 font-semibold mb-3">Orders</h2>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableRowSelectionOnClick
-        getRowHeight={() => "auto"}
-      />
+    <div className="w-full px-3 sm:px-4 md:px-6 py-4">
+      <h2 className="text-xl sm:text-2xl font-semibold text-center mb-4">
+        Orders{" "}
+        <span className="text-sm font-normal text-gray-400">({rows.length})</span>
+      </h2>
+
+      {/* ── Mobile: card list (hidden md+) ── */}
+      <div className="flex flex-col gap-3 md:hidden">
+        {rows.length === 0 ? (
+          <p className="text-center text-gray-400 py-12">No orders yet.</p>
+        ) : (
+          rows.map((row) => <MobileCard key={row.id} row={row} />)
+        )}
+      </div>
+
+      {/* ── Desktop: MUI DataGrid (hidden below md) ── */}
+      <div className="md:block"
+  style={{
+    height: rows.length > 0 ? "auto" : 600,
+    width: "100%",
+    display: "none",
+  }}
+  ref={(el) => {
+    if (el) {
+      el.style.display = window.innerWidth >= 768 ? "block" : "none";
+    }
+  }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          disableRowSelectionOnClick
+          
+          getRowHeight={() => "auto"}
+          sx={{
+            borderRadius: "12px",
+            border: "1px solid #f0f0f0",
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: "#f9fafb",
+              fontWeight: 700,
+              fontSize: "0.75rem",
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+              color: "#6b7280",
+            },
+            "& .MuiDataGrid-cell": {
+              alignItems: "center",
+              borderBottom: "1px solid #f3f4f6",
+            },
+            "& .MuiDataGrid-row:hover": {
+              backgroundColor: "#fafafa",
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }

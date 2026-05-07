@@ -103,7 +103,7 @@ export default function ProductTable({ products }: ProductTableProps) {
   ];
 
   return (
-    <Box sx={{ height: 600, width: '100%', p: 2, borderRadius: 2 }}>
+    <Box sx={{ height: 600, width: '100%', borderRadius: 2 }}>
       <DataGrid
         rows={products}
         columns={columns}
