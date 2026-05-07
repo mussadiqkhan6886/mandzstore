@@ -15,90 +15,79 @@ export const GET = async (_req: NextRequest, {params}: {params: Promise<{id: str
     return NextResponse.json({message: "Product Found", product}, {status: 200})
 }
 
-export const PATCH = async (
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) => {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
-  const id = (await params).id;
+  const { id } = await params
 
   try {
-    const contentType = req.headers.get("content-type");
-
-    // 1️⃣ Handle image deletion
-    if (contentType?.includes("application/json")) {
-          const body = await req.json();
-          if (body.action === "deleteImage") {
-            await Product.findByIdAndUpdate(id, { $pull: { images: body.imageUrl } });
-            return NextResponse.json({ success: true });
-          }
-        }
-
-    // 2️⃣ Handle form data update
     const formData = await req.formData();
-    
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const price = Number(formData.get("price"));
-    const newPrice = formData.get("newPrice") ? Number(formData.get("newPrice")) : null;
-    const stock = Number(formData.get("stock"))
-    const onSale = formData.get("onSale") === "true";
-    const colors = formData.getAll("colors").map(c => c.toString());
-    const slug = formData.get("slug") as string
-    const inStock = formData.get("inStock") === "true";
-    const files = formData.getAll("images") as File[];
-    const uploadedImages: string[] = [];
 
-    for (const file of files) {
-         if (typeof file === "string" || !file?.arrayBuffer) {
-          console.log("Skipping invalid file:", file);
-          continue; // Skip invalid entries
-        }
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const uploadRes = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload_stream({ folder: "mzstore" }, (err, res) => {
-          if (err) reject(err);
-          else resolve(res);
-        }).end(buffer);
+    const name = formData.get("name")?.toString();
+    const slug = formData.get("slug")?.toString();
+    const description = formData.get("description")?.toString();
+    const collection = formData.get("collection")?.toString();
+    const variantMetaRaw = formData.get("variantMeta")?.toString() || "[]";
+
+    const variantMeta: {
+      _id?: string;
+      title: string;
+      price: number;
+      stock: number;
+      sku?: string;
+      onSale: boolean;
+      newPrice: number | null;
+      existingImage: string | null; // null means upload new
+    }[] = JSON.parse(variantMetaRaw);
+
+    const variants = [];
+
+    for (let i = 0; i < variantMeta.length; i++) {
+      const meta = variantMeta[i];
+      let image = meta.existingImage;
+
+      // Upload new image if provided
+      const file = formData.get(`variantImage_${i}`);
+      if (file instanceof File) {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const uploadResult: any = await new Promise((resolve, reject) => {
+          cloudinary.uploader
+            .upload_stream({ folder: "mzstore", resource_type: "image" }, (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            })
+            .end(buffer);
+        });
+        image = uploadResult.secure_url;
+      }
+
+      variants.push({
+        ...(meta._id && { _id: meta._id }), // preserve _id for existing variants
+        title: meta.title,
+        price: meta.price,
+        stock: meta.stock,
+        sku: meta.sku,
+        onSale: meta.onSale,
+        newPrice: meta.newPrice,
+        image,
       });
-      uploadedImages.push((uploadRes as any).secure_url);
     }
 
-     // 🔹 Fetch existing product to merge images
-    const existingProduct = await Product.findById(id);
-    if (!existingProduct) {
+    const updated = await Product.findByIdAndUpdate(
+      id,
+      { name, slug, description, collection, variants },
+      { new: true }
+    );
+
+    if (!updated) {
       return NextResponse.json({ success: false, message: "Product not found" }, { status: 404 });
     }
 
-    // Merge existing images with newly uploaded images
-    const updatedImages = [...existingProduct.images, ...uploadedImages];
-
-    // Build update object
-    const updateQuery = {
-      name,
-      slug,
-      description,
-      price,
-      stock,
-      newPrice,
-      onSale,
-      colors,
-      inStock,
-      images: updatedImages, // just overwrite with merged array
-    };
-
-    // Update in DB
-    const updatedProduct = await Product.findByIdAndUpdate(id, updateQuery, { new: true });
-
-    return NextResponse.json({ success: true, message: "Product updated successfully", updatedProduct });
-  } catch (err: any) {
-    console.error("PATCH error:", err);
-    return NextResponse.json(
-      { success: false, message: "Failed to update product", error: err.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true, product: updated });
+  } catch (error: any) {
+    console.error("Update error:", error);
+    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
-};
+}
 
 
 export const DELETE = async (_req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
