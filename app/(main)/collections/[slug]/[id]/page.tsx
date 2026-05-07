@@ -1,5 +1,3 @@
-import { cormorant } from '@/lib/fonts';
-import CollapseDetails from '@/components/MainComp/CollapseDetails';
 import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';

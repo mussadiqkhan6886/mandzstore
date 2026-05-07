@@ -157,9 +157,9 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
               />
               <span className="text-xs leading-tight">
                 {item.name} × {item.quantity}
-                {item.selectedColor && (
+                {/* {item.selectedColor && (
                   <span className="ml-1 text-gray-400">({item.selectedColor})</span>
-                )}
+                )} */}
               </span>
             </div>
           ))}
@@ -264,7 +264,7 @@ export default function OrderTable({ orders }: { orders: Order[] }) {
               <p className="font-medium text-gray-800">{item.name}</p>
               <p className="text-gray-400">
                 × {item.quantity}
-                {item.selectedColor && ` · ${item.selectedColor}`}
+                {/* {item.selectedColor && ` · ${item.selectedColor}`} */}
               </p>
             </div>
           </div>

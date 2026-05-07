@@ -53,7 +53,7 @@ const Page = () => {
                   </h2>
                   {item.selectedColor && (
                     <p className="text-gray-500 text-sm mt-1">
-                      Color: <span className="font-medium">{item.selectedColor}</span>
+                      Design: <span className="font-medium">{item.selectedColor}</span>
                     </p>
                   )}
                 </div>
@@ -63,7 +63,7 @@ const Page = () => {
                   <div className="flex items-center gap-4 border border-gray-300 rounded-md px-3 py-1">
                     <button
                       className="text-xl font-semibold hover:text-gray-700"
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
                     >
                       −
                     </button>
@@ -72,7 +72,7 @@ const Page = () => {
                       className="text-xl font-semibold hover:text-gray-700"
                       onClick={() => {
                         if(item.quantity < item.stock){
-                          updateQuantity(item.id, item.quantity + 1)
+                          updateQuantity(item.variantId, item.quantity + 1)
                         }
                       }}
                     >
@@ -81,7 +81,7 @@ const Page = () => {
                   </div>
 
                   <button
-                    onClick={() => removeFromCart(item.id)}
+                    onClick={() => removeFromCart(item.variantId)}
                     className="flex items-center gap-1 text-red-500 hover:text-red-600 transition text-sm"
                   >
                     <FiTrash2 /> Remove

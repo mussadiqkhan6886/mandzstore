@@ -254,7 +254,7 @@ const Checkout = () => {
                       </div>
                     )}
                     <div>
-                      <p className="font-medium">{item.name} - {item.selectedColor}</p>
+                      <p className="font-medium">{item.name}</p>
                       <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                     </div>
                   </div>

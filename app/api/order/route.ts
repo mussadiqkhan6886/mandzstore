@@ -70,21 +70,30 @@ export const POST = async (req: NextRequest) => {
     });
 
 
-   for (const item of orderData.items) {
-  const product = await Product.findById(item.id);
+  for (const item of orderData.items) {
+    const product = await Product.findById(item.id);
+    if (!product) continue;
 
-  if (product) {
-    // Calculate new stock
-    let newStock = product.stock - item.quantity;
-    if (newStock < 0) newStock = 0;
+    // Find the variant by matching the title stored in selectedColor
+    const variantIndex = product.variants.findIndex(
+      (v: any) => v.title === item.selectedColor
+    );
 
-    // Update stock and inStock flag
-    await Product.findByIdAndUpdate(item.id, {
-      stock: newStock,
-      inStock: newStock > 0, // true if stock > 0, false if 0
-    });
+    if (variantIndex === -1) continue;
+
+    const currentStock = product.variants[variantIndex].stock;
+    const newStock = Math.max(0, currentStock - item.quantity);
+
+    // Use positional $ or direct index update via arrayFilters
+    await Product.findByIdAndUpdate(
+      item.id,
+      {
+        $set: {
+          [`variants.${variantIndex}.stock`]: newStock,
+        },
+      }
+    );
   }
-}
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
