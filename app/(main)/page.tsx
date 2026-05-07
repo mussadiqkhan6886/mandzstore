@@ -5,6 +5,8 @@ import Trust from '@/components/MainComp/Trust'
 import WhatsAppButton from '@/components/MainComp/WhatsApp'
 import React from 'react'
 
+export const revalidate=60;
+
 const Home = () => {
   return (
     <main className='pt-24 lg:pt-14'>
