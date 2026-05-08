@@ -3,7 +3,7 @@ interface Variant {
   title: string;
   price: number;
   stock: number;
-  image: string;
+  image: string[];
   sku?: string;
   onSale: boolean;
   newPrice: number | null;

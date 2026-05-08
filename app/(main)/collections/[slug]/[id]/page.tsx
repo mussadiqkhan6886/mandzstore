@@ -49,7 +49,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
                 <Link href={`/collections/${updatedSlug}/${p.slug}`}>
                   <div className="overflow-hidden h-[200px] md:h-[350px]">
                     <Image
-                      src={firstVariant?.image || ''}
+                      src={firstVariant?.image[0] || ''}
                       alt={p.name}
                       width={400}
                       height={420}

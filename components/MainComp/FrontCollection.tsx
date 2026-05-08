@@ -58,7 +58,7 @@ const FrontCollection = () => {
         {data.slice(0, 8).map((product) => (
           <SearchCard key={product._id} _id={product._id}
           name={product.name}
-          images={product.variants[0].image}
+          images={product.variants[0].image[0]}
           price={product.variants[0].price}
           slug={product.slug}
           newPrice={product.variants[0].newPrice}

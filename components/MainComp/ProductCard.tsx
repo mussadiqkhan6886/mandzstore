@@ -4,7 +4,7 @@ import Link from 'next/link';
 interface Variant {
   price: number;
   stock: number;
-  image: string;
+  image: string[];
   onSale: boolean;
   newPrice: number | null;
 }
@@ -31,7 +31,7 @@ const ProductCard = ({ _id, name, slug, variants, oldSlug }: Props) => {
           </div>
         )}
         <Image
-          src={first.image}
+          src={first.image[0]}
           alt={name}
           width={400}
           height={420}

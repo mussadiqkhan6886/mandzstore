@@ -13,34 +13,20 @@ import { useCart } from '@/hooks/useCart';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-interface Variant {
-  _id: string;
-  title: string;
-  price: number;
-  stock: number;
-  image: string;
-  sku?: string;
-  onSale: boolean;
-  newPrice: number | null;
-}
-
-interface Product {
-  _id: string;
-  name: string;
-  slug: string;
-  description: string;
-  collection: string;
-  variants: Variant[];
-}
-
 export default function ProductClient({ product }: { product: Product }) {
   const [selectedVariant, setSelectedVariant] = useState<Variant>(product.variants[0]);
   const [show, setShow] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const { addToCart } = useCart();
 
-  // All variant images for the gallery
-  const allImages = product.variants.map((v) => v.image);
+ // If only 1 variant → show all its images; if multiple variants → show first image of each
+const allImages: string[] =
+  product.variants.length === 1
+    ? product.variants[0].image
+    : product.variants.map((v) => v.image[0]);
+
+// For the main display image, track index instead of matching by value
+const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   useEffect(() => {
     if (!show) return;
@@ -48,12 +34,16 @@ export default function ProductClient({ product }: { product: Product }) {
     return () => clearTimeout(t);
   }, [show]);
 
+  allImages[selectedImageIndex]
+
  const handleAddToCart = () => {
   if (selectedVariant.stock === 0) return;
   addToCart({
     id: product._id,
     variantId: selectedVariant._id,   // ← add this
-    images: [selectedVariant.image],
+    images: product.variants.length === 1
+  ? product.variants[0].image     
+  : [selectedVariant.image[0]],
     price: selectedVariant.price,
     onSale: selectedVariant.onSale,
     newPrice: selectedVariant.newPrice,
@@ -76,9 +66,15 @@ export default function ProductClient({ product }: { product: Product }) {
             <div
               key={i}
               className={`w-24 h-24 border cursor-pointer overflow-hidden transition ${
-                selectedVariant.image === img ? 'border-black' : 'border-gray-300'
+                selectedImageIndex === i ? 'border-black' : 'border-gray-300'
               }`}
-              onClick={() => setSelectedVariant(product.variants[i])}
+              onClick={() => {
+                setSelectedImageIndex(i);
+                // if multiple variants, clicking thumbnail changes selected variant
+                if (product.variants.length > 1) {
+                  setSelectedVariant(product.variants[i]);
+                }
+              }}
             >
               <Image src={img} alt={`variant ${i}`} width={120} height={80} className="object-cover w-full h-full" />
             </div>
@@ -103,16 +99,17 @@ export default function ProductClient({ product }: { product: Product }) {
             <div className="max-w-[1700px] mx-auto w-full h-full px-6">
               <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 place-items-center overflow-y-auto max-h-screen pt-20 pb-10 scrollbar-hide">
                 {allImages.map((img, i) => (
-                  <div
-                    key={i}
-                    className={`md:w-[200px] md:h-[180px] border cursor-pointer overflow-hidden ${
-                      selectedVariant.image === img ? 'border-black' : 'border-gray-300'
-                    }`}
-                    onClick={() => {
-                      setSelectedVariant(product.variants[i]);
-                      setShowAll(false);
-                    }}
-                  >
+                    <div
+                      key={i}
+                      className={`md:w-[200px] md:h-[180px] border cursor-pointer overflow-hidden ${
+                        selectedImageIndex === i ? 'border-black' : 'border-gray-300'
+                      }`}
+                      onClick={() => {
+                        setSelectedImageIndex(i);
+                        if (product.variants.length > 1) setSelectedVariant(product.variants[i]);
+                        setShowAll(false);
+                      }}
+                    >
                     <Image unoptimized loading="lazy" src={img} alt={`variant ${i}`} width={80} height={80} className="object-cover w-full h-full" />
                   </div>
                 ))}
@@ -124,7 +121,7 @@ export default function ProductClient({ product }: { product: Product }) {
         {/* Main image — desktop */}
         <div className="w-full hidden md:flex h-full mb-2 xl:w-[560px] border border-gray-200 overflow-hidden">
           <Image
-            src={selectedVariant.image}
+            src={allImages[selectedImageIndex]}
             alt={product.name}
             width={500}
             height={400}
@@ -141,10 +138,13 @@ export default function ProductClient({ product }: { product: Product }) {
             loop={true}
             pagination={{ clickable: true }}
             className="productSwiper"
-            onSlideChange={(swiper) => {
-              const idx = swiper.realIndex % product.variants.length;
-              setSelectedVariant(product.variants[idx]);
-            }}
+           onSlideChange={(swiper) => {
+            const idx = swiper.realIndex % allImages.length;
+            setSelectedImageIndex(idx);
+            if (product.variants.length > 1) {
+              setSelectedVariant(product.variants[idx % product.variants.length]);
+            }
+          }}
           >
             {allImages.map((img, i) => (
               <SwiperSlide key={i}>
@@ -200,15 +200,20 @@ export default function ProductClient({ product }: { product: Product }) {
             {product.variants.map((v) => (
               <button
                 key={v._id}
-                onClick={() => setSelectedVariant(v)}
+                onClick={() => {
+                  setSelectedVariant(v);
+                  // jump to that variant's position in allImages
+                  const idx = product.variants.indexOf(v);
+                  setSelectedImageIndex(idx);
+                }}
                 className={`relative group border rounded-lg overflow-hidden transition-all duration-200 ${
                   selectedVariant._id === v._id
                     ? 'border-black ring-2 ring-black ring-offset-1'
                     : 'border-gray-200 hover:border-gray-400'
                 }`}
               >
-                <Image
-                  src={v.image}
+               <Image
+                  src={v.image[0]}   // always show first image as the variant thumbnail
                   alt={v.title}
                   width={64}
                   height={64}
