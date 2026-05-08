@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
+  FiBarChart,
   FiHome, FiMenu, FiMessageSquare, FiPackage,
   FiPlusCircle, FiShoppingBag, FiTruck, FiX
 } from 'react-icons/fi';
@@ -20,6 +21,7 @@ const Header = () => {
     { name: 'Orders', href: '/admin-dashboard/orders-list', icon: <FiShoppingBag className="w-4 h-4" /> },
     { name: 'Delivery', href: '/admin-dashboard/delivery', icon: <FiTruck className="w-4 h-4" /> },
     { name: 'NavBar', href: '/admin-dashboard/navbar', icon: <FiMenu className="w-4 h-4" /> },
+    { name: 'Analytics', href: '/admin-dashboard/analytics', icon: <FiBarChart className="w-4 h-4" /> },
   ];
 
   const pathname = usePathname();

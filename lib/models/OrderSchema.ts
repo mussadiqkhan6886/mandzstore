@@ -2,8 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
 const OrderSchema = new Schema({
- orderId: { type: String, default: () => uuidv4(), unique: true },
-    items: [
+  orderId: { type: String, default: () => uuidv4(), unique: true },
+  items: [
       {
       id: {
         type: String,
