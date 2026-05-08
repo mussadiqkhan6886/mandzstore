@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartContextProvider } from "@/context/CartContext";
 import { montserrat } from "@/lib/fonts";
 import dynamic from "next/dynamic";
+import GoogleAn from "@/components/adminComp/GoogleAn";
 const MetaPixel = dynamic(() => import("@/components/adminComp/MetaPixel"));
 
 
@@ -59,6 +60,7 @@ export default function RootLayout({
       <head>
         <meta name="google-site-verification" content="8ehoMtNRgXA69WWqUMa3-4UXpzW_3Rh_ek9iqRV7evc" />
         <MetaPixel />
+        <GoogleAn />
       </head>
       <CartContextProvider>
         <body className={`antialiased ${montserrat.className}`}>{children}</body>
