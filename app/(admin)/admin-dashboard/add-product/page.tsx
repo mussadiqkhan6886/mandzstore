@@ -13,8 +13,8 @@ interface Variant {
   sku: string;
   onSale: boolean;
   newPrice: string;
-  imageFile: File | null;
-  imagePreview: string;
+  imageFiles: File[];
+  imagePreview: string[];
 }
 
 const emptyVariant = (): Variant => ({
@@ -24,8 +24,8 @@ const emptyVariant = (): Variant => ({
   sku: "",
   onSale: false,
   newPrice: "",
-  imageFile: null,
-  imagePreview: "",
+  imageFiles: [],
+  imagePreview: [],
 });
 
 const AddProduct = () => {
@@ -98,10 +98,27 @@ const AddProduct = () => {
   };
 
   const handleVariantImage = (index: number, e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    updateVariant(index, "imageFile", file);
-    updateVariant(index, "imagePreview", URL.createObjectURL(file));
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    if (index === 0) {
+      // Multiple images allowed for first variant
+      const previews = Array.from(files).map((f) => URL.createObjectURL(f));
+      // Store all files — update Variant type to imageFile: File[]
+      setVariants((prev) =>
+        prev.map((v, i) =>
+          i === index ? { ...v, imageFiles: Array.from(files), imagePreview: previews } : v
+        )
+      );
+    } else {
+      // Single image for all other variants
+      const file = files[0];
+      setVariants((prev) =>
+        prev.map((v, i) =>
+          i === index ? { ...v, imageFiles: [file], imagePreview: [URL.createObjectURL(file)] } : v
+        )
+      );
+    }
   };
 
   const addVariant = () => setVariants((prev) => [...prev, emptyVariant()]);
@@ -114,7 +131,7 @@ const AddProduct = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (variants.some((v) => !v.imageFile)) {
+    if (variants.some((v) => v.imageFiles.length === 0)) {
       setResult("❌ Each variant needs an image.");
       return;
     }
@@ -140,13 +157,16 @@ const AddProduct = () => {
       }));
       formData.append("variantMeta", JSON.stringify(variantMeta));
 
+     // In handleSubmit, replace the compression loop:
       for (let i = 0; i < variants.length; i++) {
-        const compressed = await imageCompression(variants[i].imageFile!, {
-          maxSizeMB: 1,
-          maxWidthOrHeight: 1200,
-          useWebWorker: true,
-        });
-        formData.append(`variantImage_${i}`, compressed);
+        for (let j = 0; j < variants[i].imageFiles.length; j++) {
+          const compressed = await imageCompression(variants[i].imageFiles[j], {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1200,
+            useWebWorker: true,
+          });
+          formData.append(`variantImage_${i}_${j}`, compressed); // keyed by variant + image index
+        }
       }
 
       const res = await axios.post("/api/products", formData);
@@ -357,19 +377,20 @@ const AddProduct = () => {
                   accept="image/*"
                   onChange={(e) => handleVariantImage(i, e)}
                   className="w-full border rounded-lg p-2 text-sm"
-                  required={!variant.imageFile}
+                  required={variant.imageFiles.length === 0}
+                  multiple={i === 0 && variants.length === 1}
                 />
-                {variant.imagePreview && (
-                  <div className="mt-2">
+                {variant.imagePreview && variant.imagePreview.map((item, i) => (
+                  <div key={i} className="mt-2 inline-block mr-1">
                     <Image
-                      src={variant.imagePreview}
+                      src={item}
                       width={80}
                       height={80}
                       alt={`Variant ${i + 1} preview`}
                       className="w-20 h-20 object-cover rounded-lg border"
                     />
                   </div>
-                )}
+                ))}
               </div>
             </div>
           ))}

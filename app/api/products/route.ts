@@ -50,32 +50,42 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Upload one image per variant
-    const variants = [];
-    for (let i = 0; i < variantMeta.length; i++) {
-      const file = formData.get(`variantImage_${i}`);
-      if (!(file instanceof File)) {
-        return NextResponse.json(
-          { success: false, message: `Missing image for variant ${i + 1}` },
-          { status: 400 }
-        );
-      }
+    // Upload all images per variant
+const variants = [];
+for (let i = 0; i < variantMeta.length; i++) {
+  const imageUrls: string[] = [];
+  let j = 0;
 
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const uploadResult: any = await new Promise((resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({ folder: "mzstore", resource_type: "image" }, (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          })
-          .end(buffer);
-      });
+  while (true) {
+    const file = formData.get(`variantImage_${i}_${j}`);
+    if (!(file instanceof File)) break; // no more images for this variant
 
-      variants.push({
-        ...variantMeta[i],
-        image: uploadResult.secure_url,
-      });
-    }
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const uploadResult: any = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ folder: "mzstore", resource_type: "image" }, (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        })
+        .end(buffer);
+    });
+
+    imageUrls.push(uploadResult.secure_url);
+    j++;
+  }
+
+  if (imageUrls.length === 0) {
+    return NextResponse.json(
+      { success: false, message: `Missing image for variant ${i + 1}` },
+      { status: 400 }
+    );
+  }
+
+  variants.push({
+    ...variantMeta[i],
+    image: imageUrls, // array, matches your schema: image: [String]
+  });
+}
 
     const newProduct = new Product({
       collection,

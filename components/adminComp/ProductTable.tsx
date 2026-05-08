@@ -53,7 +53,7 @@ export default function ProductTable({ products }: { products: Product[] }) {
       renderCell: (params) => {
         const first: Variant = params.row.variants?.[0];
         return first?.image ? (
-          <img src={first.image} alt={params.row.name} style={{ width: 55, height: 55, objectFit: 'cover', borderRadius: 6 }} />
+          <img src={first.image[0]} alt={params.row.name} style={{ width: 55, height: 55, objectFit: 'cover', borderRadius: 6 }} />
         ) : <span className="text-xs text-gray-400">No image</span>;
       },
     },

@@ -4,7 +4,7 @@ const VariantSchema = new mongoose.Schema({
   title: { type: String, required: true }, // Design 1, Design 2
   price: { type: Number, required: true },
   stock: { type: Number, required: true },
-  image: { type: String, required: true },
+  image: { type: [String], required: true },
   sku: { type: String }, // optional but powerful
   onSale: { type: Boolean, default: false },
   newPrice: { type: Number, default: null },

@@ -15,10 +15,10 @@ interface Variant {
   onSale: boolean;
   newPrice: string;
   // existing image from DB
-  existingImage: string;
+  existingImages: string[];
   // new image chosen by user
-  imageFile: File | null;
-  imagePreview: string;
+  imageFiles: File[];
+  imagePreview: string[];
 }
 
 const emptyVariant = (): Variant => ({
@@ -28,9 +28,9 @@ const emptyVariant = (): Variant => ({
   sku: "",
   onSale: false,
   newPrice: "",
-  existingImage: "",
-  imageFile: null,
-  imagePreview: "",
+  existingImages: [],
+  imageFiles: [],
+  imagePreview: [],
 });
 
 const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
@@ -88,20 +88,19 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
           collection: product.collection || "",
         });
 
-        // Map DB variants to local state shape
         setVariants(
-          product.variants?.map((v: any) => ({
-            _id: v._id,
-            title: v.title || "",
-            price: String(v.price || ""),
-            stock: String(v.stock || ""),
-            sku: v.sku || "",
-            onSale: v.onSale || false,
-            newPrice: v.newPrice ? String(v.newPrice) : "",
-            existingImage: v.image || "",
-            imageFile: null,
-            imagePreview: "",
-          })) || [emptyVariant()]
+  product.variants?.map((v: any) => ({
+    _id: v._id,
+    title: v.title || "",
+    price: String(v.price || ""),
+    stock: String(v.stock || ""),
+    sku: v.sku || "",
+    onSale: v.onSale || false,
+    newPrice: v.newPrice ? String(v.newPrice) : "",
+    existingImages: Array.isArray(v.image) ? v.image : v.image ? [v.image] : [],
+    imageFiles: [],
+    imagePreview: [],
+  })) || [emptyVariant()]
         );
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -127,25 +126,68 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
       prev.map((v, i) => (i === index ? { ...v, [field]: value } : v))
     );
 
-  const handleVariantImage = (index: number, e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    updateVariant(index, "imageFile", file);
-    updateVariant(index, "imagePreview", URL.createObjectURL(file));
-  };
+ const handleVariantImage = (index: number, e: ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files;
+  if (!files || files.length === 0) return;
+
+  if (index === 0) {
+    // First variant: allow multiple
+    const previews = Array.from(files).map((f) => URL.createObjectURL(f));
+    setVariants((prev) =>
+      prev.map((v, i) =>
+        i === 0 ? { ...v, imageFiles: Array.from(files), imagePreview: previews } : v
+      )
+    );
+  } else {
+    // Other variants: single image only
+    const file = files[0];
+    setVariants((prev) =>
+      prev.map((v, i) =>
+        i === index
+          ? { ...v, imageFiles: [file], imagePreview: [URL.createObjectURL(file)] }
+          : v
+      )
+    );
+  }
+};
 
   const addVariant = () => setVariants((prev) => [...prev, emptyVariant()]);
 
   const removeVariant = (index: number) =>
     setVariants((prev) => prev.filter((_, i) => i !== index));
 
+  const removeExistingImage = (variantIndex: number, imgIndex: number) => {
+  setVariants((prev) =>
+    prev.map((v, i) =>
+      i === variantIndex
+        ? { ...v, existingImages: v.existingImages.filter((_, j) => j !== imgIndex) }
+        : v
+    )
+  );
+};
+
+const removeNewImage = (variantIndex: number, imgIndex: number) => {
+  setVariants((prev) =>
+    prev.map((v, i) =>
+      i === variantIndex
+        ? {
+            ...v,
+            imageFiles: v.imageFiles.filter((_, j) => j !== imgIndex),
+            imagePreview: v.imagePreview.filter((_, j) => j !== imgIndex),
+          }
+        : v
+    )
+  );
+};
   // ── Submit ───────────────────────────────────────────────────────────────
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Each variant needs either an existing image or a new file
-    const missingImage = variants.some((v) => !v.existingImage && !v.imageFile);
+    const missingImage = variants.some(
+  (v) => v.existingImages.length === 0 && v.imageFiles.length === 0
+);
     if (missingImage) {
       setResult("❌ Each variant needs an image.");
       return;
@@ -172,19 +214,18 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
         sku: v.sku,
         onSale: v.onSale,
         newPrice: v.onSale && v.newPrice ? Number(v.newPrice) : null,
-        existingImage: v.imageFile ? null : v.existingImage, // null = upload new
+        existingImages: v.imageFiles.length > 0 ? [] : v.existingImages, // [] = uploading new
       }));
       formData.append("variantMeta", JSON.stringify(variantMeta));
 
-      // Upload new images keyed by index (only for variants with a new file)
       for (let i = 0; i < variants.length; i++) {
-        if (variants[i].imageFile) {
-          const compressed = await imageCompression(variants[i].imageFile!, {
+        for (let j = 0; j < variants[i].imageFiles.length; j++) {
+          const compressed = await imageCompression(variants[i].imageFiles[j], {
             maxSizeMB: 1,
             maxWidthOrHeight: 1200,
             useWebWorker: true,
           });
-          formData.append(`variantImage_${i}`, compressed);
+          formData.append(`variantImage_${i}_${j}`, compressed);
         }
       }
 
@@ -372,54 +413,68 @@ const UpdateProduct = ({ params }: { params: Promise<{ id: string }> }) => {
               )}
 
               {/* Image */}
-              <div>
-                <label className="block text-sm font-semibold mb-2">Variant Image</label>
+<div>
+  <label className="block text-sm font-semibold mb-2">Variant Image</label>
 
-                {/* Show existing image with replace option */}
-                {variant.existingImage && !variant.imagePreview && (
-                  <div className="flex items-center gap-3 mb-2">
-                    <Image
-                      src={variant.existingImage}
-                      width={72}
-                      height={72}
-                      alt={`Variant ${i + 1}`}
-                      className="w-18 h-18 object-cover rounded-lg border"
-                    />
-                    <span className="text-xs text-gray-500">Current image — upload below to replace</span>
-                  </div>
-                )}
+  {/* Existing images */}
+  {variant.existingImages.length > 0 && (
+    <div className="flex gap-2 flex-wrap mb-2">
+      {variant.existingImages.map((src, idx) => (
+        <div key={idx} className="relative group">
+          <Image
+            src={src}
+            width={72}
+            height={72}
+            alt={`Existing ${idx + 1}`}
+            className="w-18 h-18 object-cover rounded-lg border"
+          />
+          <button
+            type="button"
+            onClick={() => removeExistingImage(i, idx)}
+            className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-700 transition"
+          >
+            ×
+          </button>
+        </div>
+      ))}
+      <span className="text-xs text-gray-500 self-center">
+        Current — upload below to add/replace
+      </span>
+    </div>
+  )}
 
-                {/* New preview */}
-                {variant.imagePreview && (
-                  <div className="flex items-center gap-3 mb-2">
-                    <Image
-                      src={variant.imagePreview}
-                      width={72}
-                      height={72}
-                      alt="New preview"
-                      className="w-18 h-18 object-cover rounded-lg border border-black"
-                    />
-                    <span className="text-xs text-green-600 font-medium">New image selected</span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        updateVariant(i, "imageFile", null);
-                        updateVariant(i, "imagePreview", "");
-                      }}
-                      className="text-xs text-red-500 underline"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                )}
+  {/* New previews */}
+  {variant.imagePreview.length > 0 && (
+    <div className="flex gap-2 flex-wrap mb-2">
+      {variant.imagePreview.map((src, idx) => (
+        <div key={idx} className="relative">
+          <Image
+            src={src}
+            width={72}
+            height={72}
+            alt={`Preview ${idx + 1}`}
+            className="w-18 h-18 object-cover rounded-lg border border-black"
+          />
+          <button
+            type="button"
+            onClick={() => removeNewImage(i, idx)}
+            className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-700 transition"
+          >
+            ×
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
 
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleVariantImage(i, e)}
-                  className="w-full border rounded-lg p-2 text-sm"
-                />
-              </div>
+  <input
+    type="file"
+    accept="image/*"
+    multiple={i === 0 && variants.length == 1}
+    onChange={(e) => handleVariantImage(i, e)}
+    className="w-full border rounded-lg p-2 text-sm"
+  />
+</div>
             </div>
           ))}
         </section>
