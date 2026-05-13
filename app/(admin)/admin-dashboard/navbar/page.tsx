@@ -75,7 +75,7 @@ const Page = () => {
     setLoading(true);
 
     const finalData = {
-      title: mainData.mainTitle,
+      title: mainData.mainTitle.toLowerCase(),
       link: mainData.mainLink,
       children: haveChildren
         ? childrenData.filter(c => c.title.trim() !== "")
