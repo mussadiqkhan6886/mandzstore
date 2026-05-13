@@ -57,16 +57,15 @@ const SingleCollection = async ({ params }: { params: Promise<{ slug: string }> 
   await connectDB();
 
   let products;
-
   if (slug === "dupatta" || slug === "hijab") {
     // Fetch all products whose collection ENDS WITH Dupatta/Hijab (case-insensitive)
     products = await Product.find({
-      collection: { $regex: `${updatedSlug}$`, $options: 'i' },
-    }).lean();
+    collection: { $regex: new RegExp(slug, 'i') }
+  }).lean();
   } else {
     // Fetch exact match for other collections
     products = await Product.find({
-      collection: { $regex: new RegExp(`^${updatedSlug}$`, 'i') },
+      collection: { $regex: new RegExp(`^\\s*${updatedSlug}\\s*$`, 'i') },
     }).lean();
   }
 
