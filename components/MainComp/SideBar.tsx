@@ -68,6 +68,12 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
 
             <div className="p-6 pt-20">
               <ul>
+                <li>
+                  <Link onClick={() => setIsOpen(false)} className="block w-full tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center" href="/">Home</Link>
+                </li>
+                <li>
+                  <Link onClick={() => setIsOpen(false)} className='block tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center w-full' href="/collections/all">View All Products</Link>
+                </li>
               {navbar.map((item, i) => (
                 <li key={i}>
                   <div
