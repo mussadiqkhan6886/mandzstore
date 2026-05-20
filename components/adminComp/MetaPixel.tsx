@@ -27,5 +27,4 @@ src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_META_PIXEL_ID}&ev
     </>
   )
 }
-
 export default MetaPixel
