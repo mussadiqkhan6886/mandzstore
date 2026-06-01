@@ -19,7 +19,7 @@ interface Variant {
   newPrice: number | null;
 }
 
-interface ProductType {
+export interface ProductType {
   _id: string;
   collection: string;
   name: string;
