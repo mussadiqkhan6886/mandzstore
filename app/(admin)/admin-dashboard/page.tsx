@@ -8,6 +8,12 @@ import Image from "next/image"
 
 const AdminPage = async () => {
 
+  return (
+    <h1>
+      Home page
+    </h1>
+  )
+
   // await connectDB()
 
   // const res = await BannerImg.find().lean()

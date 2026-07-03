@@ -3,7 +3,7 @@ import Navbar from '@/lib/models/NavbarSchema';
 import Header from '@/components/MainComp/Header';
 import Footer from '@/components/MainComp/Footer';
 
-export const revalidate = 3600; // this now actually works — it's a route segment
+export const revalidate = 3600;
 
 async function getNavbar() {
   await connectDB();

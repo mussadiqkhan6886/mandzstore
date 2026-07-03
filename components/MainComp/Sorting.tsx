@@ -9,10 +9,14 @@ type SortWrapperProps = {
   slug: string
 };
 
+const PRODUCTS_PER_PAGE = 20;
+
 const SortWrapper: React.FC<SortWrapperProps> = ({ products, slug }) => {
   const [sortOption, setSortOption] = useState('default');
   const [sortedProducts, setSortedProducts] = useState(products);
   const [open, setOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PRODUCTS_PER_PAGE);
+
   useEffect(() => {
     let sorted = [...products];
 
@@ -34,7 +38,11 @@ const SortWrapper: React.FC<SortWrapperProps> = ({ products, slug }) => {
     }
 
     setSortedProducts(sorted);
+    setVisibleCount(PRODUCTS_PER_PAGE); // reset back to first 20 whenever sort or product list changes
   }, [sortOption, products]);
+
+  const visibleProducts = sortedProducts.slice(0, visibleCount);
+  const hasMore = visibleCount < sortedProducts.length;
 
   return (
     <section>
@@ -84,10 +92,22 @@ const SortWrapper: React.FC<SortWrapperProps> = ({ products, slug }) => {
 
       {/* Sorted Product Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8">
-        {sortedProducts.map((product) => (
+        {visibleProducts.map((product) => (
           <ProductCard key={product._id} {...product} oldSlug={slug} />
         ))}
       </div>
+
+      {/* Show More */}
+      {hasMore && (
+        <div className="flex justify-center mt-12">
+          <button
+            onClick={() => setVisibleCount((prev) => prev + PRODUCTS_PER_PAGE)}
+            className="px-8 py-3 border border-black text-sm uppercase tracking-widest font-medium hover:bg-black hover:text-white transition-colors"
+          >
+            Show More
+          </button>
+        </div>
+      )}
     </section>
   );
 };
