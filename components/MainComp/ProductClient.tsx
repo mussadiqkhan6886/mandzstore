@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiZoomIn, FiZoomOut } from 'react-icons/fi';
 import { FaCheck } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -19,6 +19,13 @@ export default function ProductClient({ product }: { product: Product }) {
   const [showAll, setShowAll] = useState(false);
   const { addToCart } = useCart();
 
+  // ── Zoom/Lightbox state ──
+  const [showZoom, setShowZoom] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
+  const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
+  const isDragging = useRef(false);
+  const dragStart = useRef({ x: 0, y: 0 });
+
  // If only 1 variant → show all its images; if multiple variants → show first image of each
 const allImages: string[] =
   product.variants.length === 1
@@ -34,7 +41,62 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     return () => clearTimeout(t);
   }, [show]);
 
-  allImages[selectedImageIndex]
+  // Reset zoom whenever the lightbox opens or the image changes
+  useEffect(() => {
+    setZoomScale(1);
+    setZoomPos({ x: 0, y: 0 });
+  }, [showZoom, selectedImageIndex]);
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!showZoom) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowZoom(false);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [showZoom]);
+
+  // Lock body scroll while lightbox is open
+  useEffect(() => {
+    if (showZoom) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [showZoom]);
+
+  const handleWheelZoom = (e: React.WheelEvent) => {
+    e.preventDefault();
+    setZoomScale((prev) => {
+      const next = prev - e.deltaY * 0.001;
+      return Math.min(Math.max(next, 1), 4);
+    });
+  };
+
+  const handleDoubleClick = () => {
+    setZoomScale((prev) => (prev > 1 ? 1 : 2.5));
+    setZoomPos({ x: 0, y: 0 });
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoomScale === 1) return;
+    isDragging.current = true;
+    dragStart.current = { x: e.clientX - zoomPos.x, y: e.clientY - zoomPos.y };
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current) return;
+    setZoomPos({
+      x: e.clientX - dragStart.current.x,
+      y: e.clientY - dragStart.current.y,
+    });
+  };
+
+  const handleMouseUp = () => {
+    isDragging.current = false;
+  };
 
  const handleAddToCart = () => {
   if (selectedVariant.stock === 0) return;
@@ -119,7 +181,10 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
         )}
 
         {/* Main image — desktop */}
-        <div className="w-full hidden md:flex h-full mb-2 xl:w-[560px] border border-gray-200 overflow-hidden">
+        <div
+          onClick={() => setShowZoom(true)}
+          className="w-full hidden md:flex h-full mb-2 xl:w-[560px] border border-gray-200 overflow-hidden cursor-zoom-in"
+        >
           <Image
             priority
             src={allImages[selectedImageIndex]}
@@ -149,7 +214,13 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
           >
             {allImages.map((img, i) => (
               <SwiperSlide key={i}>
-                <div className="w-full h-[400px] rounded overflow-hidden">
+                <div
+                  onClick={() => {
+                    setSelectedImageIndex(i);
+                    setShowZoom(true);
+                  }}
+                  className="w-full h-[400px] rounded overflow-hidden cursor-zoom-in"
+                >
                   <Image src={img} alt={`image ${i}`} width={600} height={400} className="object-cover w-full h-full" />
                 </div>
               </SwiperSlide>
@@ -216,8 +287,6 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
                <Image
                   src={v.image[0]}   // always show first image as the variant thumbnail
                   alt={v.title}
-                  unoptimized
-                  loading="lazy"
                   width={64}
                   height={64}
                   className="w-16 h-16 object-cover"
@@ -268,6 +337,60 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
             <FaCheck className="text-green-600 text-sm" />
           </div>
           <span className="text-sm font-medium">Added to cart successfully</span>
+        </div>
+      )}
+
+      {/* ── FULLSCREEN ZOOM LIGHTBOX ── */}
+      {showZoom && (
+        <div
+          className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center overflow-hidden"
+          onWheel={handleWheelZoom}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+        >
+          <FiX
+            onClick={() => setShowZoom(false)}
+            className="absolute right-6 top-6 text-3xl text-white border border-white rounded-full p-1 cursor-pointer z-10"
+          />
+
+          {/* Zoom controls */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-white/10 backdrop-blur px-4 py-2 rounded-full z-10">
+            <FiZoomOut
+              onClick={() => setZoomScale((prev) => Math.max(prev - 0.5, 1))}
+              className="text-2xl text-white cursor-pointer"
+            />
+            <span className="text-white text-sm w-12 text-center">{Math.round(zoomScale * 100)}%</span>
+            <FiZoomIn
+              onClick={() => setZoomScale((prev) => Math.min(prev + 0.5, 4))}
+              className="text-2xl text-white cursor-pointer"
+            />
+          </div>
+
+          <div
+            onMouseDown={handleMouseDown}
+            onDoubleClick={handleDoubleClick}
+            className={`relative w-full h-full flex items-center justify-center ${
+              zoomScale > 1 ? (isDragging.current ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-zoom-in'
+            }`}
+          >
+            <div
+              style={{
+                transform: `translate(${zoomPos.x}px, ${zoomPos.y}px) scale(${zoomScale})`,
+                transition: isDragging.current ? 'none' : 'transform 0.15s ease-out',
+              }}
+              className="relative w-[90vw] h-[85vh] max-w-5xl"
+            >
+              <Image
+                src={allImages[selectedImageIndex]}
+                alt={product.name}
+                fill
+                unoptimized
+                draggable={false}
+                className="object-contain select-none"
+              />
+            </div>
+          </div>
         </div>
       )}
     </section>
