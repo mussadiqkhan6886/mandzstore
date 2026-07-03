@@ -8,7 +8,7 @@ import { connectDB } from '@/lib/config/database/db';
 import Navbar from '@/lib/models/NavbarSchema';
 import { cormorant } from '@/lib/fonts';
 
-export const revalidate = 50; 
+export const revalidate = 120; 
 
 export const generateStaticParams = async () => {
   await connectDB();

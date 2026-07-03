@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductClient from '@/components/MainComp/ProductClient';
 
-export const revalidate = 50;
+export const revalidate = 120;
 
 export const generateStaticParams = async () => {
   await connectDB();
