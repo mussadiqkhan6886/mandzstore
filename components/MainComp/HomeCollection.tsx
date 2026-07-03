@@ -1,15 +1,17 @@
 'use client';
 
 import { cormorant } from '@/lib/fonts';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import SearchCard from './SearchCard';
 import Link from 'next/link';
 
 const HomeCollection = ({products}: {products: Product[]}) => {
   const [current, setCurrent] = useState('dupatta');
 
-    const filteredData = products.filter((item: Product) => item.collection.toLowerCase().includes(current));
-
+    const filteredData = useMemo(
+    () => products.filter((item) => item.collection.toLowerCase().includes(current)),
+    [products, current]
+  );
 
   return (
     <section className="my-20 max-w-7xl flex flex-col items-center mx-auto px-4">

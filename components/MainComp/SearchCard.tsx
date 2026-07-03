@@ -25,6 +25,13 @@ const SearchCard = ({
   stock
 }: Props) => {
 
+
+  const collectionSlug = oldSlug
+  ?.trim()
+  .toLowerCase()
+  .replace(/\s+/g, "-")   // collapse any run of whitespace into a single dash
+  .replace(/^-+|-+$/g, "") // strip any leading/trailing dashes just in case
+
   const content = (
     <>
       <div className="overflow-hidden h-[200px] md:h-[400px] relative">
@@ -62,7 +69,7 @@ const SearchCard = ({
     <div
       className="relative group cursor-pointer overflow-hidden transition-all duration-300"
     >
-        <Link href={`/collections/${oldSlug}/${slug}`}>{content}</Link>
+        <Link href={`/collections/${collectionSlug}/${slug}`}>{content}</Link>
     </div>
     </>
   );

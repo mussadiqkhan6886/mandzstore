@@ -9,28 +9,18 @@ import { NavItem } from '@/app/(admin)/admin-dashboard/navbar/page';
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  menu: NavItem[]
 };
 
 const SIDEBAR_WIDTH = 320; // keeps numbers consistent with CSS
 
-const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
+const SideBar: React.FC<Props> = ({ menu ,isOpen, setIsOpen }) => {
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleMenu = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-
-  const[navbar, setNavbar] = useState<NavItem[] | []>([])
-
-  const fetchNavdata = async () => {
-    const res = await axios.get("/api/navbar")
-    setNavbar(res.data.data)
-  }
-
-  useEffect(() => {
-    fetchNavdata()
-  }, [])
 
   return (
     <AnimatePresence>
@@ -74,7 +64,7 @@ const SideBar: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                 <li>
                   <Link onClick={() => setIsOpen(false)} className='block tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center w-full' href="/collections/all">View All Products</Link>
                 </li>
-              {navbar.map((item, i) => (
+              {menu.map((item, i) => (
                 <li key={i}>
                   <div
                     className="flex w-full tracking-widest uppercase border-t border-black/10 pt-3 justify-between cursor-pointer mb-3 text-lg items-center"

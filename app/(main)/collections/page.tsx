@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
-import CollectionCard from '@/components/MainComp/CollectionCard'
-import { collectionsPage } from '@/lib/constants'
-import { cormorant } from '@/lib/fonts'
+import { redirect } from 'next/navigation';
 
 
 export const generateMetadata = (): Metadata => { return {
@@ -11,16 +9,7 @@ export const generateMetadata = (): Metadata => { return {
 
 const page = () => {
     
-  return (
-    <main className='max-w-7xl mx-auto pt-24'>
-      <h1 className={`${cormorant.className} text-4xl uppercase text-center my-12`}>Catalog</h1>
-      <section className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 mb-10'>
-      {collectionsPage.map((item, i) => (
-        <CollectionCard key={i} {...item} />
-      ))}
-      </section>
-    </main>
-  )
+  return redirect('/')
 }
 
 export default page

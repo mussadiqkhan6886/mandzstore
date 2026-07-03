@@ -8,8 +8,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/hooks/useCart';
+import { NavItem } from '@/app/(admin)/admin-dashboard/navbar/page';
 
-const Header = () => {
+const Header = ({menu}: {menu: NavItem[]}) => {
 
   const [showSideBar, setShowSideBar] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
@@ -38,7 +39,7 @@ const Header = () => {
 
   return (
     <header className='fixed top-0 w-full bg-white z-50' >
-        {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} />}
+        {showSideBar && <SideBar isOpen={showSideBar} setIsOpen={setShowSideBar} menu={menu} />}
       <div className="flex overflow-y-hidden justify-between items-center px-6 md:px-12">
         <button aria-label="menu icon button" onClick={() => setShowSideBar(true)} className="text-2xl cursor-pointer">
           <FiMenu aria-label="menu icon" />
