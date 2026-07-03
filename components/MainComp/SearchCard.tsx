@@ -56,7 +56,7 @@ const SearchCard = ({
               </span>
             </span>
           ) : (
-            'Rs.' + price
+            'Rs. ' + price
           )}
         </h4>
         {/* <h4 className='text-sm my-1 flex items-center gap-2 justify-center'>{inStock ? <span className="w-2 h-2 inline-block bg-green-500 rounded-full"></span> : <span className="w-2 h-2 inline-block bg-red-500 rounded-full"></span>} Stock: {stock} Available</h4> */}

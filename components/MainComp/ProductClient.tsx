@@ -76,7 +76,7 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
                 }
               }}
             >
-              <Image src={img} alt={`variant ${i}`} width={120} height={80} className="object-cover w-full h-full" />
+              <Image unoptimized src={img} alt={`variant ${i}`} width={120} height={80} className="object-cover w-full h-full" />
             </div>
           ))}
           {allImages.length > 5 && (
@@ -121,6 +121,7 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
         {/* Main image — desktop */}
         <div className="w-full hidden md:flex h-full mb-2 xl:w-[560px] border border-gray-200 overflow-hidden">
           <Image
+            priority
             src={allImages[selectedImageIndex]}
             alt={product.name}
             width={500}
@@ -215,6 +216,8 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
                <Image
                   src={v.image[0]}   // always show first image as the variant thumbnail
                   alt={v.title}
+                  unoptimized
+                  loading="lazy"
                   width={64}
                   height={64}
                   className="w-16 h-16 object-cover"
