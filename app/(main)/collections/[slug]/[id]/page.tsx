@@ -1,3 +1,5 @@
+import { cache } from 'react';
+import { notFound } from 'next/navigation';
 import { Product } from '@/lib/models/ProductSchema';
 import { connectDB } from '@/lib/config/database/db';
 import HeaderProduct from '@/components/MainComp/HeaderProduct';
@@ -8,60 +10,90 @@ import { Metadata } from 'next';
 
 export const revalidate = 120;
 
+const toSlug = (value: string) =>
+  value.trim().toLowerCase().replace(/\s+/g, '-');
+
+const getProduct = cache(async (id: string) => {
+  await connectDB();
+  const res = await Product.findOne({ slug: id }).lean();
+  return res ? JSON.parse(JSON.stringify(res)) : null;
+});
+
 export const generateStaticParams = async () => {
   await connectDB();
   const products = await Product.find({}).lean();
-  return products.map((product) => ({ id: product.slug }));
+  return products.map((product: any) => ({
+    slug: toSlug(product.collection),
+    id: product.slug,
+  }));
 };
 
 export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string, id: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<Metadata> {
-  const { slug, id } = await params;
-  const formattedTitle = id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  const { id } = await params;
+  const product = await getProduct(id);
+
+  if (!product) {
+    return { title: 'Product Not Found | M&Z Store' };
+  }
+
+  const canonicalSlug = toSlug(product.collection);
+  const url = `https://mzstorepk.com/collections/${canonicalSlug}/${product.slug}`;
 
   return {
-    title: formattedTitle + " | M&Z Store",
+    title: `${product.name} | M&Z Store`,
+    description: product.description,
     alternates: {
-      canonical: `https://mzstorepk.com/collections/${slug}/${id}`,
+      canonical: url,
+    },
+    openGraph: {
+      title: `${product.name} | M&Z Store`,
+      description: product.description,
+      url,
+      siteName: 'M&Z Store',
+      images: [
+        {
+          url: product.variants[0].image[0],
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+      locale: 'en_PK',
+      type: 'website',
     },
   };
 }
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
+  const product = await getProduct(id);
+
+  if (!product) {
+    notFound();
+  }
+
   await connectDB();
-
-  const res = await Product.findOne({ slug: id }).lean();
-  const product = JSON.parse(JSON.stringify(res));
-
   const response = await Product.aggregate([
     { $match: { collection: product.collection, slug: { $ne: product.slug } } },
     { $sample: { size: 4 } },
   ]);
   const related = JSON.parse(JSON.stringify(response));
 
-  const updatedSlug = product.collection
-    .split('-')
-    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-
-  if (!product) return <div className="text-center py-20">Product not found</div>;
-
   return (
     <main className="max-w-7xl mx-auto px-4 py-16 pt-30 sm:pt-36">
-      {/* All interactive variant logic lives in ProductClient */}
       <ProductClient product={product} />
 
-      {/* Related products */}
       <div className="pt-16">
         <HeaderProduct title="May you like" desc="May You like these awesome related products" />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8">
           {related.slice(0, 3).map((p: any) => {
             const firstVariant = p.variants?.[0];
+            const relatedSlug = toSlug(p.collection);
             return (
               <div key={p._id} className="relative group cursor-pointer overflow-hidden transition-all duration-300">
-                <Link href={`/collections/${updatedSlug}/${p.slug}`}>
+                <Link href={`/collections/${relatedSlug}/${p.slug}`}>
                   <div className="overflow-hidden h-[200px] md:h-[350px]">
                     <Image
                       src={firstVariant?.image[0] || ''}

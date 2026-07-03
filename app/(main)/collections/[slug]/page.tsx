@@ -42,6 +42,7 @@ export async function generateMetadata(
 
   return {
     title: formattedTitle + " | M&Z Store",
+    description: `Shop ${formattedTitle} at M&Z Store Pakistan. Discover premium-quality fashion, stylish designs, affordable prices, fast delivery, and secure checkout across Pakistan.`,
     alternates: {
       canonical: `https://mzstorepk.com/collections/${slug}`,
     },
