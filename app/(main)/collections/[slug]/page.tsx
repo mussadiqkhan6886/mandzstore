@@ -41,7 +41,10 @@ export async function generateMetadata(
   const formattedTitle = slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
   return {
-    title: formattedTitle + " M&Z Store", // optional: format the slug
+    title: formattedTitle + " | M&Z Store",
+    alternates: {
+      canonical: `https://mzstorepk.com/collections/${slug}`,
+    },
   };
 }
 

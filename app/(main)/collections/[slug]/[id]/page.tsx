@@ -4,6 +4,7 @@ import HeaderProduct from '@/components/MainComp/HeaderProduct';
 import Link from 'next/link';
 import Image from 'next/image';
 import ProductClient from '@/components/MainComp/ProductClient';
+import { Metadata } from 'next';
 
 export const revalidate = 120;
 
@@ -12,6 +13,20 @@ export const generateStaticParams = async () => {
   const products = await Product.find({}).lean();
   return products.map((product) => ({ id: product.slug }));
 };
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string, id: string }> }
+): Promise<Metadata> {
+  const { slug, id } = await params;
+  const formattedTitle = id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+  return {
+    title: formattedTitle + " | M&Z Store",
+    alternates: {
+      canonical: `https://mzstorepk.com/collections/${slug}/${id}`,
+    },
+  };
+}
 
 const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
