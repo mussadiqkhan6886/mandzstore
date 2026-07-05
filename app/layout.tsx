@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   creator: "M&Z Store",
   publisher: "M&Z Store",
   openGraph: {
-    title: "M&Z Store | Elegant Hijabs, Chaddars & Dupattas Online",
+    title: "M&Z Store | Premium Hijabs, Chaddars & Dupattas Online in Pakistan",
     description:
       "Discover stylish and modest hijabs, chaddars, and dupattas for every occasion. High-quality fabrics, exclusive designs, and fast nationwide delivery from M&Z Store.",
     url: "https://www.mzstorepk.com/", // replace with your real domain
