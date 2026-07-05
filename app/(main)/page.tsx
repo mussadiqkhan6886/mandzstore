@@ -5,7 +5,7 @@ import Trust from '@/components/MainComp/Trust'
 import WhatsAppButton from '@/components/MainComp/WhatsApp'
 import React from 'react'
 
-export const revalidate=3600;
+export const revalidate = 86400;
 
 const Home = () => {
   return (

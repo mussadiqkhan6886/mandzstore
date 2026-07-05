@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import HeaderProduct from '@/components/MainComp/HeaderProduct';
-// import { collectionsData } from '@/lib/constants';
 import React from 'react';
 import SortWrapper from '@/components/MainComp/Sorting';
 import { Product } from '@/lib/models/ProductSchema';
@@ -8,7 +6,7 @@ import { connectDB } from '@/lib/config/database/db';
 import Navbar from '@/lib/models/NavbarSchema';
 import { cormorant } from '@/lib/fonts';
 
-export const revalidate = 120; 
+export const revalidate = 600; 
 
 export const generateStaticParams = async () => {
   await connectDB();

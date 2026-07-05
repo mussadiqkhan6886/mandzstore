@@ -3,7 +3,6 @@ import { Product } from '@/lib/models/ProductSchema';
 import React from 'react'
 import HomeCollection from './HomeCollection';
 
-export const revalidate = 3600;
 
 const getProducts = async () => {
   await connectDB()
