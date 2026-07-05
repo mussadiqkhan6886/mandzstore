@@ -2,7 +2,7 @@
 
 > A production-level full-stack eCommerce platform built for **M&Z Store**, a Pakistani modest fashion brand selling hijabs, chaddars, dupattas, and scarves nationwide with Cash on Delivery (COD).
 
-🌐 **Live Website:** [M&Z Store PK](https://mzstorepk.com/?utm_source=chatgpt.com)
+🌐 **Live Website:** [M&Z Store PK](https://www.mzstorepk.com/?utm_source=chatgpt.com)
 
 ---
 

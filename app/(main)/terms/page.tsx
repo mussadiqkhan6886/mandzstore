@@ -12,7 +12,7 @@ export const generateMetadata = (): Metadata => {
       title: 'Terms & Conditions | M&Z Store',
       description:
         'Review the Terms & Conditions of using M&Z Store. Learn about our policies, user responsibilities, and service agreements.',
-      url: 'https://mzstorepk.com/terms',
+      url: 'https://www.mzstorepk.com/terms',
       siteName: 'M&Z Store',
     },
   };

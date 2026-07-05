@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: "M&Z Store | Elegant Hijabs, Chaddars & Dupattas Online",
     description:
       "Discover stylish and modest hijabs, chaddars, and dupattas for every occasion. High-quality fabrics, exclusive designs, and fast nationwide delivery from M&Z Store.",
-    url: "https://mzstorepk.com/", // replace with your real domain
+    url: "https://www.mzstorepk.com/", // replace with your real domain
     siteName: "M&Z Store",
     images: [
       {
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   alternates: {
-    canonical: "https://mzstorepk.com/",
+    canonical: "https://www.mzstorepk.com/",
   },
 };
 

@@ -12,7 +12,7 @@ export const generateMetadata = (): Metadata => {
       title: 'Refund Policy | M&Z Store',
       description:
         'Read our Refund Policy to learn how M&Z Store handles returns, exchanges, and refunds for your purchases.',
-      url: 'https://mzstorepk.com/refund-policy',
+      url: 'https://www.mzstorepk.com/refund-policy',
       siteName: 'M&Z Store',
     },
   };

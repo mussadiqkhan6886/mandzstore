@@ -1,6 +1,6 @@
 # robots.txt for MZ Store
 # Last updated: 2025-11-12
-# Website: https://mzstorepk.com/
+# Website: https://www.mzstorepk.com/
 
 User-agent: *
 Allow: /
@@ -22,4 +22,4 @@ Allow: /shipping-policy
 Allow: /terms
 
 # Sitemap (important for Google indexing)
-Sitemap: https://mzstorepk.com/sitemap.xml
+Sitemap: https://www.mzstorepk.com/sitemap.xml

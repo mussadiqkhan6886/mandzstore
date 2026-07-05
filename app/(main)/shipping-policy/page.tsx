@@ -12,7 +12,7 @@ export const generateMetadata = (): Metadata => {
       title: 'Shipping Policy | M&Z Store',
       description:
         'Learn about our Shipping Policy, delivery times, and shipping charges at M&Z Store. We deliver nationwide across Pakistan.',
-      url: 'https://mzstorepk.com/shipping-policy',
+      url: 'https://www.mzstorepk.com/shipping-policy',
       siteName: 'M&Z Store',
     },
   };

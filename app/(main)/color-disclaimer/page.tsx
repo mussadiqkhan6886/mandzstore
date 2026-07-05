@@ -9,7 +9,7 @@ export const generateMetadata = (): Metadata => {
     openGraph: {
       title: 'Color Disclaimer | M&Z Store',
       description: 'Please note that product colors may slightly vary due to lighting and screen settings.',
-      url: 'https://mzstorepk.com/color-disclaimer',
+      url: 'https://www.mzstorepk.com/color-disclaimer',
       siteName: 'M&Z Store',
     },
   };

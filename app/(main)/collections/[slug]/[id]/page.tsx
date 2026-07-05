@@ -39,7 +39,7 @@ export async function generateMetadata(
   }
 
   const canonicalSlug = toSlug(product.collection);
-  const url = `https://mzstorepk.com/collections/${canonicalSlug}/${product.slug}`;
+  const url = `https://www.mzstorepk.com/collections/${canonicalSlug}/${product.slug}`;
 
   return {
     title: `${product.name} | M&Z Store`,
