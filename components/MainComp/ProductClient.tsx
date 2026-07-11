@@ -12,6 +12,8 @@ import { useCart } from '@/hooks/useCart';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
+import MetaViewContent from '../adminComp/MetaViewContent';
+import { trackEvent } from '@/lib/MetaEvent';
 
 export default function ProductClient({ product }: { product: Product }) {
   const [selectedVariant, setSelectedVariant] = useState<Variant>(product.variants[0]);
@@ -100,6 +102,16 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
  const handleAddToCart = () => {
   if (selectedVariant.stock === 0) return;
+
+  trackEvent("AddToCart", {
+      content_ids: [selectedVariant._id.toString()],
+      content_name: `${product.name} — ${selectedVariant.title}`,
+      content_type: "product",
+      value: selectedVariant.onSale ? selectedVariant.newPrice : selectedVariant.price,
+      currency: "PKR",
+      quantity: 1,
+    });
+
   addToCart({
     id: product._id,
     variantId: selectedVariant._id,   // ← add this
@@ -120,6 +132,13 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   return (
     <section className="flex flex-col lg:flex-row gap-8 xl:gap-14">
+      <MetaViewContent
+        productId={selectedVariant._id.toString()}
+        name={product.name}
+        price={selectedVariant.price}
+        salePrice={selectedVariant.newPrice as number}
+        onSale={selectedVariant.onSale}
+      />
       {/* ── LEFT: IMAGE GALLERY ── */}
       <div className="flex flex-col md:flex-row gap-4">
         {/* Thumbnails — all variant images */}

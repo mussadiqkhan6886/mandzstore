@@ -2,6 +2,7 @@
 
 import { useCart } from '@/hooks/useCart';
 import { cormorant } from '@/lib/fonts';
+import { trackEvent } from '@/lib/MetaEvent';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -19,6 +20,15 @@ const Page = () => {
       </main>
     );
   }
+
+  const handleCheckout = () => {
+    trackEvent("InitiateCheckout", {
+      content_ids: cart.map((item) => item.variantId),
+      num_items: cart.reduce((total, item) => total + item.quantity, 0),
+      value: totalAmount,
+      currency: "PKR",
+    });
+  };
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 my-16 pt-30">
@@ -137,6 +147,7 @@ const Page = () => {
           </div>
 
           <Link
+            onClick={handleCheckout}
             href="/checkout"
             className="block mt-6 w-full bg-black text-white text-center py-3 rounded-md hover:bg-gray-800 transition font-medium tracking-wide"
           >

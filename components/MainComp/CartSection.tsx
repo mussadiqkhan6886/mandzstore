@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useCart } from '@/hooks/useCart';
 import Image from 'next/image';
 import Link from 'next/link';
+import { trackEvent } from '@/lib/MetaEvent';
 
 type Props = {
   showCart: boolean;
@@ -99,7 +100,15 @@ const CartSection = ({ showCart, setShowCart }: Props) => {
           {cart.length <= 0 ? (
             ''
           ): <>
-            <Link onClick={() => setShowCart(false)} href={"/checkout"} className="w-full block text-center py-2 bg-black text-white ">
+            <Link onClick={() => {
+              trackEvent("InitiateCheckout", {
+                content_ids: cart.map((item) => item.variantId),
+                num_items: cart.reduce((total, item) => total + item.quantity, 0),
+                value: totalAmount,
+                currency: "PKR",
+              });
+              setShowCart(false)
+            }} href={"/checkout"} className="w-full block text-center py-2 bg-black text-white ">
             Checkout - Rs.{totalAmount} PKR
           </Link>
           <Link onClick={() => setShowCart(false)} href={"/cart"} className="w-full py-2 block text-center border border-black/20 ">

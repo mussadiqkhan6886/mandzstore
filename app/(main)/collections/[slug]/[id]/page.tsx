@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductClient from '@/components/MainComp/ProductClient';
 import { Metadata } from 'next';
+import MetaViewContent from '@/components/adminComp/MetaViewContent';
 
 export const revalidate = 120;
 
@@ -83,6 +84,7 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-16 pt-30 sm:pt-36">
+
       <ProductClient product={product} />
 
       <div className="pt-16">

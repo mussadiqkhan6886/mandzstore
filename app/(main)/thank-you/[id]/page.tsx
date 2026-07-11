@@ -17,6 +17,7 @@ interface ItemType {
 
 import type { Metadata } from 'next';
 import DeliveryChargesSchema from "@/lib/models/DeliveryChargesSchema";
+import MetaPurchase from "@/components/adminComp/MetaPurchase";
 
 export const generateMetadata = (): Metadata => {
   return {
@@ -46,6 +47,14 @@ const ThankYouPage = async ({ params }: { params: Promise<{ id: string }> }) => 
 
   return (
     <main className="flex flex-col pt-24 justify-center items-center min-h-screen bg-gray-50 px-5">
+      <MetaPurchase
+        orderId={data._id.toString()}
+        totalPrice={data.totalPrice}
+        items={data.items.map((item: ItemType) => ({
+          productId: item._id.toString(),
+          quantity: item.quantity,
+        }))}
+      />
       <div className="bg-white shadow-md rounded-lg p-10 text-center max-w-2xl w-full">
         <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-6" />
         <h1 className="text-xl md:text-3xl font-bold text-gray-800 mb-4">
