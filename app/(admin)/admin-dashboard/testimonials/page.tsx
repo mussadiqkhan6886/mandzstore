@@ -4,7 +4,7 @@ import React from "react";
 export default async function TestimonialsPage() {
   try {
     // Fetch testimonials from API
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/testimonials`, { next: {revalidate: 360} });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/testimonials`, {cache: "no-store"} );
 
     if (!res.ok) {
       throw new Error("Failed to fetch testimonials");

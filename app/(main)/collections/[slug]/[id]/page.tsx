@@ -7,9 +7,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductClient from '@/components/MainComp/ProductClient';
 import { Metadata } from 'next';
-import MetaViewContent from '@/components/adminComp/MetaViewContent';
 
-export const revalidate = 120;
+export const revalidate = 86400;
 
 const toSlug = (value: string) =>
   value.trim().toLowerCase().replace(/\s+/g, '-');

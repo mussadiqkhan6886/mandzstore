@@ -4,7 +4,6 @@ import { connectDB } from "@/lib/config/database/db"
 import { BannerImg } from "@/lib/models/BannerImage"
 import Image from "next/image"
 
-// export const revalidate = 60;
 
 const AdminPage = async () => {
 
