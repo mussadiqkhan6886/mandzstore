@@ -14,11 +14,7 @@ export async function middleware(req: NextRequest) {
     if (!token) {
       return NextResponse.redirect(new URL("/admin-dashboard/login", req.url));
     }
-    try {
-      jwt.verify(token, process.env.TOKEN_SECRET!);
-    } catch {
-      return NextResponse.redirect(new URL("/admin-dashboard/login", req.url));
-    }
+   
   }
 
   
